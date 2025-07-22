@@ -1,0 +1,14 @@
+# Use root/example as user/password credentials
+
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: bumdes_pangyangan
+      MYSQL_ROOT_PASSWORD: # password
+    ports:
+      - 3305:3306
+    volumes:
+      - <<ROOT DIR>>/docker/volumes/db:/var/lib/mysql
+    # (this is just an example, not intended to be a production configuration)
