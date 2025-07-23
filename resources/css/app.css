@@ -1,11 +1,36 @@
 @import 'tailwindcss';
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/forms";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+@source '../**/*.tsx';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+	--font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+		'Segoe UI Symbol', 'Noto Color Emoji';
+	--animate-accordion-up: accordion-up 0.2s ease-out;
+	--animate-accordion-down: accordion-down 0.2s ease-out;
+
+	@keyframes accordion-down {
+		0% {
+			height: '0';
+		}
+		100% {
+			height: 'var(--radix-accordion-content-height)';
+		}
+	}
+	@keyframes accordion-up {
+		0% {
+			height: 'var(--radix-accordion-content-height)';
+		}
+		100% {
+			height: '0';
+		}
+	}
 }
+
+/* Dark mode only when data-theme attribute is specified */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
