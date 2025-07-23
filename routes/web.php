@@ -6,3 +6,6 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index']);
 
+Route::get('/admin', function () {
+  return Inertia::render('Admin/Dashboard');
+});
