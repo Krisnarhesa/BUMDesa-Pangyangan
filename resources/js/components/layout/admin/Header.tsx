@@ -1,5 +1,5 @@
 import { LogOut, UserCircle2 } from 'lucide-react';
-import { Popover, PopoverTrigger, PopoverContent } from '../ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 const Header = () => {
 	return (

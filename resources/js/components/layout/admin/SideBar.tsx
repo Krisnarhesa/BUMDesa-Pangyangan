@@ -1,6 +1,6 @@
-import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
+import { Sheet, SheetContent, SheetTrigger } from '../../ui/sheet';
 import { cn, splitPathname } from '@/lib/utils';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../ui/accordion';
 import { menus } from './menus';
 import { useEffect } from 'react';
 import { Link } from '@inertiajs/react';
