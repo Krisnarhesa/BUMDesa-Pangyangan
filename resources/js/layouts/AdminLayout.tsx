@@ -1,17 +1,17 @@
 'use client';
 
 import { FC, ReactNode } from 'react';
-import Header from '@/components/layout/Header';
-import SideBar from '@/components/layout/SideBar';
+import Header from '@/components/layout/admin/Header';
+import SideBar from '@/components/layout/admin/SideBar';
 import { Toaster } from '@/components/ui/toaster';
-import Footer from '@/components/layout/Footer';
+import Footer from '@/components/layout/admin/Footer';
 
 interface MainLayoutProps {
 	children: ReactNode;
 	showHeader?: boolean;
 }
 
-const MainLayout: FC<MainLayoutProps> = ({ children, showHeader = true }) => {
+const AdminLayout: FC<MainLayoutProps> = ({ children, showHeader = true }) => {
 	return (
 		<main className='bg-gray-50 min-h-dvh'>
 			{showHeader && <Header />}
@@ -23,4 +23,4 @@ const MainLayout: FC<MainLayoutProps> = ({ children, showHeader = true }) => {
 	);
 };
 
-export default MainLayout;
+export default AdminLayout;

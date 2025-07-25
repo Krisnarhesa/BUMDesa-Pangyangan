@@ -25,11 +25,11 @@ type Link = {
 
 export const menus: Array<LinkItemProps> = [
 	{
-		href: '/dashboard',
-		title: 'Dashboard',
+		href: '/struktur-organisasi',
+		title: 'Struktur Organisasi',
 		icon: <LayoutDashboard size={17} />,
 		type: 'link',
-		domain: 'Dashboard',
+		domain: 'Public',
 	},
 	{
 		href: '/dashboard/office',
