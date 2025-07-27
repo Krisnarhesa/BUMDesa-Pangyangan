@@ -1,9 +1,16 @@
 <?php
 
-use Inertia\Inertia;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UnitUsahaController;
+
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/struktur-organisasi/bagan', [HomeController::class, 'strukturOrganisasi'])->name('struktur.bagan');
 Route::get('/struktur-organisasi/bendahara', [HomeController::class, 'bendahara'])->name('struktur.bendahara');
