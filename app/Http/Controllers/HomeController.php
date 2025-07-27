@@ -62,14 +62,6 @@ class HomeController extends Controller
     ]);
   }
 
-  public function unitUsaha()
-  {
-    return Inertia::render('Public/UnitUsaha', [
-      'title' => 'Unit usaha',
-      'description' => 'Unit usaha BUMDes Dwi Buana Amertha.'
-    ]);
-  }
-
   public function programKerja()
   {
     return Inertia::render('Public/ProgramKerja', [

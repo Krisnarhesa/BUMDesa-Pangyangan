@@ -1,4 +1,4 @@
-export default function Penasihat() {
+export default function Pengawas() {
 	const supervisors = [
 		{
 			id: 1,
@@ -17,15 +17,15 @@ export default function Penasihat() {
 	return (
 		<div className='space-y-4'>
 			{supervisors.map((s, i) => (
-				<div key={i} className='flex flex-row gap-8'>
-					<div className='flex-none w-[20rem] h-[20rem] rounded-2xl border-6 border-bumdes-dark-blue overflow-hidden'>
-						<img src='/assets/test.jpg' alt='' className='w-full h-full object-cover' />
+				<div className='flex flex-col items-center gap-8 md:flex-row md:items-start'>
+					<div className='border-bumdes-dark-blue aspect-square h-full max-h-[20rem] w-full max-w-[20rem] flex-none basis-1/2 overflow-hidden rounded-2xl border-6'>
+						<img src='/assets/test.jpg' alt='' className='h-full w-full object-cover' />
 					</div>
 
-					<div className='space-y-8'>
-						<p className='text-5xl'>Pengawas</p>
-						<p className='text-6xl text-bumdes-primary font-bold'>{s.name}</p>
-					</div>
+					<p className='text-center text-2xl leading-normal md:text-start md:text-4xl lg:text-5xl'>
+						Pengawas <br />{' '}
+						<span className='text-bumdes-primary text-3xl font-bold md:text-5xl lg:text-6xl'>Ajik BUMDES</span>
+					</p>
 				</div>
 			))}
 		</div>
