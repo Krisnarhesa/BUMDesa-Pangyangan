@@ -5,6 +5,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@r
 import { menus } from '../admin/menus';
 import { ChevronDown } from 'lucide-react';
 import { useEffect } from 'react';
+import { route } from 'ziggy-js';
 
 export default function Navbar() {
 	const urlPath = window.location.pathname;
@@ -12,19 +13,16 @@ export default function Navbar() {
 	return (
 		<>
 			{/* >>> Desktop navbar >>> */}
-			<nav className='hidden fixed z-10 top-0 left-0 right-0 px-6 py-3 bg-white flex-row justify-between items-center lg:flex'>
+			<nav className='fixed top-0 right-0 left-0 z-10 hidden flex-row items-center justify-between bg-white px-6 py-3 lg:flex'>
 				<Link href='/'>
-					<img src='/assets/logo-bumdes.png' alt='BUMDes logo' className='w-12 h-12' />
+					<img src='/assets/logo-bumdes.png' alt='BUMDes logo' className='h-12 w-12' />
 				</Link>
-				<ul className='flex justify-center items-center gap-4'>
+				<ul className='flex items-center justify-center gap-4'>
 					<li>
-						<Link href='struktur-organisasi'>Struktur Organisasi</Link>
+						<Link href={route('struktur.bagan')}>Struktur Organisasi</Link>
 					</li>
 					<li>
-						<Link href='unit-usaha'>Unit Usaha</Link>
-					</li>
-					<li>
-						<Link href='program-kerja'>Program Kerja</Link>
+						<Link href={route('unit_usaha.index')}>Unit Usaha</Link>
 					</li>
 					<li>
 						<Link href='struktur-organisasi'>Publikasi</Link>
@@ -34,7 +32,7 @@ export default function Navbar() {
 			{/* <<< Desktop navbar <<< */}
 
 			{/* >>> Mobile nav >>> */}
-			<div className='sticky inset-x-0 bg-white px-4 sm:px-6 md:px-8 lg:hidden '>
+			<div className='sticky inset-x-0 bg-white px-4 sm:px-6 md:px-8 lg:hidden'>
 				<div className='flex items-center py-4'>
 					<Sheet>
 						<SheetTrigger asChild>
@@ -46,7 +44,7 @@ export default function Navbar() {
 								aria-label='Toggle navigation'
 							>
 								<span className='sr-only'>Toggle Navigation</span>
-								<svg className='w-5 h-5' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'>
+								<svg className='h-5 w-5' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'>
 									<path
 										fillRule='evenodd'
 										d='M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z'
@@ -57,12 +55,12 @@ export default function Navbar() {
 						<SheetContent side={'left'} className='px-0'>
 							<div id='application-sidebar'>
 								<div className='px-6'>
-									<Link href='/dashboard' aria-label='Brand'>
-										<img src='/assets/logo-bumdes.png' alt='BUMDes logo' className='w-12 h-12 mx-auto' />
+									<Link href='/' aria-label='Brand'>
+										<img src='/assets/logo-bumdes.png' alt='BUMDes logo' className='mx-auto h-12 w-12' />
 									</Link>
 								</div>
 
-								<nav className='p-6 w-full flex flex-col flex-wrap'>
+								<nav className='flex w-full flex-col flex-wrap p-6'>
 									<ul className='space-y-1.5'>
 										{menus.map((item) => {
 											if (item.type === 'link') {
@@ -70,7 +68,7 @@ export default function Navbar() {
 													<li key={item.title}>
 														<Link
 															className={cn(
-																'flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100',
+																'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm text-slate-700 hover:bg-gray-100',
 																urlPath === item.href || (urlPath.startsWith(item.href) && item.href !== '/dashboard')
 																	? 'bg-gray-100'
 																	: ''
@@ -88,7 +86,7 @@ export default function Navbar() {
 														<AccordionItem className='border-none' value='item-1'>
 															<AccordionTrigger
 																className={cn(
-																	'w-full flex justify-between items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 font-normal rounded-md hover:bg-gray-100 hover:no-underline',
+																	'flex w-full items-center justify-between gap-x-3.5 rounded-md px-2.5 py-2 text-sm font-normal text-slate-700 hover:bg-gray-100 hover:no-underline',
 																	urlPath === item.href || (urlPath.startsWith(item.href) && item.href !== '/dashboard')
 																		? 'bg-gray-100'
 																		: ''
@@ -106,7 +104,7 @@ export default function Navbar() {
 																		<li key={e.title} className='mt-2'>
 																			<Link
 																				className={cn(
-																					'flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100',
+																					'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm text-slate-700 hover:bg-gray-100',
 																					urlPath.startsWith(e.href) && 'bg-gray-100'
 																				)}
 																				href={e.href}
@@ -129,28 +127,8 @@ export default function Navbar() {
 						</SheetContent>
 					</Sheet>
 
-					<ol className='ml-3 flex items-center whitespace-nowrap min-w-0' aria-label='Breadcrumb'>
-						<li className='flex items-center text-sm text-gray-800 '>
-							BUMDes
-							<svg
-								className='flex-shrink-0 mx-3 overflow-visible h-2.5 w-2.5 text-gray-400 '
-								width='16'
-								height='16'
-								viewBox='0 0 16 16'
-								fill='none'
-								xmlns='http://www.w3.org/2000/svg'
-							>
-								<path
-									d='M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14'
-									stroke='currentColor'
-									strokeWidth='2'
-									strokeLinecap='round'
-								/>
-							</svg>
-						</li>
-						<li className='text-sm font-semibold text-gray-800 truncate ' aria-current='page'>
-							{menus.find((item) => splitPathname(urlPath) === item.href)?.title}
-						</li>
+					<ol className='ml-3 flex min-w-0 items-center whitespace-nowrap' aria-label='Breadcrumb'>
+						<li className='flex items-center text-sm text-gray-800'>BUMDes</li>
 					</ol>
 				</div>
 			</div>

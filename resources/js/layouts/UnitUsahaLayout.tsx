@@ -3,25 +3,72 @@ import { Button } from '@/components/ui/button';
 import { cn, splitPathname } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
 import { route } from 'ziggy-js';
+import * as _ from 'lodash';
+
+const data = [
+	{
+		id: 1,
+		nama: 'simpan pinjam',
+		deskripsi:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
+		gambar: '/assets/test.jpg',
+	},
+	{
+		id: 2,
+		nama: 'perdagangan',
+		deskripsi:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
+		gambar: '/assets/test.jpg',
+	},
+	{
+		id: 3,
+		nama: 'jasa',
+		deskripsi:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
+		gambar: '/assets/test.jpg',
+	},
+	{
+		id: 4,
+		nama: 'pengolahan sampah',
+		deskripsi:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
+		gambar: '/assets/test.jpg',
+	},
+	{
+		id: 5,
+		nama: 'ketahanan pangan',
+		deskripsi:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
+		gambar: '/assets/test.jpg',
+	},
+	{
+		id: 6,
+		nama: 'pariwisata',
+		deskripsi:
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
+		gambar: '/assets/test.jpg',
+	},
+];
 
 export default function UnitUsahaLayout({ children }: { children: React.ReactNode }) {
 	const urlPath = window.location.pathname;
+	console.log(splitPathname(urlPath).split('/')[1]);
 
 	return (
 		<div>
 			<div className='h-[100px] bg-slate-50'>
-				<div className='w-full max-w-6xl mx-auto px-4 pt-6'>
-					<p className='text-bumdes-dark-blue text-2xl font-bold'>Struktur Organisasi</p>
+				<div className='mx-auto w-full max-w-6xl px-4 pt-6'>
+					<p className='text-bumdes-dark-blue text-2xl font-bold'>Unit Usaha</p>
 				</div>
 			</div>
 
-			<div className='w-full max-w-6xl mx-auto px-4 py-16'>
+			<div className='mx-auto w-full max-w-6xl px-4 py-16'>
 				{/* >>> Breadcrumb >>> */}
-				<ol className='ml-3 flex items-center whitespace-nowrap min-w-0' aria-label='Breadcrumb'>
-					<li className='flex items-center text-gray-800 '>
+				<ol className='ml-3 flex min-w-0 items-center whitespace-nowrap' aria-label='Breadcrumb'>
+					<li className='flex items-center text-gray-800'>
 						BUMDes
 						<svg
-							className='flex-shrink-0 mx-3 overflow-visible h-2.5 w-2.5 text-gray-400 '
+							className='mx-3 h-2.5 w-2.5 flex-shrink-0 overflow-visible text-gray-400'
 							width='16'
 							height='16'
 							viewBox='0 0 16 16'
@@ -36,28 +83,31 @@ export default function UnitUsahaLayout({ children }: { children: React.ReactNod
 							/>
 						</svg>
 					</li>
-					<li className='text-sm font-semibold text-gray-800 truncate ' aria-current='page'>
+					<li className='truncate text-sm font-semibold text-gray-800' aria-current='page'>
 						{menus.find((item) => splitPathname(urlPath).startsWith(item.href))?.title}
 					</li>
 				</ol>
 				{/* <<< Breadcrumb <<< */}
 
-				<div className='flex flex-col lg:flex-row gap-16 mt-16'>
+				<div className='mt-16 flex w-full flex-col gap-16 md:flex-row'>
 					{/* >>> Direksi menu >>> */}
-					<div className='flex-none w-[200px] h-min rounded-xl p-2 drop-shadow-lg bg-white'>
-						<ul className='space-y-1'>
-							{['penasihat', 'direktur', 'pengawas', 'sekretaris', 'bendahara'].map((e, i) => (
+					<div className='h-min w-full flex-none rounded-xl bg-white p-2 drop-shadow-lg md:w-[200px]'>
+						<ul className='flex w-full flex-row gap-1 space-y-1 overflow-x-auto md:block'>
+							{data.map((e, i) => (
 								<li key={i}>
-									<Link href={route(`struktur.${e}`)} className='w-full'>
+									<Link
+										href={route('unit_usaha.show', { id: e.id, slug: _.kebabCase(e.nama.toLowerCase()) })}
+										className='w-full'
+									>
 										<Button
 											className={cn(
-												'w-full justify-start bg-white text-bumdes-dark-blue capitalize hover:text-white hover:bg-bumdes-dark-blue/80',
+												'text-bumdes-dark-blue hover:bg-bumdes-dark-blue/80 w-full justify-start bg-white capitalize hover:text-white',
 												{
-													'bg-bumdes-dark-blue text-white': splitPathname(urlPath).includes(e),
+													'bg-bumdes-dark-blue text-white': Number(splitPathname(urlPath).split('/')[2]) === e.id,
 												}
 											)}
 										>
-											{e}
+											{e.nama}
 										</Button>
 									</Link>
 								</li>
@@ -66,7 +116,7 @@ export default function UnitUsahaLayout({ children }: { children: React.ReactNod
 					</div>
 					{/* <<< Direksi menu <<< */}
 
-					<div>{children}</div>
+					<div className='min-w-0 grow'>{children}</div>
 				</div>
 			</div>
 		</div>

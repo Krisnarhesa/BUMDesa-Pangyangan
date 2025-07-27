@@ -6,9 +6,9 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: bumdes_pangyangan
-      MYSQL_ROOT_PASSWORD: # password
+      MYSQL_ROOT_PASSWORD: root123
     ports:
       - 3305:3306
     volumes:
-      - <<ROOT DIR>>/docker/volumes/db:/var/lib/mysql
+      - ./docker/volumes/db:/var/lib/mysql
     # (this is just an example, not intended to be a production configuration)

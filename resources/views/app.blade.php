@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My App</title>
+    <title>BUMDes Dwi Buana Amertha</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     @viteReactRefresh
     @routes

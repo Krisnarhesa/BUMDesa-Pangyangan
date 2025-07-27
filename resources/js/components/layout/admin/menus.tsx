@@ -1,4 +1,5 @@
 import { Banknote, ChartColumnBig, FileClock, Grid2X2, LayoutDashboard, NotepadText } from 'lucide-react';
+import { route } from 'ziggy-js';
 
 type LinkItemProps = {
 	title: string;
@@ -12,7 +13,6 @@ type Dropdown = {
 		title: string;
 		icon?: React.ReactNode;
 		href: string;
-		feature: string;
 	}[];
 	href: string;
 };
@@ -25,62 +25,17 @@ type Link = {
 
 export const menus: Array<LinkItemProps> = [
 	{
-		href: '/struktur-organisasi',
+		href: '/struktur-organisasi/bagan',
 		title: 'Struktur Organisasi',
 		icon: <LayoutDashboard size={17} />,
 		type: 'link',
 		domain: 'Public',
 	},
 	{
-		href: '/dashboard/office',
-		title: 'Back Office',
+		href: '/unit-usaha',
+		title: 'Unit Usaha',
 		icon: <Grid2X2 size={17} />,
-		type: 'dropdown',
-		domain: 'Back Office',
-		child: [
-			{ title: 'User', href: '/dashboard/office/users', feature: 'User' },
-			{ title: 'SPBG', href: '/dashboard/office/spbgs', feature: 'SPBG' },
-			{ title: 'Company', href: '/dashboard/office/companies', feature: 'Company' },
-			{ title: 'Vehicle', href: '/dashboard/office/vehicles', feature: 'Vehicle' },
-			{ title: 'Signatory', href: '/dashboard/office/signs', feature: 'Signatory' },
-			{ title: 'GHV', href: '/dashboard/office/ghv', feature: 'GHV' },
-		],
-	},
-	{
-		href: '/dashboard/deposits',
-		title: 'Deposit',
-		icon: <Banknote size={17} />,
 		type: 'link',
-		domain: 'Deposit',
-	},
-	{
-		href: '/dashboard/reports',
-		title: 'Report',
-		icon: <NotepadText size={17} />,
-		type: 'dropdown',
-		domain: 'Report',
-		child: [
-			{
-				title: 'Customer Company',
-				href: '/dashboard/reports/customer-company',
-				feature: 'Customer Company',
-			},
-			{ title: 'General', href: '/dashboard/reports/general', feature: 'General' },
-			{ title: 'Volume', href: '/dashboard/reports/volume', feature: 'Volume' },
-		],
-	},
-	{
-		href: '/dashboard/orders',
-		title: 'Order',
-		icon: <ChartColumnBig size={17} />,
-		type: 'link',
-		domain: 'Order',
-	},
-	{
-		href: '/dashboard/activity-logs',
-		title: 'Activity Log',
-		icon: <FileClock size={17} />,
-		type: 'link',
-		domain: 'Activity Log',
+		domain: 'Public',
 	},
 ];
