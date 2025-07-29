@@ -35,7 +35,7 @@ class AuthApiController extends Controller
                 'success' => false,
                 'message' => 'Login Failed. Email or password is incorrect.',
                 'data' => null
-            ], 401);
+            ], 400);
         }
 
         // Jika login berhasil
