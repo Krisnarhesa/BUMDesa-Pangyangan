@@ -95,11 +95,14 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // User Management
     Route::get('/pengguna', [UserApiController::class, 'index'])->name('api.user.index');
-    Route::post('/pengguna', [UserApiController::class, 'store'])->name('api.user.store');
-    Route::delete('/pengguna/{id}', [UserApiController::class, 'destroy'])->name('api.user.destroy');
+    Route::post('/pengguna/add', [UserApiController::class, 'store'])->name('api.user.store');
+    Route::post('/pengguna/edit/{id}', [UserApiController::class, 'update'])->name('api.user.update');
+    Route::delete('/pengguna/delete/{id}', [UserApiController::class, 'destroy'])->name('api.user.destroy');
     Route::post('/pengguna/{id}/reset-password', [UserApiController::class, 'resetPassword'])->name('api.user.reset-password');
     
-    // Setting
-    Route::get('/pengaturan', [SettingApiController::class, 'edit'])->name('api.pengaturan.edit');
-    Route::put('/pengaturan', [SettingApiController::class, 'update'])->name('api.pengaturan.update');
+    // Sosmedia Settings
+    Route::get('/sosmed', [SettingApiController::class, 'index'])->name('api.sosmed.index');
+    Route::post('/sosmed/edit/{id}', [SettingApiController::class, 'update'])->name('api.sosmed.update');
+    Route::post('/sosmed/upload', [SettingApiController::class, 'store'])->name('api.sosmed.store');
+    Route::delete('/sosmed/delete/{id}', [SettingApiController::class, 'destroy'])->name('api.sosmed.destroy');
 });
