@@ -22,14 +22,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('structures', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->string('jabatan');
-            $table->string('foto')->nullable();
-            $table->integer('urutan')->default(0);
-            $table->timestamps();
-        });
+        // Schema::create('structures', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('nama');
+        //     $table->string('jabatan');
+        //     $table->string('foto')->nullable();
+        //     $table->integer('urutan')->default(0);
+        //     $table->timestamps();
+        // });
 
         // Unit Usaha
         Schema::create('unit_usaha', function (Blueprint $table) {
