@@ -1,11 +1,11 @@
 import { Link } from '@inertiajs/react';
 import { Sheet, SheetContent, SheetTrigger } from '../../ui/sheet';
-import { cn, splitPathname } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@radix-ui/react-accordion';
-import { menus } from '../admin/menus';
+import { menus } from './menus';
 import { ChevronDown } from 'lucide-react';
-import { useEffect } from 'react';
 import { route } from 'ziggy-js';
+import { Content, HoverLink, Trigger } from '@/components/ui/hover-link';
 
 export default function Navbar() {
 	const urlPath = window.location.pathname;
@@ -25,7 +25,17 @@ export default function Navbar() {
 						<Link href={route('unit_usaha.index')}>Unit Usaha</Link>
 					</li>
 					<li>
-						<Link href='struktur-organisasi'>Publikasi</Link>
+						<HoverLink>
+							<Trigger className='flex'>
+								Publikasi <ChevronDown />
+							</Trigger>
+							<Content sideOffset={32}>
+								<div className='grid grid-cols-2 gap-4'>
+									<Link href={route('publikasi.galeri.index')}>Galeri</Link>
+									<Link href='/publikasi/berita'>Berita</Link>
+								</div>
+							</Content>
+						</HoverLink>
 					</li>
 				</ul>
 			</nav>

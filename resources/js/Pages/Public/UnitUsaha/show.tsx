@@ -23,7 +23,7 @@ const ProductCard = ({ name, price, imgUrl }: { name: string; price: number; img
 	);
 };
 
-export default function show({
+export default function UnitUsahaShowPage({
 	imgUrl,
 	title,
 	desc,
@@ -60,7 +60,7 @@ export default function show({
 						slidesPerView={3}
 						onSlideChange={(swiper) => console.log('slide change')}
 						onSwiper={(swiper) => console.log(swiper)}
-						className='relative w-full'
+						className='w-full'
 					>
 						{products.map((p, i) => (
 							<SwiperSlide key={i}>

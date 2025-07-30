@@ -1,4 +1,4 @@
-export default function Bendahara() {
+export default function BendaharaPage() {
 	return (
 		<div className='flex flex-col items-center gap-8 md:flex-row md:items-start'>
 			<div className='border-bumdes-dark-blue aspect-square h-full max-h-[20rem] w-full max-w-[20rem] flex-none basis-1/2 overflow-hidden rounded-2xl border-6'>

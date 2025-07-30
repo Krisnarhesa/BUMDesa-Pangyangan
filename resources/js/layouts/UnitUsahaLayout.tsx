@@ -1,4 +1,4 @@
-import { menus } from '@/components/layout/admin/menus';
+import { menus } from '@/components/layout/public/menus';
 import { Button } from '@/components/ui/button';
 import { cn, splitPathname } from '@/lib/utils';
 import { Link } from '@inertiajs/react';

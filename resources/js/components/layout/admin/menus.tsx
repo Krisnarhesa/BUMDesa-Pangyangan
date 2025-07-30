@@ -1,4 +1,4 @@
-import { Banknote, ChartColumnBig, FileClock, Grid2X2, LayoutDashboard, NotepadText } from 'lucide-react';
+import { Camera, Grid2X2, Handshake, LayoutDashboard, Users } from 'lucide-react';
 import { route } from 'ziggy-js';
 
 type LinkItemProps = {
@@ -25,17 +25,41 @@ type Link = {
 
 export const menus: Array<LinkItemProps> = [
 	{
-		href: '/struktur-organisasi/bagan',
-		title: 'Struktur Organisasi',
+		href: route('admin.dashboard'),
+		title: 'Dashboard',
 		icon: <LayoutDashboard size={17} />,
 		type: 'link',
-		domain: 'Public',
+		domain: 'Admin',
 	},
 	{
-		href: '/unit-usaha',
-		title: 'Unit Usaha',
-		icon: <Grid2X2 size={17} />,
+		href: route('admin.struktur_organisasi.index'),
+		title: 'Struktur Organisasi',
+		icon: <Users size={17} />,
 		type: 'link',
-		domain: 'Public',
+		domain: 'Admin',
+	},
+	{
+		href: route('admin.unit_usaha.index'),
+		title: 'Unit Usaha',
+		icon: <Handshake size={17} />,
+		type: 'link',
+		domain: 'Admin',
+	},
+	{
+		href: '/publikasi',
+		title: 'Publikasi',
+		icon: <Camera size={17} />,
+		type: 'dropdown',
+		domain: 'Admin',
+		child: [
+			{
+				title: 'Galeri',
+				href: route('admin.galeri.index'),
+			},
+			{
+				title: 'Berita',
+				href: route('admin.berita.index'),
+			},
+		],
 	},
 ];
