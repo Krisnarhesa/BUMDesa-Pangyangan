@@ -7,11 +7,12 @@ use App\Models\KategoriBerita;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class BeritaApiController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         try {
             $query = Berita::query();
@@ -38,8 +39,7 @@ class BeritaApiController extends Controller
         } catch (Throwable $e) {
             return response()->json([
                 'success' => false,
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
+                'message' => $e->getMessage()
             ], 500);
         }
     }
@@ -55,22 +55,13 @@ class BeritaApiController extends Controller
                 'kategori_id' => 'required|exists:kategori_berita,id'
             ]);
 
-            $cover = $request->file('gambar_cover');
             $filename = null;
 
-            if ($cover) {
-                $filename = 'cover-' . time() . '.' . $cover->getClientOriginalExtension();
-                $cover->storeAs('public/berita/covers', $filename);
+            if ($request->hasFile('gambar_cover')) {
+                $path = $request->file('gambar_cover')->store("berita/covers/{$request->kategori_id}", 'public');
+                $filename = $path;
             }
 
-            $stored = $cover->storeAs('public/berita/covers', $filename);
-            if (!$stored) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Gagal menyimpan file ke direktori!'
-                ], 500);
-            }
-            
             $berita = Berita::create([
                 'judul' => $request->input('judul'),
                 'konten' => $request->input('konten'),
@@ -126,16 +117,14 @@ class BeritaApiController extends Controller
             $data = $request->only(['judul', 'konten', 'tanggal', 'kategori_id']);
 
             if ($request->hasFile('gambar_cover')) {
-                $cover = $request->file('gambar_cover');
-                $filename = 'cover-' . time() . '.' . $cover->getClientOriginalExtension();
-                $cover->storeAs('public/berita/covers', $filename);
-
                 // Hapus file lama
-                if ($berita->gambar_cover && file_exists(storage_path('app/public/berita/covers/' . $berita->gambar_cover))) {
-                    unlink(storage_path('app/public/berita/covers/' . $berita->gambar_cover));
+                if ($berita->gambar_cover && Storage::disk('public')->exists($berita->gambar_cover)) {
+                    Storage::disk('public')->delete($berita->gambar_cover);
                 }
 
-                $data['gambar_cover'] = $filename;
+                // Simpan file baru
+                $path = $request->file('gambar_cover')->store("berita/covers/{$request->kategori_id}", 'public');
+                $data['gambar_cover'] = $path;
             }
 
             $berita->update($data);
@@ -158,8 +147,8 @@ class BeritaApiController extends Controller
         try {
             $berita = Berita::findOrFail($id);
 
-            if ($berita->gambar_cover && file_exists(storage_path('app/public/berita/covers/' . $berita->gambar_cover))) {
-                unlink(storage_path('app/public/berita/covers/' . $berita->gambar_cover));
+            if ($berita->gambar_cover && Storage::disk('public')->exists($berita->gambar_cover)) {
+                Storage::disk('public')->delete($berita->gambar_cover);
             }
 
             $berita->delete();
@@ -180,12 +169,11 @@ class BeritaApiController extends Controller
     {
         try {
             if ($request->hasFile('upload')) {
-                $file = $request->file('upload');
-                $filename = 'content-' . time() . '.' . $file->getClientOriginalExtension();
-                $file->storeAs('public/berita/content', $filename);
+                $kategoriId = $request->kategori_id ?? 'default';
+                $path = $request->file('upload')->store("berita/content/{$kategoriId}", 'public');
 
                 return response()->json([
-                    'url' => asset("storage/berita/content/$filename")
+                    'url' => asset("storage/{$path}")
                 ]);
             }
 

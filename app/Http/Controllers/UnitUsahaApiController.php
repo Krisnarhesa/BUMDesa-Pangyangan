@@ -38,20 +38,14 @@ class UnitUsahaApiController extends Controller
                 'foto' => 'image|mimes:jpeg,png,jpg|max:5048'
             ]);
 
-            $filename = null;
+            $data = $request->only(['nama', 'deskripsi', 'kontak']);
 
             if ($request->hasFile('foto')) {
-                $foto = $request->file('foto');
-                $filename = 'unit-' . time() . '.' . $foto->getClientOriginalExtension();
-                $foto->storeAs('public/unit-usaha', $filename);
+                $path = $request->file('foto')->store("unit-usaha/{$request->input('nama')}", 'public');
+                $data['foto'] = $path;
             }
 
-            $unit = UnitUsaha::create([
-                'nama' => $request->input('nama'),
-                'deskripsi' => $request->input('deskripsi'),
-                'kontak' => $request->input('kontak'),
-                'foto' => $filename
-            ]);
+            $unit = UnitUsaha::create($data);
 
             return response()->json([
                 'success' => true,
@@ -81,16 +75,13 @@ class UnitUsahaApiController extends Controller
             $data = $request->only(['nama', 'deskripsi', 'kontak']);
 
             if ($request->hasFile('foto')) {
-                $foto = $request->file('foto');
-                $filename = 'unit-' . time() . '.' . $foto->getClientOriginalExtension();
-                $foto->storeAs('public/unit-usaha', $filename);
+                $path = $request->file('foto')->store("unit-usaha/{$request->input('nama')}", 'public');
+                $data['foto'] = $path;
 
                 // Hapus foto lama jika ada
-                if ($unit->foto && Storage::exists('public/unit-usaha/' . $unit->foto)) {
-                    Storage::delete('public/unit-usaha/' . $unit->foto);
+                if ($unit->foto && Storage::disk('public')->exists($unit->foto)) {
+                    Storage::disk('public')->delete($unit->foto);
                 }
-
-                $data['foto'] = $filename;
             }
 
             $unit->update($data);
@@ -113,8 +104,8 @@ class UnitUsahaApiController extends Controller
         try {
             $unit = UnitUsaha::findOrFail($id);
 
-            if ($unit->foto && Storage::exists('public/unit-usaha/' . $unit->foto)) {
-                Storage::delete('public/unit-usaha/' . $unit->foto);
+            if ($unit->foto && Storage::disk('public')->exists($unit->foto)) {
+                Storage::disk('public')->delete($unit->foto);
             }
 
             $unit->delete();

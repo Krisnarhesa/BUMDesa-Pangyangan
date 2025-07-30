@@ -67,18 +67,19 @@ class GaleriApiController extends Controller
             $fileName = null;
 
             if ($request->jenis === 'foto') {
-                $file = $request->file('foto');
-                $fileName = $file->hashName();
-                $file->storeAs('public/galeri/foto', $fileName);
+            if ($request->hasFile('foto')) {
+                $path = $request->file('foto')->store("galeri/foto/{$request->album_id}", 'public');
+                $fileName = $path;
             }
+        }
 
             $galeri = Galeri::create([
-                'judul' => $request->judul,
-                'jenis' => $request->jenis,
-                'foto' => $request->jenis === 'foto' ? $fileName : null,
-                'link_youtube' => $request->jenis === 'link' ? $request->link_youtube : null,
-                'album_id' => $request->album_id
-            ]);
+            'judul' => $request->judul,
+            'jenis' => $request->jenis,
+            'foto' => $request->jenis === 'foto' ? $fileName : null,
+            'link_youtube' => $request->jenis === 'link' ? $request->link_youtube : null,
+            'album_id' => $request->album_id
+        ]);
 
             return response()->json([
                 'success' => true,
@@ -109,16 +110,15 @@ class GaleriApiController extends Controller
             $fotoName = $galeri->foto;
 
             if ($request->jenis === 'foto' && $request->hasFile('foto')) {
-                // Hapus foto lama jika ada
-                if ($galeri->foto && Storage::exists('public/galeri/foto/' . $galeri->foto)) {
-                    Storage::delete('public/galeri/foto/' . $galeri->foto);
-                }
-
-                // Simpan foto baru
-                $file = $request->file('foto');
-                $fotoName = $file->hashName();
-                $file->storeAs('public/galeri/foto', $fotoName);
+            // Hapus foto lama jika ada
+            if ($galeri->foto && Storage::disk('public')->exists($galeri->foto)) {
+                Storage::disk('public')->delete($galeri->foto);
             }
+
+            // Simpan foto baru ke galeri/foto/{album_id}
+            $path = $request->file('foto')->store("galeri/foto/{$request->album_id}", 'public');
+            $fotoName = $path;
+        }
 
             // Update data galeri
             $galeri->update([

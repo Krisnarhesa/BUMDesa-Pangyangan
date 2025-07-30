@@ -10,60 +10,114 @@ use Throwable;
 
 class SettingApiController extends Controller
 {
-    public function show(): JsonResponse
-    {
-        try {
-            $setting = Setting::firstOrNew();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Data pengaturan berhasil diambil',
-                'data' => $setting
-            ]);
-        } catch (Throwable $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal mengambil data pengaturan: ' . $e->getMessage()
-            ], 500);
-        }
+    public function index(): JsonResponse
+{
+    try {
+        $settings = Setting::all();
+        return response()->json([
+            'success' => true,
+            'message' => 'Daftar pengaturan sosial media berhasil diambil',
+            'data' => $settings
+        ]);
+    } catch (Throwable $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Gagal mengambil data: ' . $e->getMessage()
+        ], 500);
     }
+}
 
-    public function update(Request $request): JsonResponse
+public function show($id): JsonResponse
+{
+    try {
+        $setting = Setting::findOrFail($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'Detail pengaturan sosial media berhasil diambil',
+            'data' => $setting
+        ]);
+    } catch (Throwable $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Gagal mengambil data: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+public function store(Request $request): JsonResponse
+{
+    $request->validate([
+        'whatsapp' => 'required',
+        'email' => 'required|email',
+        'alamat' => 'required',
+        'google_maps' => 'required',
+        'facebook' => 'nullable|url',
+        'instagram' => 'nullable|url',
+        'youtube' => 'nullable|url'
+    ]);
+
+    try {
+        $setting = Setting::create($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Pengaturan sosial media berhasil disimpan',
+            'data' => $setting
+        ]);
+    } catch (Throwable $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Gagal menyimpan data: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+public function update(Request $request, $id): JsonResponse
     {
         $request->validate([
-            'whatsapp'     => 'required|max:255',
-            'email'        => 'required|email',
-            'alamat'       => 'required',
-            'google_maps'  => 'required',
-            'facebook'     => 'nullable|url',
-            'instagram'    => 'nullable|url',
-            'youtube'      => 'nullable|url'
+            'whatsapp' => 'required',
+            'email' => 'required|email',
+            'alamat' => 'required',
+            'google_maps' => 'required',
+            'facebook' => 'nullable|url',
+            'instagram' => 'nullable|url',
+            'youtube' => 'nullable|url'
         ]);
 
         try {
-            $setting = Setting::updateOrCreate(
-                ['id' => 1], // atau bisa pakai Setting::firstOrNew()->fill(...)
-                $request->only([
-                    'whatsapp',
-                    'email',
-                    'alamat',
-                    'google_maps',
-                    'facebook',
-                    'instagram',
-                    'youtube'
-                ])
-            );
+            $setting = Setting::findOrFail($id);
+
+            $setting->update($request->all());
 
             return response()->json([
                 'success' => true,
-                'message' => 'Pengaturan berhasil diperbarui',
+                'message' => 'Pengaturan sosial media berhasil diperbarui',
                 'data' => $setting
             ]);
         } catch (Throwable $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal memperbarui pengaturan: ' . $e->getMessage()
+                'message' => 'Gagal memperbarui data: ' . $e->getMessage()
             ], 500);
         }
     }
+
+public function destroy($id): JsonResponse
+{
+    try {
+        $setting = Setting::findOrFail($id);
+        $setting->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Pengaturan sosial media berhasil dihapus'
+        ]);
+    } catch (Throwable $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Gagal menghapus data: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
 }

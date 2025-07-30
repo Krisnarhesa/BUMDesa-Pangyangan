@@ -2,22 +2,97 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+
 use App\Models\Profil;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
 class ProfilApiController extends Controller
 {
+    // Ambil data profil
+    public function index(): JsonResponse
+    {
+        $profil = Profil::first();
+
+        if (!$profil) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Profil belum tersedia.'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data profil ditemukan.',
+            'data' => $profil
+        ]);
+    }
+
+    // Simpan data profil baru
+    public function store(Request $request): JsonResponse
+    {
+        $request->validate([
+            'nama_bumdes'   => 'required|max:255',
+            'deskripsi'     => 'required',
+            'visi'          => 'required',
+            'misi'          => 'required',
+            'slogan'        => 'required|max:255',
+            'logo'          => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_profil'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        try {
+            if (Profil::exists()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Data profil sudah ada. Gunakan endpoint update untuk memperbarui.'
+                ], 409);
+            }
+
+            $profil = new Profil();
+            $profil->nama_bumdes = $request->nama_bumdes;
+            $profil->deskripsi = $request->deskripsi;
+            $profil->visi = $request->visi;
+            $profil->misi = $request->misi;
+            $profil->slogan = $request->slogan;
+
+            // Upload logo
+            if ($request->hasFile('logo')) {
+                $path = $request->file('logo')->store("profil/{$request->nama_bumdes}", 'public');
+                $profil->logo = $path;
+            }
+
+            // Upload foto profil
+            if ($request->hasFile('foto_profil')) {
+                $path = $request->file('foto_profil')->store("profil/{$request->nama_bumdes}", 'public');
+                $profil->foto_profil = $path;
+            }
+
+            $profil->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profil berhasil dibuat.',
+                'data' => $profil
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal membuat profil: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // Perbarui data profil
     public function update(Request $request): JsonResponse
     {
         $request->validate([
             'nama_bumdes'   => 'required|max:255',
             'deskripsi'     => 'required',
-            'visi_misi'     => 'required',
+            'visi'          => 'required',
+            'misi'          => 'required',
             'slogan'        => 'required|max:255',
             'logo'          => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'foto_profil'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
@@ -26,46 +101,30 @@ class ProfilApiController extends Controller
         try {
             $profil = Profil::firstOrNew();
 
-            // Simpan data teks
             $profil->nama_bumdes = $request->nama_bumdes;
             $profil->deskripsi = $request->deskripsi;
-            $profil->visi_misi = $request->visi_misi;
+            $profil->visi = $request->visi;
+            $profil->misi = $request->misi;
             $profil->slogan = $request->slogan;
 
-            // Upload dan resize logo
+            // Ganti logo jika diunggah
             if ($request->hasFile('logo')) {
-                $logo = $request->file('logo');
-                $logoName = 'logo-' . time() . '.' . $logo->getClientOriginalExtension();
-
-                $img = Image::make($logo)->resize(300, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-
-                $path = storage_path('app/public/profil/' . $logoName);
-                $img->save($path);
-
-                // Hapus logo lama jika ada
-                if ($profil->logo && file_exists(storage_path('app/public/profil/' . $profil->logo))) {
-                    unlink(storage_path('app/public/profil/' . $profil->logo));
+                if ($profil->logo && Storage::disk('public')->exists($profil->logo)) {
+                    Storage::disk('public')->delete($profil->logo);
                 }
 
-                $profil->logo = $logoName;
+                $path = $request->file('logo')->store("profil/{$request->nama_bumdes}", 'public');
+                $profil->logo = $path;
             }
 
-            // Upload dan resize foto profil
+            // Ganti foto profil jika diunggah
             if ($request->hasFile('foto_profil')) {
-                $foto = $request->file('foto_profil');
-                $fotoName = 'profil-' . time() . '.' . $foto->getClientOriginalExtension();
-
-                $img = Image::make($foto)->resize(800, 600);
-                $img->save(storage_path('app/public/profil/' . $fotoName));
-
-                // Hapus foto lama jika ada
-                if ($profil->foto_profil && file_exists(storage_path('app/public/profil/' . $profil->foto_profil))) {
-                    unlink(storage_path('app/public/profil/' . $profil->foto_profil));
+                if ($profil->foto_profil && Storage::disk('public')->exists($profil->foto_profil)) {
+                    Storage::disk('public')->delete($profil->foto_profil);
                 }
 
-                $profil->foto_profil = $fotoName;
+                $path = $request->file('foto_profil')->store("profil/{$request->nama_bumdes}", 'public');
+                $profil->foto_profil = $path;
             }
 
             $profil->save();
@@ -79,6 +138,41 @@ class ProfilApiController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal memperbarui profil: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    // Hapus data profil
+    public function destroy(): JsonResponse
+    {
+        try {
+            $profil = Profil::first();
+
+            if (!$profil) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Profil tidak ditemukan.'
+                ], 404);
+            }
+
+            if ($profil->logo && Storage::disk('public')->exists($profil->logo)) {
+                Storage::disk('public')->delete($profil->logo);
+            }
+
+            if ($profil->foto_profil && Storage::disk('public')->exists($profil->foto_profil)) {
+                Storage::disk('public')->delete($profil->foto_profil);
+            }
+
+            $profil->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Profil berhasil dihapus.'
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal menghapus profil: ' . $e->getMessage()
             ], 500);
         }
     }

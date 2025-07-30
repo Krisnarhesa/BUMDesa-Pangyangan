@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Struktur;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
@@ -15,7 +13,7 @@ class StrukturApiController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $strukturs = Struktur::orderBy('urutan')->get();
+            $strukturs = Struktur::all();
 
             return response()->json([
                 'success' => true,
@@ -34,25 +32,17 @@ class StrukturApiController extends Controller
     {
         $request->validate([
             'nama' => 'required|max:255',
-            'jabatan' => 'required|max:255',
+            'jabatan_id' => 'required|integer',
             'foto' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         try {
-            $foto = $request->file('foto');
-            $filename = 'struktur-' . time() . '.' . $foto->getClientOriginalExtension();
-
-            $img = Image::make($foto)->resize(400, 500, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-            $img->save(storage_path('app/public/struktur/' . $filename));
+            $path = $request->file('foto')->store('struktur', 'public');
 
             $struktur = Struktur::create([
                 'nama' => $request->nama,
-                'jabatan' => $request->jabatan,
-                'foto' => $filename,
-                'urutan' => Struktur::max('urutan') + 1
+                'jabatan_id' => $request->jabatan_id,
+                'foto' => $path,
             ]);
 
             return response()->json([
@@ -68,31 +58,59 @@ class StrukturApiController extends Controller
         }
     }
 
-    public function updateOrder(Request $request): JsonResponse
-    {
-        try {
-            foreach ($request->order as $index => $id) {
-                Struktur::where('id', $id)->update(['urutan' => $index + 1]);
+    public function update(Request $request, $id): JsonResponse
+{
+    $request->validate([
+        'nama' => 'sometimes|required|max:255',
+        'jabatan_id' => 'sometimes|required|integer',
+        'foto' => 'sometimes|image|mimes:jpeg,png,jpg|max:2048'
+    ]);
+
+    try {
+        // Ambil model berdasarkan ID
+        $struktur = Struktur::findOrFail($id);
+
+        // Jika ada file foto baru, hapus yang lama
+        if ($request->hasFile('foto')) {
+            if ($struktur->foto && Storage::disk('public')->exists($struktur->foto)) {
+                Storage::disk('public')->delete($struktur->foto);
             }
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Urutan pengurus berhasil diperbarui'
-            ]);
-        } catch (Throwable $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal memperbarui urutan: ' . $e->getMessage()
-            ], 500);
+            $path = $request->file('foto')->store('struktur', 'public');
+            $struktur->foto = $path;
         }
-    }
 
-    public function destroy(Struktur $struktur): JsonResponse
+        // Update field lain jika dikirim
+        if ($request->filled('nama')) {
+            $struktur->nama = $request->nama;
+        }
+
+        if ($request->filled('jabatan_id')) {
+            $struktur->jabatan_id = $request->jabatan_id;
+        }
+
+        $struktur->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data pengurus berhasil diperbarui',
+            'data' => $struktur
+        ]);
+    } catch (Throwable $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Gagal memperbarui data pengurus: ' . $e->getMessage()
+        ], 500);
+    }
+}
+
+
+    public function destroy($id): JsonResponse
     {
         try {
-            $path = storage_path('app/public/struktur/' . $struktur->foto);
-            if (file_exists($path)) {
-                unlink($path);
+            $struktur = Struktur::findOrFail($id);
+            if ($struktur->foto && Storage::disk('public')->exists($struktur->foto)) {
+                Storage::disk('public')->delete($struktur->foto);
             }
 
             $struktur->delete();
