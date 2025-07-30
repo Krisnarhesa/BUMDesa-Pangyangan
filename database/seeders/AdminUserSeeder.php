@@ -11,10 +11,14 @@ class AdminUserSeeder extends Seeder
 {
     public function run()
     {
-        // Buat role superadmin jika belum ada
-        $role = Role::firstOrCreate(['name' => 'superadmin'], ['guard_name' => 'web']);
+        $roles = ['admin', 'editor', 'viewer'];
 
-        // Buat user admin
+        foreach ($roles as $roleName) {
+            Role::firstOrCreate(
+                ['name' => $roleName, 'guard_name' => 'sanctum']
+            );
+        }
+
         $admin = User::firstOrCreate(
             ['email' => 'admin@bumdes.id'],
             [
@@ -23,7 +27,8 @@ class AdminUserSeeder extends Seeder
             ]
         );
 
-        // Assign role superadmin
-        $admin->assignRole($role);
+        if (!$admin->hasRole('admin')) {
+            $admin->assignRole('admin');
+        }
     }
 }
