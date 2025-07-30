@@ -1,4 +1,4 @@
-import { menus } from '@/components/layout/admin/menus';
+import { menus } from '@/components/layout/public/menus';
 import { Button } from '@/components/ui/button';
 import { cn, splitPathname } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
@@ -6,6 +6,7 @@ import { route } from 'ziggy-js';
 
 export default function StrukturOrganisasiLayout({ children }: { children: React.ReactNode }) {
 	const urlPath = window.location.pathname;
+	console.log(splitPathname(urlPath));
 
 	return (
 		<div>
@@ -37,7 +38,7 @@ export default function StrukturOrganisasiLayout({ children }: { children: React
 						</svg>
 					</li>
 					<li className='truncate text-sm font-semibold text-gray-800' aria-current='page'>
-						{menus.find((item) => splitPathname(urlPath).startsWith(item.href))?.title}
+						Struktur Organisasi
 					</li>
 				</ol>
 				{/* <<< Breadcrumb <<< */}

@@ -5,6 +5,11 @@ import AdminLayout from './layouts/AdminLayout';
 import PublicLayout from './layouts/PublicLayout';
 import StrukturOrganisasiLayout from './layouts/StrukturOrganisasiLayout';
 import UnitUsahaLayout from './layouts/UnitUsahaLayout';
+import GaleriLayout from './layouts/GaleriLayout';
+import BeritaLayout from './layouts/BeritaLayout';
+import { CookiesProvider } from 'react-cookie';
+import ReactQueryProvider from './lib/react-query/Provider';
+import { NuqsAdapter } from 'nuqs/adapters/react';
 
 createInertiaApp({
 	resolve: (name) => {
@@ -24,10 +29,32 @@ createInertiaApp({
 					<UnitUsahaLayout>{page}</UnitUsahaLayout>
 				</PublicLayout>
 			);
+		} else if (name.startsWith('Public/Publikasi/Galeri/')) {
+			page.default.layout = (page: React.ReactNode) => (
+				<PublicLayout>
+					<GaleriLayout>{page}</GaleriLayout>
+				</PublicLayout>
+			);
+		} else if (name.startsWith('Public/Publikasi/Berita/')) {
+			page.default.layout = (page: React.ReactNode) => (
+				<PublicLayout>
+					<BeritaLayout>{page}</BeritaLayout>
+				</PublicLayout>
+			);
 		} else if (name.startsWith('Public/')) {
 			page.default.layout = (page: React.ReactNode) => <PublicLayout>{page}</PublicLayout>;
 		} else {
-			page.default.layout = (page: React.ReactNode) => <AdminLayout>{page}</AdminLayout>;
+			page.default.layout =
+				page.default.layout ||
+				((page: React.ReactNode) => (
+					<ReactQueryProvider>
+						<NuqsAdapter>
+							<CookiesProvider>
+								<AdminLayout>{page}</AdminLayout>
+							</CookiesProvider>
+						</NuqsAdapter>
+					</ReactQueryProvider>
+				));
 		}
 
 		return page;

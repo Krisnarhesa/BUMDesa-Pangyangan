@@ -6,10 +6,10 @@ export const HoverLink = HoverCardPrimitive.Root;
 
 export const Trigger = React.forwardRef<
 	React.ElementRef<typeof HoverCardPrimitive.Trigger>,
-	React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & { href: string }
->(({ children, href, ...props }, forwardedRef) => (
+	React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger>
+>(({ children, ...props }, forwardedRef) => (
 	<HoverCardPrimitive.Trigger {...props} ref={forwardedRef}>
-		<Link href={href}>{children}</Link>
+		{children}
 	</HoverCardPrimitive.Trigger>
 ));
 Trigger.displayName = 'Trigger';
@@ -19,7 +19,7 @@ export const Content = React.forwardRef<
 	React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>
 >(({ children, ...props }, forwardedRef) => (
 	<HoverCardPrimitive.Portal>
-		<HoverCardPrimitive.Content {...props} className='w-[16rem] rounded-xl bg-white p-4 shadow-xl'>
+		<HoverCardPrimitive.Content {...props} className='z-20 w-[16rem] rounded-xl bg-white p-4 shadow-xl'>
 			{children}
 		</HoverCardPrimitive.Content>
 	</HoverCardPrimitive.Portal>

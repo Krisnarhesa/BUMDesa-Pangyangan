@@ -1,4 +1,4 @@
-export default function Pengawas() {
+export default function PengawasPage() {
 	const supervisors = [
 		{
 			id: 1,
@@ -17,7 +17,7 @@ export default function Pengawas() {
 	return (
 		<div className='space-y-4'>
 			{supervisors.map((s, i) => (
-				<div className='flex flex-col items-center gap-8 md:flex-row md:items-start'>
+				<div key={i} className='flex flex-col items-center gap-8 md:flex-row md:items-start'>
 					<div className='border-bumdes-dark-blue aspect-square h-full max-h-[20rem] w-full max-w-[20rem] flex-none basis-1/2 overflow-hidden rounded-2xl border-6'>
 						<img src='/assets/test.jpg' alt='' className='h-full w-full object-cover' />
 					</div>
