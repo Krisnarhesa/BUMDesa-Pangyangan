@@ -16,7 +16,7 @@ type AlbumItem = {
 	jenis: string;
 	foto: string;
 	link_youtube: string;
-	createdAt: string;
+	created_at: string;
 };
 
 type News = {

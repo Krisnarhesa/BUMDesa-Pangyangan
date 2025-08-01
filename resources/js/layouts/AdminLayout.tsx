@@ -16,7 +16,7 @@ const AdminLayout: FC<MainLayoutProps> = ({ children, showHeader = true }) => {
 		<main className='min-h-dvh bg-gray-50'>
 			{showHeader && <Header />}
 			<SideBar />
-			<div className='min-h-[calc(100dvh-71px-84px)] lg:pl-64'>{children}</div>
+			<div className='min-h-[calc(100dvh-71px-84px)]'>{children}</div>
 			<Footer />
 			<Toaster />
 		</main>
