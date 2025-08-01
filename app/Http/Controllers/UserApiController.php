@@ -55,7 +55,7 @@ class UserApiController extends Controller
             ->where('guard_name', 'sanctum')
             ->firstOrFail();
 
-            $user->assignRole($role->name); // ini sudah cukup
+            $user->assignRole($role->name);
 
 
             return response()->json([

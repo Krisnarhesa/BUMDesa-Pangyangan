@@ -15,7 +15,7 @@ class BeritaApiController extends Controller
     public function index(Request $request): JsonResponse
     {
         try {
-            $query = Berita::query();
+            $query = Berita::with('kategori');
 
             if ($request->has('kategori')) {
                 $query->where('kategori_id', $request->input('kategori'));
@@ -26,14 +26,23 @@ class BeritaApiController extends Controller
             }
 
             $beritas = $query->latest()->paginate(10);
-            $kategoris = KategoriBerita::all();
+            $beritas->getCollection()->transform(function ($item) {
+            return [
+                'id' => $item->id,
+                'judul' => $item->judul,
+                'isi' => $item->isi,
+                'kategori_id' => $item->kategori_id,
+                'kategori_nama' => $item->kategori->nama ?? null,
+                'created_at' => $item->created_at,
+                'updated_at' => $item->updated_at,
+            ];
+        });
 
             return response()->json([
                 'success' => true,
                 'message' => 'Daftar berita',
                 'data' => [
-                    'berita' => $beritas,
-                    'kategori' => $kategoris,
+                    'berita' => $beritas
                 ]
             ]);
         } catch (Throwable $e) {
