@@ -19,15 +19,13 @@ function Login() {
 		const formData = new FormData(e.currentTarget);
 
 		try {
-			const res = await api.post<{ success: boolean; message: string; token: string }>('/api/login', {
+			const res = await api.post<{ success: boolean; message: string; data: { token: string } }>('/api/login', {
 				email: formData.get('email'),
 				password: formData.get('password'),
 			});
 
-			console.log(res.data);
-
 			if (res.data.success) {
-				login(res.data.token);
+				login(res.data.data.token);
 				return;
 			} else {
 				alert('Salah');

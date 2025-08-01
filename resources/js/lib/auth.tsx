@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { route } from 'ziggy-js';
 
@@ -6,7 +5,7 @@ export function useAuth() {
 	const [cookies, setCookie, removeCookie] = useCookies(['token']);
 
 	const login = (token: string) => {
-		setCookie('token', token);
+		setCookie('token', token, { maxAge: 3600 });
 		window.location.replace(route('admin.dashboard'));
 	};
 

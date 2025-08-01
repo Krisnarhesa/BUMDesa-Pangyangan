@@ -1,11 +1,14 @@
+import { DataTable } from '@/components/table/DataTable';
 import { Button } from '@/components/ui/button';
-import { getGalleryItems } from '@/lib/data/galeri';
+import { getGalleryItems } from '@/lib/data/gallery';
 import { DateFormat } from '@/lib/utils';
+import { Link } from '@inertiajs/react';
 import { useQuery } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
-import { Pencil } from 'lucide-react';
+import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { Pencil, Plus } from 'lucide-react';
 import { parseAsInteger, useQueryStates } from 'nuqs';
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { route } from 'ziggy-js';
 
 export default function index() {
 	const [queryParams, setQueryParams] = useQueryStates(
@@ -18,10 +21,16 @@ export default function index() {
 			clearOnDefault: true,
 		}
 	);
+	const [offset, setOffset] = useState((queryParams.page - 1) * queryParams.limit);
+
+	useEffect(() => {
+		setOffset((queryParams.page - 1) * queryParams.limit);
+	}, [queryParams, setOffset]);
 
 	const { data, isLoading } = useQuery({
 		queryKey: ['gallery-items'],
 		queryFn: () => getGalleryItems(),
+		throwOnError: true,
 	});
 
 	const columns = useMemo<ColumnDef<AlbumItem>[]>(
@@ -41,7 +50,7 @@ export default function index() {
 				accessorKey: 'createdAt',
 				header: 'Tanggal dibuat',
 				cell: ({ row }) => {
-					return DateFormat(new Date(row.original.createdAt).toISOString());
+					return DateFormat(new Date(row.original.created_at).toISOString());
 				},
 			},
 			{
@@ -95,5 +104,76 @@ export default function index() {
 		[queryParams.page, queryParams.limit]
 	);
 
-	return <div>index</div>;
+	const table = useReactTable({
+		data: data?.data.galeri.slice(offset, offset + queryParams.limit) ?? [],
+		columns,
+		getCoreRowModel: getCoreRowModel(),
+		// onColumnVisibilityChange: setColumnVisibility,
+		state: {
+			// columnVisibility,
+			// globalFilter: queryParams.q,
+			pagination: {
+				pageSize: queryParams.limit,
+				pageIndex: queryParams.page - 1,
+			},
+		},
+		manualPagination: true,
+		// onGlobalFilterChange: (value) => {
+		// 	if (value !== queryParams.q) {
+		// 		setQueryParams((prevState) => ({
+		// 			...prevState,
+		// 			page: 1,
+		// 			q: value,
+		// 		}));
+		// 	}
+		// },
+	});
+
+	const nextPage = useCallback(() => {
+		setQueryParams((prevState) => ({
+			...prevState,
+			page: prevState.page + 1,
+		}));
+	}, [data]);
+
+	const prevPage = useCallback(() => {
+		setQueryParams((prevState) => ({
+			...prevState,
+			page: prevState.page - 1,
+		}));
+	}, [data]);
+
+	return (
+		<section className='min-h-screen w-full px-4 sm:px-6 md:px-8 lg:pl-72'>
+			<div className='grid overflow-auto py-10'>
+				<div className='mt-10 flex items-center justify-end'>
+					<Link href={route('admin.galeri.create')} className='mr-auto'>
+						<Button className='space-x-1'>
+							<Plus />
+							<span>Tambah galeri</span>
+						</Button>
+					</Link>
+				</div>
+
+				<DataTable
+					table={table}
+					canNextPage={data && data.data.galeri.length > queryParams.page * queryParams.limit}
+					canPrevPage={data && queryParams.page !== 1}
+					nextPage={nextPage}
+					prevPage={prevPage}
+					isLoading={isLoading}
+					searchPlaceHolder='Searching with company name...'
+					onPageLimitChange={(e) => {
+						setQueryParams((prevState) => ({
+							...prevState,
+							limit: e,
+							page: 1,
+						}));
+					}}
+					selectables
+					// onDelete={toggleDeleteModal}
+				/>
+			</div>
+		</section>
+	);
 }

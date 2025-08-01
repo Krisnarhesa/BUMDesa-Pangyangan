@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 import Cookies from 'universal-cookie';
 
 const api = axios.create();
@@ -15,7 +15,7 @@ api.interceptors.response.use(
 		return config;
 	},
 	function (error) {
-		if (error.response.status === 401) {
+		if (isAxiosError(error) && error.response?.status === 401) {
 			cookies.remove('token');
 			alert('Session expired, please re-login to continue!');
 			window.location.replace('/admin/login');
