@@ -23,8 +23,7 @@ const NewsCard = ({ title, desc }: { title: string; desc: string }) => {
 
 export default function BeritaPage({ berita }: { berita: News[] }) {
 	return (
-		<div className='space-y-8'>
-			<p>lorem ipsum</p>
+		<div>
 			{berita && berita.length > 0 ? (
 				<>
 					{/* >>> Desktop slider >>>  */}

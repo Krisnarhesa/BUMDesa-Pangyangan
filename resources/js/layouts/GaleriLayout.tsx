@@ -91,7 +91,7 @@ export default function GaleriLayout({ children }: { children: React.ReactNode }
 													className={cn(
 														'text-bumdes-dark-blue hover:bg-bumdes-dark-blue/80 w-full justify-start bg-white capitalize hover:text-white',
 														{
-															'bg-bumdes-dark-blue text-white': Number(splitPathname(urlPath).split('/')[2]) === a.id,
+															'bg-bumdes-dark-blue text-white': Number(urlPath.split('/')[3]) === a.id,
 														}
 													)}
 												>
