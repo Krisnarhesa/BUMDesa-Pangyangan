@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Galeri;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,29 +17,9 @@ class PublikasiController extends Controller
   public function galeriShow(string $id)
   {
     // Query here
-    $albumItems = [
-      [
-        'judul' => 'Gambar 1',
-        'jenis' => 'foto',
-        'foto' => '/assets/test.jpg',
-        'link_youtube' => null,
-        'album_id' => 1
-      ],
-      [
-        'judul' => 'Video 1',
-        'jenis' => 'link',
-        'foto' => null,
-        'link_youtube' => 'https://www.youtube.com/embed/3KR8_igDs1Y',
-        'album_id' => 1
-      ],
-      [
-        'judul' => 'Gambar 2',
-        'jenis' => 'foto',
-        'foto' => '/assets/test.jpg',
-        'link_youtube' => null,
-        'album_id' => 1
-      ],
-    ];
+    $albumItems = Galeri::with('album')
+      ->where('album_id', $id)
+      ->get();
 
     return Inertia::render('Public/Publikasi/Galeri/show', [
       'albumItems' => $albumItems,

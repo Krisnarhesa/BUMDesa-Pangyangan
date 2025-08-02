@@ -1,6 +1,8 @@
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 export default function GaleriAlbumPage({ albumItems }: { albumItems: AlbumItem[] }) {
+	console.log(albumItems);
+
 	return (
 		<>
 			<div className='grid w-full grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-4'>
@@ -10,7 +12,7 @@ export default function GaleriAlbumPage({ albumItems }: { albumItems: AlbumItem[
 								<div className='h-min w-full overflow-hidden rounded-lg'>
 									{item.jenis === 'foto' ? (
 										<DialogTrigger asChild className='cursor-pointer'>
-											<img src={item.foto} alt={item.nama} className='h-full w-full object-cover' />
+											<img src={`/storage/${item.foto}`} alt={item.nama} className='h-full w-full object-cover' />
 										</DialogTrigger>
 									) : (
 										<iframe
