@@ -31,3 +31,9 @@ export const AddNewsSchema = yup
 		kategori_id: yup.number().positive().required('Tidak boleh kosong'),
 	})
 	.required();
+
+export const AddAlbumSchema = yup
+	.object({
+		nama: yup.string().required('Tidak boleh kosong'),
+	})
+	.required();

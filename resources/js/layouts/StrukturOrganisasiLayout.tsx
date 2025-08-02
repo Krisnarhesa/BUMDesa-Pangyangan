@@ -6,7 +6,6 @@ import { route } from 'ziggy-js';
 
 export default function StrukturOrganisasiLayout({ children }: { children: React.ReactNode }) {
 	const urlPath = window.location.pathname;
-	console.log(splitPathname(urlPath));
 
 	return (
 		<div>

@@ -53,6 +53,10 @@ export const menus: Array<LinkItemProps> = [
 		domain: 'Admin',
 		child: [
 			{
+				title: 'Album',
+				href: route('admin.album.index'),
+			},
+			{
 				title: 'Galeri',
 				href: route('admin.galeri.index'),
 			},

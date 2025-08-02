@@ -1,24 +1,6 @@
-import api from '@/lib/api';
-import { useEffect, useState } from 'react';
 import * as _ from 'lodash';
 
 export default function BeritaLayout({ children }: { children: React.ReactNode }) {
-	const urlPath = window.location.pathname;
-	const [albums, setAlbums] = useState<Album[]>([]);
-
-	useEffect(() => {
-		const fetchAlbums = async () => {
-			try {
-				const res = await api.get<AxiosResponse<Album[]>>('/api/album');
-				setAlbums(res.data.data);
-			} catch (error) {
-				console.log('ERROR', error);
-			}
-		};
-
-		fetchAlbums();
-	}, []);
-
 	return (
 		<div>
 			<div className='h-[100px] bg-slate-50'>

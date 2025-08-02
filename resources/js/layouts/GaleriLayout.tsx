@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import api from '@/lib/api';
-import { cn, splitPathname } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import { route } from 'ziggy-js';
@@ -16,7 +16,7 @@ export default function GaleriLayout({ children }: { children: React.ReactNode }
 				const res = await api.get<AxiosResponse<Album[]>>('/api/album');
 				setAlbums(res.data.data);
 			} catch (error) {
-				console.log('ERROR', error);
+				throw error;
 			}
 		};
 

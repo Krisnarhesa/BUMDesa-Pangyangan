@@ -9,10 +9,6 @@ import { route } from 'ziggy-js';
 export default function SideBar() {
 	const urlPath = window.location.pathname;
 
-	useEffect(() => {
-		console.log('URL PATH', urlPath);
-	});
-
 	return (
 		<>
 			{/* >>> Mobile nav >>> */}
