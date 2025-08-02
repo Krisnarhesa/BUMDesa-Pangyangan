@@ -24,6 +24,7 @@ type News = {
 	judul: string;
 	konten: string;
 	gambar_cover: string;
-	tanggal: string;
 	kategori_id: number;
+	kategori_nama: string;
+	created_at: string;
 };

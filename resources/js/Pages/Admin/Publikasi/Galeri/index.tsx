@@ -54,7 +54,7 @@ export default function index() {
 				},
 			},
 			{
-				accessorKey: 'nama',
+				accessorKey: 'judul',
 				header: 'Nama',
 			},
 			{
@@ -63,11 +63,15 @@ export default function index() {
 				cell: ({ row }) => (
 					<div>
 						{row.original.jenis === 'foto' ? (
-							<img src={row.original.foto} alt={row.original.nama} className='h-full w-full object-cover' />
+							<img
+								src={`/storage/` + row.original.foto}
+								alt={row.original.nama}
+								className='mx-auto aspect-video h-24 object-cover'
+							/>
 						) : (
 							<iframe
 								src={row.original.link_youtube}
-								className='aspect-video'
+								className='mx-auto aspect-video h-24'
 								title={row.original.nama}
 								frameBorder='0'
 								allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'

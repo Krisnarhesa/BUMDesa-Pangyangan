@@ -10,7 +10,6 @@ import BeritaLayout from './layouts/BeritaLayout';
 import { CookiesProvider } from 'react-cookie';
 import ReactQueryProvider from './lib/react-query/Provider';
 import { NuqsAdapter } from 'nuqs/adapters/react';
-import { BrowserRouter } from 'react-router';
 import { ErrorBoundary } from 'react-error-boundary';
 
 createInertiaApp({
@@ -49,21 +48,19 @@ createInertiaApp({
 			page.default.layout =
 				page.default.layout ||
 				((page: React.ReactNode) => (
-					<BrowserRouter>
-						<ReactQueryProvider>
-							<NuqsAdapter>
-								<CookiesProvider>
-									<AdminLayout>
-										<ErrorBoundary
-											fallback={<div className='px-4 sm:px-6 md:px-8 lg:pl-72'>Terjadi kesalahan. Coba lagi</div>}
-										>
-											{page}
-										</ErrorBoundary>
-									</AdminLayout>
-								</CookiesProvider>
-							</NuqsAdapter>
-						</ReactQueryProvider>
-					</BrowserRouter>
+					<ReactQueryProvider>
+						<NuqsAdapter>
+							<CookiesProvider>
+								<AdminLayout>
+									<ErrorBoundary
+										fallback={<div className='px-4 sm:px-6 md:px-8 lg:pl-72'>Terjadi kesalahan. Coba lagi</div>}
+									>
+										{page}
+									</ErrorBoundary>
+								</AdminLayout>
+							</CookiesProvider>
+						</NuqsAdapter>
+					</ReactQueryProvider>
 				));
 		}
 

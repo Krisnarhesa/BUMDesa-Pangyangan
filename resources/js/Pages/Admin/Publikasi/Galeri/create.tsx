@@ -12,13 +12,11 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { route } from 'ziggy-js';
-import { useNavigate } from 'react-router';
 
 type Data = yup.InferType<typeof AddGalleryItemSchema>;
 
 export default function create({ albums }: { albums: Album[] }) {
 	const { toast } = useToast();
-	const navigate = useNavigate();
 	const {
 		register,
 		handleSubmit,
