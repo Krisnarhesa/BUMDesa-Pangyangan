@@ -28,3 +28,8 @@ type News = {
 	kategori_nama: string;
 	created_at: string;
 };
+
+type NewsCategory = {
+	id: number;
+	nama: string;
+};

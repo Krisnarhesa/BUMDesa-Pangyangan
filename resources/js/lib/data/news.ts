@@ -21,7 +21,6 @@ type PostBeritaReturnProps = {
 export const getNews = async () => {
 	try {
 		const { data } = await api.get<GetNewsReturnProps>(route('api.berita.index'));
-		console.log(data);
 
 		return data;
 	} catch (error) {

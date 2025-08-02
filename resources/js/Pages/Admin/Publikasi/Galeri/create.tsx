@@ -53,7 +53,6 @@ export default function create({ albums }: { albums: Album[] }) {
 	});
 
 	const onSubmit: SubmitHandler<Data> = (data) => {
-		console.log(data);
 		mutation.mutate(data);
 	};
 

@@ -60,7 +60,7 @@ class BeritaApiController extends Controller
         'judul' => 'required|max:255',
         'konten' => 'required',
         'gambar_cover' => 'image|mimes:jpeg,png,jpg|max:5048',
-        'tanggal' => 'required|date',
+        'tanggal' => 'date',
         'kategori_id' => 'required|exists:kategori_berita,id'
       ]);
 
