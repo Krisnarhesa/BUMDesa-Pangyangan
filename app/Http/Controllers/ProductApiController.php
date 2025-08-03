@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class ProductApiController extends Controller
 {
@@ -19,6 +20,26 @@ class ProductApiController extends Controller
             'message' => 'Daftar produk berhasil diambil',
             'data' => $products
         ]);
+    }
+
+    public function getByUnitUsahaId($id): JsonResponse
+    {
+        try {
+            $products = Product::with('unitUsaha')
+                ->where('unit_usaha_id', $id)
+                ->get();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Daftar produk berdasarkan unit usaha berhasil diambil',
+                'data' => $products
+            ]);
+        } catch (Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     // Tambah produk baru

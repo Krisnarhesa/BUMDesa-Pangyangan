@@ -76,6 +76,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
   // Product
   Route::get('/product', [ProductApiController::class, 'index'])->name('api.products.index');
+  Route::get('/product/unit-usaha/{id}', [ProductApiController::class, 'getByUnitUsahaId'])->name('api.products.byUnit');
   Route::post('/product/upload', [ProductApiController::class, 'store'])->name('api.products.store');
   Route::post('/product/edit/{id}', [ProductApiController::class, 'update'])->name('api.products.update');
   Route::delete('/product/delete/{id}', [ProductApiController::class, 'destroy'])->name('api.products.destroy');
