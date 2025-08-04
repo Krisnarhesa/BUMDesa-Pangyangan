@@ -1,10 +1,3 @@
-type UnitUsahaProduct = {
-	id: number;
-	nama: string;
-	imgUrl: string;
-	harga: number;
-};
-
 type Album = {
 	id: number;
 	nama: string;
@@ -32,4 +25,21 @@ type News = {
 type NewsCategory = {
 	id: number;
 	nama: string;
+};
+
+type UnitUsaha = {
+	id: number;
+	nama: string;
+	deskripsi: string;
+	kontak: string;
+	foto: string;
+};
+
+type UnitUsahaProduk = {
+	id: number;
+	nama: string;
+	harga: number;
+	deskripsi: string;
+	gambar: string;
+	unit_usaha_id: number;
 };

@@ -45,6 +45,9 @@ createInertiaApp({
 		} else if (name.startsWith('Public/')) {
 			page.default.layout = (page: React.ReactNode) => <PublicLayout>{page}</PublicLayout>;
 		} else {
+			const patterns = [/^\/admin\/unit-usaha\/\d+\/produk$/, /^\/admin\/unit-usaha\/[a-zA-Z]+$/];
+			const isMatch = patterns.some((reg) => reg.test(window.location.pathname));
+
 			page.default.layout =
 				page.default.layout ||
 				((page: React.ReactNode) => (

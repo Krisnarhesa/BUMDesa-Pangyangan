@@ -4,11 +4,10 @@ use App\Http\Controllers\AdminAlbumController;
 use App\Http\Controllers\AdminBeritaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminGaleriController;
+use App\Http\Controllers\AdminProdukController;
 use App\Http\Controllers\AdminStrukturOrganisasiController;
 use App\Http\Controllers\AdminUnitUsahaController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\UnitUsahaController;
@@ -60,8 +59,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
   Route::get('/publikasi/berita/create', [AdminBeritaController::class, 'create'])->name('berita.create');
 
   // Unit usaha
-  Route::get('/unit-usaha', [AdminUnitUsahaController::class, 'index'])->name('unit_usaha.index');
-  Route::get('/unit-usaha/create', [AdminUnitUsahaController::class, 'create'])->name('unit_usaha.create');
+  Route::get('/unit-usaha', [AdminUnitUsahaController::class, 'index'])->name('unit.index');
+  Route::get('/unit-usaha/create', [AdminUnitUsahaController::class, 'create'])->name('unit.create');
+  Route::get('/unit-usaha/{id}/produk', [AdminProdukController::class, 'index'])->name('unit.produk.index');
+  Route::get('/unit-usaha/{id}/produk/create', [AdminProdukController::class, 'create'])->name('unit.produk.create');
 
   // Struktur organisasi
   Route::get('/struktur-organisasi', [AdminStrukturOrganisasiController::class, 'index'])->name('struktur_organisasi.index');

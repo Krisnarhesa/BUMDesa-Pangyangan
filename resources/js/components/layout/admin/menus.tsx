@@ -39,7 +39,7 @@ export const menus: Array<LinkItemProps> = [
 		domain: 'Admin',
 	},
 	{
-		href: route('admin.unit_usaha.index'),
+		href: route('admin.unit.index'),
 		title: 'Unit Usaha',
 		icon: <Handshake size={17} />,
 		type: 'link',
