@@ -3,42 +3,45 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
-import { AddUnitUsahaSchema } from '@/lib/yup/schemas';
+import { AddUnitUsahaProdukSchema } from '@/lib/yup/schemas';
 import { Button } from '@/components/ui/button';
 import StyledInput from '@/components/input/StyledInput';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { route } from 'ziggy-js';
-import { addUnitUsaha } from '@/lib/data/unit-usaha';
-import { Link } from '@inertiajs/react';
+import { addUnitUsahaProduk } from '@/lib/data/unit-produk';
 import { ChevronLeft } from 'lucide-react';
+import { Link } from '@inertiajs/react';
 
-type Data = yup.InferType<typeof AddUnitUsahaSchema>;
+type Data = yup.InferType<typeof AddUnitUsahaProdukSchema>;
 
-export default function create() {
+export default function create({ id }: { id: string }) {
 	const { toast } = useToast();
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
-		resolver: yupResolver(AddUnitUsahaSchema),
+		defaultValues: {
+			unit_usaha_id: Number(id),
+		},
+		resolver: yupResolver(AddUnitUsahaProdukSchema),
 	});
 
 	const mutation = useMutation({
-		mutationFn: (data: Data) => addUnitUsaha(data),
+		mutationFn: (data: Data) => addUnitUsahaProduk(data),
 		onSuccess: (data) => {
 			toast({
 				title: 'Success',
 				description: data.message,
 				duration: 5000,
 			});
-			window.location.replace(route('admin.unit.index'));
+			window.location.replace(route('admin.unit.produk.index', { id: id }));
 		},
 		onError: () => {
 			toast({
 				title: 'Error',
-				description: 'Database error: Gagal menambahkan unit usaha',
+				description: 'Database error: Gagal menambahkan produk',
 				duration: 5000,
 				variant: 'destructive',
 			});
@@ -55,11 +58,11 @@ export default function create() {
 				<div className='flex w-full items-center justify-between px-10'>
 					<div className='flex items-center gap-3'>
 						<Button size={'sm'} variant={'ghost'} asChild>
-							<Link href={route('admin.unit.index')}>
+							<Link href={route('admin.unit.produk.index', { id: id })}>
 								<ChevronLeft />
 							</Link>
 						</Button>
-						<p className='text-lg'>Unit baru</p>
+						<p className='text-lg'>Produk baru</p>
 					</div>
 				</div>
 			</header>
@@ -74,6 +77,25 @@ export default function create() {
 						<TextInput label='Nama' idProps={{ ...register('nama') }} idError={errors.nama?.message} en={false} />
 						{/* <<< Nama <<< */}
 
+						{/* >>> Harga >>> */}
+						<TextInput
+							label='Harga'
+							idProps={{
+								...register('harga'),
+								type: 'tel',
+								inputMode: 'numeric',
+								pattern: '[0-9]*',
+								autoComplete: 'off',
+								onInput: (e) => {
+									const target = e.target as HTMLInputElement;
+									target.value = target.value.replace(/[^0-9]/g, '');
+								},
+							}}
+							idError={errors.harga?.message}
+							en={false}
+						/>
+						{/* <<< Harga <<< */}
+
 						{/* >>> Deskripsi >>> */}
 						<TextInput
 							label='Deskripsi'
@@ -84,30 +106,13 @@ export default function create() {
 						/>
 						{/* <<< Deskripsi <<< */}
 
-						{/* >>> Kontak >>> */}
-						<TextInput
-							label='Kontak'
-							idProps={{
-								...register('kontak'),
-								type: 'tel',
-								inputMode: 'numeric',
-								pattern: '[0-9]*',
-								autoComplete: 'off',
-								onInput: (e) => {
-									const target = e.target as HTMLInputElement;
-									target.value = target.value.replace(/[^0-9]/g, '');
-								},
-							}}
-							idError={errors.kontak?.message}
-							en={false}
-						/>
-						{/* <<< Kontak <<< */}
-
-						{/* >>> Foto >>> */}
-						<StyledInput label='Foto' error={errors.foto?.message}>
-							<Input type='file' accept='image/png,image/jpeg' {...register('foto')} className='w-auto' />
+						{/* >>> Gambar >>> */}
+						<StyledInput label='Gambar' error={errors.gambar?.message}>
+							<Input type='file' accept='image/png,image/jpeg' {...register('gambar')} className='w-auto' />
 						</StyledInput>
-						{/* <<< Foto <<< */}
+						{/* <<< Gambar <<< */}
+
+						<input type='hidden' {...register('unit_usaha_id')} />
 
 						<Button className='rounded-md lg:ml-28' type='submit' isLoading={mutation.isPending}>
 							Save

@@ -1,16 +1,15 @@
 import { DataTable } from '@/components/table/DataTable';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { getUnitUsaha } from '@/lib/data/unit-usaha';
+import { getUnitUsahaProduk } from '@/lib/data/unit-produk';
 import { Link } from '@inertiajs/react';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { BoxIcon, Pencil, Plus } from 'lucide-react';
+import { ChevronLeft, Pencil, Plus } from 'lucide-react';
 import { parseAsInteger, useQueryStates } from 'nuqs';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { route } from 'ziggy-js';
 
-export default function index() {
+export default function index({ id }: { id: string }) {
 	const [queryParams, setQueryParams] = useQueryStates(
 		{
 			page: parseAsInteger.withDefault(1),
@@ -28,12 +27,12 @@ export default function index() {
 	}, [queryParams, setOffset]);
 
 	const { data, isLoading } = useQuery({
-		queryKey: ['unit-usaha'],
-		queryFn: () => getUnitUsaha(),
+		queryKey: ['products', id],
+		queryFn: () => getUnitUsahaProduk(Number(id)),
 		throwOnError: true,
 	});
 
-	const columns = useMemo<ColumnDef<UnitUsaha>[]>(
+	const columns = useMemo<ColumnDef<UnitUsahaProduk>[]>(
 		() => [
 			{
 				id: '#',
@@ -51,9 +50,21 @@ export default function index() {
 				header: 'Nama',
 			},
 			{
-				accessorKey: 'kontak',
-				header: 'Kontak',
+				accessorKey: 'harga',
+				header: 'Harga',
 			},
+			{
+				accessorKey: 'gambar',
+				header: 'Gambar',
+				cell: ({ row }) => (
+					<img
+						src={`/storage/` + row.original.gambar}
+						alt={row.original.nama}
+						className='mx-auto aspect-video h-24 object-cover'
+					/>
+				),
+			},
+
 			{
 				id: 'action',
 				header: () => {
@@ -71,18 +82,6 @@ export default function index() {
 							<Button size={'icon'} variant={'ghost'} className='text-cyan-500 hover:text-cyan-600' onClick={() => {}}>
 								<Pencil size={20} />
 							</Button>
-							<Link href={route('admin.unit.produk.index', { id: unit.id })}>
-								<TooltipProvider>
-									<Tooltip>
-										<TooltipTrigger asChild>
-											<Button size={'icon'} variant={'ghost'} className='text-cyan-500 hover:text-cyan-600'>
-												<BoxIcon size={20} />
-											</Button>
-										</TooltipTrigger>
-										<TooltipContent>Produk</TooltipContent>
-									</Tooltip>
-								</TooltipProvider>
-							</Link>
 						</div>
 					);
 				},
@@ -132,36 +131,50 @@ export default function index() {
 	}, [data]);
 
 	return (
-		<section className='min-h-screen w-full px-4 sm:px-6 md:px-8 lg:pl-72'>
-			<div className='grid overflow-auto py-10'>
-				<div className='mt-10 flex items-center justify-end'>
-					<Link href={route('admin.unit.create')} className='mr-auto'>
-						<Button className='space-x-1'>
-							<Plus />
-							<span>Tambah unit</span>
+		<>
+			<header className='sticky inset-x-0 top-0 z-[48] flex w-full flex-wrap border-b bg-white py-2.5 text-sm sm:flex-nowrap sm:justify-start sm:py-4 lg:pl-64'>
+				<div className='flex w-full items-center justify-between px-10'>
+					<div className='flex items-center gap-3'>
+						<Button size={'sm'} variant={'ghost'} asChild>
+							<Link href={route('admin.unit.index')}>
+								<ChevronLeft />
+							</Link>
 						</Button>
-					</Link>
+						<p className='text-lg'>Produk</p>
+					</div>
 				</div>
+			</header>
+			<section className='min-h-screen w-full px-4 sm:px-6 md:px-8 lg:pl-72'>
+				<div className='grid overflow-auto py-10'>
+					<div className='mt-10 flex items-center justify-end'>
+						<Link href={route('admin.unit.produk.create', { id: id })} className='mr-auto'>
+							<Button className='space-x-1'>
+								<Plus />
+								<span>Tambah produk</span>
+							</Button>
+						</Link>
+					</div>
 
-				<DataTable
-					table={table}
-					canNextPage={data && data.data.length > queryParams.page * queryParams.limit}
-					canPrevPage={data && queryParams.page !== 1}
-					nextPage={nextPage}
-					prevPage={prevPage}
-					isLoading={isLoading}
-					searchPlaceHolder='Searching with company name...'
-					onPageLimitChange={(e) => {
-						setQueryParams((prevState) => ({
-							...prevState,
-							limit: e,
-							page: 1,
-						}));
-					}}
-					selectables
-					// onDelete={toggleDeleteModal}
-				/>
-			</div>
-		</section>
+					<DataTable
+						table={table}
+						canNextPage={data && data.data.length > queryParams.page * queryParams.limit}
+						canPrevPage={data && queryParams.page !== 1}
+						nextPage={nextPage}
+						prevPage={prevPage}
+						isLoading={isLoading}
+						searchPlaceHolder='Searching with company name...'
+						onPageLimitChange={(e) => {
+							setQueryParams((prevState) => ({
+								...prevState,
+								limit: e,
+								page: 1,
+							}));
+						}}
+						selectables
+						// onDelete={toggleDeleteModal}
+					/>
+				</div>
+			</section>
+		</>
 	);
 }

@@ -37,3 +37,29 @@ export const AddAlbumSchema = yup
 		nama: yup.string().required('Tidak boleh kosong'),
 	})
 	.required();
+
+export const AddUnitUsahaSchema = yup
+	.object({
+		nama: yup.string().required('Tidak boleh kosong'),
+		deskripsi: yup.string().required('Tidak boleh kosong'),
+		kontak: yup.string().required('Tidak boleh kosong'),
+		foto: yup
+			.mixed()
+			.test('required', 'Tidak boleh kosong', (value) => {
+				if (value instanceof FileList) return value.length > 0;
+			})
+			.required(),
+	})
+	.required();
+
+export const AddUnitUsahaProdukSchema = yup
+	.object({
+		nama: yup.string().required('Tidak boleh kosong'),
+		harga: yup.number().positive().required('Tidak boleh kosong'),
+		deskripsi: yup.string().required('Tidak boleh kosong'),
+		gambar: yup.mixed().test('required', 'Tidak boleh kosong', (value) => {
+			if (value instanceof FileList) return value.length > 0;
+		}),
+		unit_usaha_id: yup.number().positive().required('Tidak boleh kosong'),
+	})
+	.required();
