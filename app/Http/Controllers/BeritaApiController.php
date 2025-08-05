@@ -59,7 +59,7 @@ class BeritaApiController extends Controller
       $request->validate([
         'judul' => 'required|max:255',
         'konten' => 'required',
-        'gambar_cover' => 'image|mimes:jpeg,png,jpg|max:5048',
+        'gambar_cover' => 'image|mimes:jpeg,png,jpg|max:2048',
         'tanggal' => 'date',
         'kategori_id' => 'required|exists:kategori_berita,id'
       ]);
@@ -118,7 +118,7 @@ class BeritaApiController extends Controller
       $request->validate([
         'judul' => 'required|max:255',
         'konten' => 'required',
-        'gambar_cover' => 'nullable|image|mimes:jpeg,png,jpg|max:5048',
+        'gambar_cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         'tanggal' => 'required|date',
         'kategori_id' => 'required|exists:kategori_berita,id'
       ]);

@@ -105,7 +105,7 @@ public function update(Request $request, $id): JsonResponse
         'nama' => 'sometimes|string|max:255',
         'harga' => 'sometimes|integer|min:0',
         'deskripsi' => 'nullable|string',
-        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5048',
+        'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
     $data = $request->only(['unit_usaha_id', 'nama', 'harga', 'deskripsi']);

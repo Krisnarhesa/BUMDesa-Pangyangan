@@ -59,7 +59,7 @@ class GaleriApiController extends Controller
             $request->validate([
                 'judul' => 'required|max:255',
                 'jenis' => 'required|in:foto,link',
-                'foto' => 'required_if:jenis,foto|image|mimes:jpeg,png,jpg|max:5120',
+                'foto' => 'required_if:jenis,foto|image|mimes:jpeg,png,jpg|max:2048',
                 'link_youtube' => 'required_if:jenis,link',
                 'album_id' => 'required|exists:albums,id'
             ]);
@@ -102,7 +102,7 @@ class GaleriApiController extends Controller
             $request->validate([
                 'judul' => 'required|max:255',
                 'jenis' => 'required|in:foto,link',
-                'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:5120',
+                'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
                 'link_youtube' => 'nullable|string',
                 'album_id' => 'required|exists:albums,id'
             ]);

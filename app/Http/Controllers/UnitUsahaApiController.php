@@ -35,7 +35,7 @@ class UnitUsahaApiController extends Controller
                 'nama' => 'required|max:255',
                 'deskripsi' => 'required',
                 'kontak' => 'required|max:255',
-                'foto' => 'image|mimes:jpeg,png,jpg|max:5048'
+                'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
             ]);
 
             $data = $request->only(['nama', 'deskripsi', 'kontak']);
@@ -69,7 +69,7 @@ class UnitUsahaApiController extends Controller
                 'nama' => 'required|max:255',
                 'deskripsi' => 'required',
                 'kontak' => 'required|max:255',
-                'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:5048'
+                'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
             ]);
 
             $data = $request->only(['nama', 'deskripsi', 'kontak']);
