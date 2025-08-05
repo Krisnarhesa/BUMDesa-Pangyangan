@@ -26,14 +26,22 @@ createInertiaApp({
 			);
 		} else if (name.startsWith('Public/UnitUsaha/')) {
 			page.default.layout = (page: React.ReactNode) => (
-				<PublicLayout>
-					<UnitUsahaLayout>{page}</UnitUsahaLayout>
-				</PublicLayout>
+				<ReactQueryProvider>
+					<PublicLayout>
+						<ErrorBoundary fallback={<div className='px-4 sm:px-6 md:px-8 lg:pl-72'>Terjadi kesalahan. Coba lagi</div>}>
+							<UnitUsahaLayout>{page}</UnitUsahaLayout>
+						</ErrorBoundary>
+					</PublicLayout>
+				</ReactQueryProvider>
 			);
 		} else if (name.startsWith('Public/Publikasi/Galeri/')) {
 			page.default.layout = (page: React.ReactNode) => (
 				<PublicLayout>
-					<GaleriLayout>{page}</GaleriLayout>
+					<GaleriLayout>
+						<ErrorBoundary fallback={<div className='px-4 sm:px-6 md:px-8 lg:pl-72'>Terjadi kesalahan. Coba lagi</div>}>
+							{page}
+						</ErrorBoundary>
+					</GaleriLayout>
 				</PublicLayout>
 			);
 		} else if (name.startsWith('Public/Publikasi/Berita/')) {

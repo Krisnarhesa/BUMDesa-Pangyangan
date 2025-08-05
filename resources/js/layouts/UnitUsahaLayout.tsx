@@ -4,55 +4,17 @@ import { cn, splitPathname } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
 import { route } from 'ziggy-js';
 import * as _ from 'lodash';
-
-const data = [
-	{
-		id: 1,
-		nama: 'simpan pinjam',
-		deskripsi:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
-		gambar: '/assets/test.jpg',
-	},
-	{
-		id: 2,
-		nama: 'perdagangan',
-		deskripsi:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
-		gambar: '/assets/test.jpg',
-	},
-	{
-		id: 3,
-		nama: 'jasa',
-		deskripsi:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
-		gambar: '/assets/test.jpg',
-	},
-	{
-		id: 4,
-		nama: 'pengolahan sampah',
-		deskripsi:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
-		gambar: '/assets/test.jpg',
-	},
-	{
-		id: 5,
-		nama: 'ketahanan pangan',
-		deskripsi:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
-		gambar: '/assets/test.jpg',
-	},
-	{
-		id: 6,
-		nama: 'pariwisata',
-		deskripsi:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas massa ligula, nec bibendum metus posuere non. Nulla feugiat odio eget varius pellentesque. Nulla vel risus et nibh accumsan ornare. Aenean euismod egestas iaculis. Vestibulum vulputate est ut massa sollicitudin imperdiet. Fusce erat nunc, pretium varius tempor nec, posuere ac nibh. Aenean non facilisis justo, in egestas metus. Aliquam ligula augue, fermentum a malesuada eu, eleifend id ex. Praesent non accumsan sem. Aenean viverra quis magna eget ullamcorper. In ac felis in dui pulvinar vehicula.',
-		gambar: '/assets/test.jpg',
-	},
-];
+import { useQuery } from '@tanstack/react-query';
+import { getUnitUsaha } from '@/lib/data/unit-usaha';
 
 export default function UnitUsahaLayout({ children }: { children: React.ReactNode }) {
 	const urlPath = window.location.pathname;
-	console.log(splitPathname(urlPath).split('/')[1]);
+
+	const { data, isLoading } = useQuery({
+		queryKey: ['unit-usaha'],
+		queryFn: () => getUnitUsaha(),
+		throwOnError: true,
+	});
 
 	return (
 		<div>
@@ -93,7 +55,7 @@ export default function UnitUsahaLayout({ children }: { children: React.ReactNod
 					{/* >>> Direksi menu >>> */}
 					<div className='h-min w-full flex-none rounded-xl bg-white p-2 drop-shadow-lg md:w-[200px]'>
 						<ul className='flex w-full flex-row gap-1 space-y-1 overflow-x-auto md:block'>
-							{data.map((e, i) => (
+							{data?.data.map((e, i) => (
 								<li key={i}>
 									<Link
 										href={route('unit_usaha.show', { id: e.id, slug: _.kebabCase(e.nama.toLowerCase()) })}

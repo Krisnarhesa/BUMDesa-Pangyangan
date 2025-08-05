@@ -18,7 +18,7 @@ type PostUnitUsahaProdukReturnProps = {
 // GET produk
 export const getUnitUsahaProduk = async (unitId: number) => {
 	try {
-		const { data } = await api.get<GetUnitUsahaProdukReturnProps>(route('api.products.byUnit', { id: 1 }));
+		const { data } = await api.get<GetUnitUsahaProdukReturnProps>(route('api.products.byUnit', { id: unitId }));
 		return data;
 	} catch (error) {
 		console.log(error);
