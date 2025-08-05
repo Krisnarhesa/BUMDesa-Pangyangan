@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
-import { AddStructureSchema } from '@/lib/yup/schemas';
+import { AddStructureSchema, UpdateStructureSchema } from '@/lib/yup/schemas';
 import { Button } from '@/components/ui/button';
 import StyledInput from '@/components/input/StyledInput';
 import { Input } from '@/components/ui/input';
@@ -12,11 +12,21 @@ import { useToast } from '@/components/ui/use-toast';
 import { route } from 'ziggy-js';
 import { Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
-import { addStructure } from '@/lib/data/struktur';
+import { addStructure, updateStructure } from '@/lib/data/struktur';
 
-type Data = yup.InferType<typeof AddStructureSchema>;
+type Data = yup.InferType<typeof UpdateStructureSchema>;
 
-export default function create({ titles }: { titles: JobTitle[] }) {
+export default function edit({
+	id,
+	name,
+	titleId,
+	titles,
+}: {
+	id: number;
+	name: string;
+	titleId: number;
+	titles: JobTitle[];
+}) {
 	const { toast } = useToast();
 	const {
 		register,
@@ -27,13 +37,14 @@ export default function create({ titles }: { titles: JobTitle[] }) {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			jabatan_id: titles[0].id,
+			nama: name,
+			jabatan_id: titleId,
 		},
-		resolver: yupResolver(AddStructureSchema),
+		resolver: yupResolver(UpdateStructureSchema),
 	});
 
 	const mutation = useMutation({
-		mutationFn: (data: Data) => addStructure(data),
+		mutationFn: (data: Data) => updateStructure(id, data),
 		onSuccess: (data) => {
 			toast({
 				title: 'Success',
@@ -45,7 +56,7 @@ export default function create({ titles }: { titles: JobTitle[] }) {
 		onError: () => {
 			toast({
 				title: 'Error',
-				description: 'Database error: Gagal menambahkan struktur',
+				description: 'Database error: Gagal edit struktur',
 				duration: 5000,
 				variant: 'destructive',
 			});
@@ -62,11 +73,11 @@ export default function create({ titles }: { titles: JobTitle[] }) {
 				<div className='flex w-full items-center justify-between px-10'>
 					<div className='flex items-center gap-3'>
 						<Button size={'sm'} variant={'ghost'} asChild>
-							<Link href={route('admin.berita.index')}>
+							<Link href={route('admin.struktur.index')}>
 								<ChevronLeft />
 							</Link>
 						</Button>
-						<p className='text-lg'>Struktur baru</p>
+						<p className='text-lg'>Edit</p>
 					</div>
 				</div>
 			</header>
@@ -90,7 +101,7 @@ export default function create({ titles }: { titles: JobTitle[] }) {
 						{/* >>> Jabatan >>> */}
 						<StyledInput label='Jabatan' error={errors.jabatan_id?.message}>
 							<Select
-								defaultValue={String(titles[0].id)}
+								defaultValue={String(titleId)}
 								onValueChange={(v) => {
 									setValue('jabatan_id', Number(v));
 									trigger('jabatan_id');

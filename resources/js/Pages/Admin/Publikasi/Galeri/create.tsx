@@ -12,6 +12,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { route } from 'ziggy-js';
+import { Link } from '@inertiajs/react';
+import { ChevronLeft } from 'lucide-react';
 
 type Data = yup.InferType<typeof AddGalleryItemSchema>;
 
@@ -27,7 +29,7 @@ export default function create({ albums }: { albums: Album[] }) {
 	} = useForm({
 		defaultValues: {
 			jenis: 'foto',
-			album_id: albums[0].id,
+			album_id: albums[0]?.id ?? -1,
 		},
 		resolver: yupResolver(AddGalleryItemSchema),
 	});
@@ -57,75 +59,93 @@ export default function create({ albums }: { albums: Album[] }) {
 	};
 
 	return (
-		<section className='min-h-screen w-full px-4 sm:px-6 md:px-8 lg:pl-72'>
-			<div className='grid overflow-auto py-10'>
-				<form
-					encType='multipart/form-data'
-					onSubmit={handleSubmit(onSubmit)}
-					className='container mx-auto max-w-5xl space-y-10'
-				>
-					{/* >>> Judul >>> */}
-					<TextInput label='Judul' idProps={{ ...register('judul') }} idError={errors.judul?.message} en={false} />
-					{/* <<< Judul <<< */}
+		<>
+			<header className='sticky inset-x-0 top-0 z-[48] flex w-full flex-wrap border-b bg-white py-2.5 text-sm sm:flex-nowrap sm:justify-start sm:py-4 lg:pl-64'>
+				<div className='flex w-full items-center justify-between px-10'>
+					<div className='flex items-center gap-3'>
+						<Button size={'sm'} variant={'ghost'} asChild>
+							<Link href={route('admin.galeri.index')}>
+								<ChevronLeft />
+							</Link>
+						</Button>
+						<p className='text-lg'>Galeri baru</p>
+					</div>
+				</div>
+			</header>
+			<section className='min-h-screen w-full px-4 sm:px-6 md:px-8 lg:pl-72'>
+				<div className='grid overflow-auto py-10'>
+					<form
+						encType='multipart/form-data'
+						onSubmit={handleSubmit(onSubmit)}
+						className='container mx-auto max-w-5xl space-y-10'
+					>
+						{/* >>> Judul >>> */}
+						<TextInput label='Judul' idProps={{ ...register('judul') }} idError={errors.judul?.message} en={false} />
+						{/* <<< Judul <<< */}
 
-					{/* >>> Jenis >>> */}
-					<StyledInput label='Jenis'>
-						<RadioGroup
-							defaultValue='foto'
-							onValueChange={(v) => {
-								setValue('jenis', v);
-								trigger('jenis');
-							}}
-						>
-							<RadioGroupItem value='foto'>Foto</RadioGroupItem>
-							<RadioGroupItem value='link'>Link Youtube</RadioGroupItem>
-						</RadioGroup>
-					</StyledInput>
-					{/* <<< Jenis <<< */}
-
-					{/* >>> Upload >>> */}
-					{watch('jenis') === 'foto' ? (
-						<StyledInput label='Foto' error={errors.foto?.message}>
-							<Input type='file' accept='image/png,image/jpeg,video/mp4' {...register('foto')} className='w-auto' />
+						{/* >>> Jenis >>> */}
+						<StyledInput label='Jenis'>
+							<RadioGroup
+								defaultValue='foto'
+								onValueChange={(v) => {
+									setValue('jenis', v);
+									trigger('jenis');
+								}}
+							>
+								<RadioGroupItem value='foto'>Foto</RadioGroupItem>
+								<RadioGroupItem value='link'>Link Youtube</RadioGroupItem>
+							</RadioGroup>
 						</StyledInput>
-					) : (
-						<TextInput
-							label='Link'
-							idProps={{ ...register('link_youtube') }}
-							idError={errors.link_youtube?.message}
-							en={false}
-						/>
-					)}
-					{/* <<< Upload <<< */}
+						{/* <<< Jenis <<< */}
 
-					{/* >>> Album >>> */}
-					<StyledInput label='Album' error={errors.album_id?.message}>
-						<Select
-							defaultValue={String(albums[0].id)}
-							onValueChange={(v) => {
-								setValue('album_id', Number(v));
-								trigger('album_id');
-							}}
-						>
-							<SelectTrigger className='w-full max-w-[10rem]'>
-								<SelectValue placeholder='Pilih album' />
-							</SelectTrigger>
-							<SelectContent>
-								{albums.map((a, i) => (
-									<SelectItem key={i} value={String(a.id)}>
-										tes
-									</SelectItem>
-								))}
-							</SelectContent>
-						</Select>
-					</StyledInput>
-					{/* <<< Album <<< */}
+						{/* >>> Upload >>> */}
+						{watch('jenis') === 'foto' ? (
+							<StyledInput label='Foto' error={errors.foto?.message}>
+								<Input type='file' accept='image/png,image/jpeg,video/mp4' {...register('foto')} className='w-auto' />
+							</StyledInput>
+						) : (
+							<TextInput
+								label='Link'
+								idProps={{ ...register('link_youtube') }}
+								idError={errors.link_youtube?.message}
+								en={false}
+							/>
+						)}
+						{/* <<< Upload <<< */}
 
-					<Button className='rounded-md lg:ml-28' type='submit' isLoading={mutation.isPending}>
-						Save
-					</Button>
-				</form>
-			</div>
-		</section>
+						{/* >>> Album >>> */}
+						<StyledInput label='Album' error={errors.album_id?.message}>
+							{albums && albums.length > 0 ? (
+								<Select
+									defaultValue={String(albums[0].id)}
+									onValueChange={(v) => {
+										setValue('album_id', Number(v));
+										trigger('album_id');
+									}}
+								>
+									<SelectTrigger className='w-full max-w-[10rem]'>
+										<SelectValue placeholder='Pilih album' />
+									</SelectTrigger>
+									<SelectContent>
+										{albums.map((a, i) => (
+											<SelectItem key={i} value={String(a.id)}>
+												{a.nama}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							) : (
+								<p>Buat album terlebih dahulu</p>
+							)}
+						</StyledInput>
+						{/* <<< Album <<< */}
+
+						<Button className='rounded-md lg:ml-28' type='submit' isLoading={mutation.isPending}>
+							Save
+						</Button>
+					</form>
+				</div>
+			</section>
+		</>
 	);
 }

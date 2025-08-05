@@ -1,4 +1,3 @@
-import { menus } from '@/components/layout/public/menus';
 import { Button } from '@/components/ui/button';
 import { cn, splitPathname } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
@@ -48,7 +47,7 @@ export default function StrukturOrganisasiLayout({ children }: { children: React
 						<ul className='flex w-full flex-row gap-1 space-y-1 overflow-x-auto md:block'>
 							{['bagan', 'penasihat', 'direktur', 'pengawas', 'sekretaris', 'bendahara'].map((e, i) => (
 								<li key={i}>
-									<Link href={route(`struktur.${e}`)} className='w-full'>
+									<Link href={route('struktur.show', { jabatan: e })} className='w-full'>
 										<Button
 											className={cn(
 												'text-bumdes-dark-blue hover:bg-bumdes-dark-blue/80 w-full justify-start bg-white capitalize hover:text-white',

@@ -17,7 +17,7 @@ export const AddGalleryItemSchema = yup
 			then: (schema) => schema.required('Tidak boleh kosong'),
 			otherwise: (schema) => schema.nullable(),
 		}),
-		album_id: yup.number().positive().required('Tidak boleh kosong'),
+		album_id: yup.number().positive('Tidak boleh kosong').required('Tidak boleh kosong'),
 	})
 	.required();
 
@@ -61,5 +61,34 @@ export const AddUnitUsahaProdukSchema = yup
 			if (value instanceof FileList) return value.length > 0;
 		}),
 		unit_usaha_id: yup.number().positive().required('Tidak boleh kosong'),
+	})
+	.required();
+
+export const AddStructureSchema = yup
+	.object({
+		nama: yup.string().required('Tidak boleh kosong'),
+		foto: yup
+			.mixed()
+			.test('required', 'Tidak boleh kosong', (value) => {
+				if (value instanceof FileList) return value.length > 0;
+			})
+			.required(),
+		jabatan_id: yup.number().positive().required('Tidak boleh kosong'),
+	})
+	.required();
+
+export const UpdateStructureSchema = yup
+	.object({
+		nama: yup.string().required('Tidak boleh kosong'),
+		foto: yup
+			.mixed()
+			.test('file size', 'Ukuran file maks 2mb', (value) => {
+				if (value instanceof FileList && value.length > 0) {
+					return value[0].size < 2 * 1024 * 1024;
+				}
+				return true;
+			})
+			.nullable(),
+		jabatan_id: yup.number().positive().required('Tidak boleh kosong'),
 	})
 	.required();

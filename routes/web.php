@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminUnitUsahaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PublikasiController;
+use App\Http\Controllers\StrukturController;
 use App\Http\Controllers\UnitUsahaController;
 
 Route::get('/', [HomeController::class, 'index']);
@@ -25,6 +26,7 @@ Route::get('/publikasi/berita', [PublikasiController::class, 'beritaIndex'])->na
 Route::get('/publikasi/berita/{id}/{slug}', [PublikasiController::class, 'beritaShow'])->name('publikasi.berita.show');
 
 // Struktur organisasi
+Route::get('/struktur-organisasi/{jabatan}', [StrukturController::class, 'show'])->name('struktur.show');
 Route::get('/struktur-organisasi/bagan', [HomeController::class, 'strukturOrganisasi'])->name('struktur.bagan');
 Route::get('/struktur-organisasi/bendahara', [HomeController::class, 'bendahara'])->name('struktur.bendahara');
 Route::get('/struktur-organisasi/sekretaris', [HomeController::class, 'sekretaris'])->name('struktur.sekretaris');
@@ -65,6 +67,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
   Route::get('/unit-usaha/{id}/produk/create', [AdminProdukController::class, 'create'])->name('unit.produk.create');
 
   // Struktur organisasi
-  Route::get('/struktur-organisasi', [AdminStrukturOrganisasiController::class, 'index'])->name('struktur_organisasi.index');
-  Route::get('/struktur-organisasi/create', [AdminStrukturOrganisasiController::class, 'create'])->name('struktur_organisasi.create');
+  Route::get('/struktur-organisasi', [AdminStrukturOrganisasiController::class, 'index'])->name('struktur.index');
+  Route::get('/struktur-organisasi/create', [AdminStrukturOrganisasiController::class, 'create'])->name('struktur.create');
+  Route::get('/struktur-organisasi/{id}/edit', [AdminStrukturOrganisasiController::class, 'edit'])->name('struktur.edit');
 });
