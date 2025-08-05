@@ -1,6 +1,7 @@
 import { DataTable } from '@/components/table/DataTable';
 import { Button } from '@/components/ui/button';
 import { getUnitUsahaProduk } from '@/lib/data/unit-produk';
+import { IDRFormat } from '@/lib/utils';
 import { Link } from '@inertiajs/react';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table';
@@ -52,6 +53,7 @@ export default function index({ id }: { id: string }) {
 			{
 				accessorKey: 'harga',
 				header: 'Harga',
+				cell: ({ row }) => <span>{IDRFormat(row.original.harga)}</span>,
 			},
 			{
 				accessorKey: 'gambar',

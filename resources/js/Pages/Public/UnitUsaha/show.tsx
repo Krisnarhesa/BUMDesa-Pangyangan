@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Phone } from 'lucide-react';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { IDRFormat } from '@/lib/utils';
@@ -11,7 +11,7 @@ const ProductCard = ({ name, price, imgUrl }: { name: string; price: number; img
 		<div className='relative w-full overflow-hidden rounded-xl shadow-lg'>
 			<div className='flex h-24 flex-row'>
 				<div className='aspect-square h-full overflow-hidden'>
-					<img src={imgUrl} alt={name} className='h-full w-full object-cover' />
+					<img src={`/storage/${imgUrl}`} alt={name} className='h-full w-full object-cover' />
 				</div>
 
 				<div className='space-y-3 p-3'>
@@ -25,14 +25,16 @@ const ProductCard = ({ name, price, imgUrl }: { name: string; price: number; img
 
 export default function UnitUsahaShowPage({
 	imgUrl,
-	title,
+	name,
 	desc,
+	contact,
 	products,
 }: {
 	imgUrl: string;
-	title: string;
+	name: string;
 	desc: string;
-	products: UnitUsahaProduct[];
+	contact: string;
+	products: UnitUsahaProduk[];
 }) {
 	return (
 		<div className='space-y-8'>
@@ -42,8 +44,12 @@ export default function UnitUsahaShowPage({
 				</div>
 
 				<div className='space-y-8 text-center md:text-start'>
-					<h6 className='text-2xl leading-normal capitalize md:text-4xl lg:text-5xl'>{title}</h6>
+					<h6 className='text-2xl leading-normal capitalize md:text-4xl lg:text-5xl'>{name}</h6>
 					<p>{desc}</p>
+					<div className='inline-flex items-center justify-center gap-2'>
+						<Phone className='text-bumdes-dark-blue h-5 w-5' />
+						<p>{contact}</p>
+					</div>
 				</div>
 			</div>
 
@@ -64,7 +70,7 @@ export default function UnitUsahaShowPage({
 					>
 						{products.map((p, i) => (
 							<SwiperSlide key={i}>
-								<ProductCard name={p.nama} price={p.harga} imgUrl={p.imgUrl} />
+								<ProductCard name={p.nama} price={p.harga} imgUrl={p.gambar} />
 							</SwiperSlide>
 						))}
 					</Swiper>

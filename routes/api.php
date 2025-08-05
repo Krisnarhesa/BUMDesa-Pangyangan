@@ -23,6 +23,7 @@ use App\Http\Controllers\{
 Route::get('/', [HomeController::class, 'index'])->name('api.home');
 Route::post('/login', [AuthApiController::class, 'login'])->name('api.login');
 Route::get('/album', [AlbumApiController::class, 'index'])->name('api.album.index');
+Route::get('/unit-usaha', [UnitUsahaApiController::class, 'index'])->name('api.unit.index');
 
 // Protected Routes - Require Sanctum Auth
 Route::middleware('auth:sanctum')->group(function () {
@@ -50,7 +51,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::delete('/jabatan/delete/{id}', [JabatanApiController::class, 'destroy'])->name('api.jabatan.destroy');
 
   // Unit Usaha
-  Route::get('/unit-usaha', [UnitUsahaApiController::class, 'index'])->name('api.unit.index');
   Route::post('/unit-usaha/upload', [UnitUsahaApiController::class, 'store'])->name('api.unit.store');
   Route::post('/unit-usaha/edit/{id}', [UnitUsahaApiController::class, 'update'])->name('api.unit.update');
   Route::delete('/unit-usaha/delete/{id}', [UnitUsahaApiController::class, 'destroy'])->name('api.unit.destroy');
