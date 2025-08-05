@@ -32,7 +32,7 @@ export const menus: Array<LinkItemProps> = [
 		domain: 'Admin',
 	},
 	{
-		href: route('admin.struktur_organisasi.index'),
+		href: route('admin.struktur.index'),
 		title: 'Struktur Organisasi',
 		icon: <Users size={17} />,
 		type: 'link',

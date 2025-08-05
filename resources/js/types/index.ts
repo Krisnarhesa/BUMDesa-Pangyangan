@@ -43,3 +43,15 @@ type UnitUsahaProduk = {
 	gambar: string;
 	unit_usaha_id: number;
 };
+
+type Structure = {
+	id: number;
+	nama: string;
+	foto: string;
+	jabatan: string;
+};
+
+type JobTitle = {
+	id: number;
+	nama: string;
+};

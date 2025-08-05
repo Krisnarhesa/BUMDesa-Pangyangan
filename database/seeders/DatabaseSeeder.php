@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
       AdminUserSeeder::class,
       KategoriBeritaSeeder::class,
       BeritaSeeder::class,
-      UnitUsahaSeeder::class
+      UnitUsahaSeeder::class,
+      JabatanSeeder::class
     ]);
   }
 }
