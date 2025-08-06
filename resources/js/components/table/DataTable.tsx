@@ -102,31 +102,33 @@ export function DataTable<TValue>({
 			</div>
 			{selectables && onDelete && (
 				<div className='my-1 flex items-center gap-3'>
-					<div>
-						<span className='w-fit flex-1 px-1 text-sm text-gray-500'>
-							{table.getFilteredSelectedRowModel().rows.length} entries selected.
-						</span>
-					</div>
 					{table.getFilteredSelectedRowModel().rows.length > 0 && (
-						<div className='flex items-center gap-1'>
-							<Button
-								variant={'ghost'}
-								size={'sm'}
-								onClick={() => table.resetRowSelection()}
-								className='h-6 text-gray-600'
-							>
-								Clear selection
-							</Button>
-							<Button
-								variant={'ghost'}
-								size={'sm'}
-								onClick={onDelete}
-								className='h-6 gap-1 text-red-700 hover:bg-rose-100 hover:text-red-800'
-							>
-								<Trash size={15} />
-								<span>Delete</span>
-							</Button>
-						</div>
+						<>
+							<div>
+								<span className='w-fit flex-1 px-1 text-sm text-gray-500'>
+									{table.getFilteredSelectedRowModel().rows.length} entries selected.
+								</span>
+							</div>
+							<div className='flex items-center gap-1'>
+								<Button
+									variant={'ghost'}
+									size={'sm'}
+									onClick={() => table.resetRowSelection()}
+									className='h-6 text-gray-600'
+								>
+									Clear selection
+								</Button>
+								<Button
+									variant={'ghost'}
+									size={'sm'}
+									onClick={onDelete}
+									className='h-6 gap-1 text-red-700 hover:bg-rose-100 hover:text-red-800'
+								>
+									<Trash size={15} />
+									<span>Delete</span>
+								</Button>
+							</div>
+						</>
 					)}
 				</div>
 			)}

@@ -1,32 +1,32 @@
+import DeleteModal from '@/components/modals/DeleteModal';
 import { DataTable } from '@/components/table/DataTable';
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { getStructures } from '@/lib/data/struktur';
-import { getUnitUsaha } from '@/lib/data/unit-usaha';
+import { Checkbox } from '@/components/ui/checkbox';
+import { toast } from '@/components/ui/use-toast';
+import { deleteStructure, getStructures } from '@/lib/data/struktur';
 import { Link } from '@inertiajs/react';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { BoxIcon, Pencil, Plus } from 'lucide-react';
-import { parseAsInteger, useQueryStates } from 'nuqs';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Pencil, Plus } from 'lucide-react';
+import { parseAsInteger, parseAsString, useQueryStates } from 'nuqs';
+import { useCallback, useMemo } from 'react';
+import { useToggle } from 'react-use';
 import { route } from 'ziggy-js';
 
 export default function index() {
+	const queryClient = useQueryClient();
+	const [deleteModal, toggleDeleteModal] = useToggle(false);
 	const [queryParams, setQueryParams] = useQueryStates(
 		{
 			page: parseAsInteger.withDefault(1),
 			limit: parseAsInteger.withDefault(20),
+			q: parseAsString.withDefault(''),
 		},
 		{
 			history: 'push',
 			clearOnDefault: true,
 		}
 	);
-	const [offset, setOffset] = useState((queryParams.page - 1) * queryParams.limit);
-
-	useEffect(() => {
-		setOffset((queryParams.page - 1) * queryParams.limit);
-	}, [queryParams, setOffset]);
 
 	const { data, isLoading } = useQuery({
 		queryKey: ['structures'],
@@ -34,13 +34,77 @@ export default function index() {
 		throwOnError: true,
 	});
 
+	const filteredData = useMemo(() => {
+		if (!data?.data) return [];
+		if (!queryParams.q) return data.data;
+
+		const search = queryParams.q.toLowerCase();
+
+		return data.data.filter(
+			(item: Structure) => item.nama.toLowerCase().includes(search) || item.jabatan.toLowerCase().includes(search)
+		);
+	}, [data, queryParams.q]);
+
+	const paginatedData = useMemo(() => {
+		const offset = (queryParams.page - 1) * queryParams.limit;
+
+		return filteredData.slice(offset, offset + queryParams.limit);
+	}, [filteredData, queryParams.page, queryParams.limit]);
+
+	const mutation = useMutation({
+		mutationFn: (id: number) => deleteStructure(id),
+		onSuccess: () => {
+			table.resetRowSelection();
+			queryClient.invalidateQueries({ queryKey: ['structures'] });
+			toast({
+				title: 'Success',
+				description: 'Berhasil menghapus struktur',
+				duration: 5000,
+			});
+		},
+		onError: (error) => {
+			toast({
+				title: 'Error',
+				description: error.message,
+				duration: 5000,
+				variant: 'destructive',
+			});
+		},
+	});
+
+	const onDeleteHandler = () => {
+		toggleDeleteModal();
+		table.getFilteredSelectedRowModel().rows.forEach((item) => {
+			mutation.mutate(item.original.id);
+		});
+	};
+
 	const columns = useMemo<ColumnDef<Structure>[]>(
 		() => [
 			{
-				id: '#',
-				header: 'No',
-				cell: ({ row }) => (queryParams.page - 1) * queryParams.limit + row.index + 1,
+				id: 'select',
+				header: ({ table }) => (
+					<Checkbox
+						checked={table.getIsAllPageRowsSelected()}
+						onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+						aria-label='Select all'
+					/>
+				),
+				cell: ({ row }) => (
+					<Checkbox
+						checked={row.getIsSelected()}
+						onCheckedChange={(value) => row.toggleSelected(!!value)}
+						aria-label='Select row'
+					/>
+				),
+				enableSorting: false,
+				enableHiding: false,
 			},
+			// {
+			// 	id: '#',
+			// 	header: 'No',
+			// 	cell: ({ row }) => (queryParams.page - 1) * queryParams.limit + row.index + 1,
+			// },
 			{
 				accessorKey: 'nama',
 				header: 'Nama',
@@ -92,28 +156,26 @@ export default function index() {
 	);
 
 	const table = useReactTable({
-		data: data?.data.slice(offset, offset + queryParams.limit) ?? [],
+		data: paginatedData,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
-		// onColumnVisibilityChange: setColumnVisibility,
 		state: {
-			// columnVisibility,
-			// globalFilter: queryParams.q,
+			globalFilter: queryParams.q,
 			pagination: {
 				pageSize: queryParams.limit,
 				pageIndex: queryParams.page - 1,
 			},
 		},
 		manualPagination: true,
-		// onGlobalFilterChange: (value) => {
-		// 	if (value !== queryParams.q) {
-		// 		setQueryParams((prevState) => ({
-		// 			...prevState,
-		// 			page: 1,
-		// 			q: value,
-		// 		}));
-		// 	}
-		// },
+		onGlobalFilterChange: (value) => {
+			if (value !== queryParams.q) {
+				setQueryParams((prevState) => ({
+					...prevState,
+					page: 1,
+					q: value,
+				}));
+			}
+		},
 	});
 
 	const nextPage = useCallback(() => {
@@ -143,8 +205,8 @@ export default function index() {
 				</div>
 				<DataTable
 					table={table}
-					canNextPage={data && data.data.length > queryParams.page * queryParams.limit}
-					canPrevPage={data && queryParams.page !== 1}
+					canNextPage={filteredData && filteredData.length > queryParams.page * queryParams.limit}
+					canPrevPage={filteredData && queryParams.page !== 1}
 					nextPage={nextPage}
 					prevPage={prevPage}
 					isLoading={isLoading}
@@ -157,9 +219,16 @@ export default function index() {
 						}));
 					}}
 					selectables
-					// onDelete={toggleDeleteModal}
+					onDelete={toggleDeleteModal}
 				/>
 			</div>
+
+			<DeleteModal
+				open={deleteModal}
+				onOpenChange={toggleDeleteModal}
+				onDelete={onDeleteHandler}
+				isLoading={mutation.isPending}
+			/>
 		</section>
 	);
 }

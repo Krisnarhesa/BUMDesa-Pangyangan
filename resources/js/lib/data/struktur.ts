@@ -20,6 +20,11 @@ type UpdateStructureReturnProps = {
 	message: string;
 };
 
+type DeleteStructureReturnProps = {
+	success: boolean;
+	message: string;
+};
+
 // GET struktur
 export const getStructures = async () => {
 	try {
@@ -54,7 +59,7 @@ export const addStructure = async (data: InferType<typeof AddStructureSchema>) =
 	}
 };
 
-// UPDATE
+// UPDATE struktur
 export const updateStructure = async (id: number, data: InferType<typeof UpdateStructureSchema>) => {
 	const formData = serialize(data);
 
@@ -70,6 +75,18 @@ export const updateStructure = async (id: number, data: InferType<typeof UpdateS
 		});
 
 		return res.data;
+	} catch (error) {
+		console.log(error);
+		throw error;
+	}
+};
+
+// DELETE struktur
+export const deleteStructure = async (id: number) => {
+	try {
+		const { data } = await api.delete<DeleteStructureReturnProps>(route('api.struktur.destroy', { id: id }));
+
+		return data;
 	} catch (error) {
 		console.log(error);
 		throw error;
