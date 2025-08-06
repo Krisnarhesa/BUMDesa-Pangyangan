@@ -28,6 +28,30 @@ export const AddGalleryItemSchema = yup
 	})
 	.required();
 
+export const UpdateGalleryItemSchema = yup
+	.object({
+		judul: yup.string().required('Tidak boleh kosong'),
+		jenis: yup.mixed().oneOf(['foto', 'link']),
+		foto: yup.mixed().when('jenis', {
+			is: 'foto',
+			then: (schema) =>
+				schema.test('file size', 'Ukuran file maks 2mb', (value) => {
+					if (value instanceof FileList && value.length > 0) {
+						return value[0].size < 2 * 1024 * 1024;
+					}
+					return true;
+				}),
+			otherwise: (schema) => schema.nullable(),
+		}),
+		link_youtube: yup.string().when('jenis', {
+			is: 'link',
+			then: (schema) => schema.required('Tidak boleh kosong'),
+			otherwise: (schema) => schema.nullable(),
+		}),
+		album_id: yup.number().positive('Tidak boleh kosong').required('Tidak boleh kosong'),
+	})
+	.required();
+
 export const AddNewsSchema = yup
 	.object({
 		judul: yup.string().required('Tidak boleh kosong'),
@@ -48,6 +72,12 @@ export const AddNewsSchema = yup
 	.required();
 
 export const AddAlbumSchema = yup
+	.object({
+		nama: yup.string().required('Tidak boleh kosong'),
+	})
+	.required();
+
+export const UpdateAlbumSchema = yup
 	.object({
 		nama: yup.string().required('Tidak boleh kosong'),
 	})

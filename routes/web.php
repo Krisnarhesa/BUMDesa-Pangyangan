@@ -51,10 +51,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
   // Galeri
   Route::get('/publikasi/galeri', [AdminGaleriController::class, 'index'])->name('galeri.index');
   Route::get('/publikasi/galeri/create', [AdminGaleriController::class, 'create'])->name('galeri.create');
+  Route::get('/publikasi/galeri/{id}/edit', [AdminGaleriController::class, 'edit'])->name('galeri.edit');
 
   // Album
   Route::get('/publikasi/albums', [AdminAlbumController::class, 'index'])->name('album.index');
   Route::get('/publikasi/albums/create', [AdminAlbumController::class, 'create'])->name('album.create');
+  Route::get('/publikasi/albums/{id}/edit', [AdminAlbumController::class, 'edit'])->name('album.edit');
 
   // Berita
   Route::get('/publikasi/berita', [AdminBeritaController::class, 'index'])->name('berita.index');

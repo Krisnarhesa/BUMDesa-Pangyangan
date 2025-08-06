@@ -5,7 +5,7 @@ type Album = {
 
 type AlbumItem = {
 	id: number;
-	nama: string;
+	judul: string;
 	jenis: string;
 	foto: string;
 	link_youtube: string;
