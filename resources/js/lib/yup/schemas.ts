@@ -89,7 +89,7 @@ export const UpdateUnitUsahaSchema = yup
 export const AddUnitUsahaProdukSchema = yup
 	.object({
 		nama: yup.string().required('Tidak boleh kosong'),
-		harga: yup.number().positive().required('Tidak boleh kosong'),
+		harga: yup.number().typeError('Harus angka').positive('Harus angka').required('Tidak boleh kosong'),
 		deskripsi: yup.string().required('Tidak boleh kosong'),
 		gambar: yup
 			.mixed()
@@ -103,6 +103,20 @@ export const AddUnitUsahaProdukSchema = yup
 				return true;
 			}),
 		unit_usaha_id: yup.number().positive().required('Tidak boleh kosong'),
+	})
+	.required();
+
+export const UpdateUnitUsahaProdukSchema = yup
+	.object({
+		nama: yup.string().required('Tidak boleh kosong'),
+		harga: yup.number().typeError('Harus angka').positive('Harus angka').required('Tidak boleh kosong'),
+		deskripsi: yup.string().required('Tidak boleh kosong'),
+		gambar: yup.mixed().test('file size', 'Ukuran file maks 2mb', (value) => {
+			if (value instanceof FileList && value.length > 0) {
+				return value[0].size < 2 * 1024 * 1024;
+			}
+			return true;
+		}),
 	})
 	.required();
 

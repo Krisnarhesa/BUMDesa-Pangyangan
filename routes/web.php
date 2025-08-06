@@ -66,6 +66,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
   Route::get('/unit-usaha/{id}/edit', [AdminUnitUsahaController::class, 'edit'])->name('unit.edit');
   Route::get('/unit-usaha/{id}/produk', [AdminProdukController::class, 'index'])->name('unit.produk.index');
   Route::get('/unit-usaha/{id}/produk/create', [AdminProdukController::class, 'create'])->name('unit.produk.create');
+  Route::get('/unit-usaha/{unitId}/produk/{productId}/edit', [AdminProdukController::class, 'edit'])->name('unit.produk.edit');
 
   // Struktur organisasi
   Route::get('/struktur-organisasi', [AdminStrukturOrganisasiController::class, 'index'])->name('struktur.index');
