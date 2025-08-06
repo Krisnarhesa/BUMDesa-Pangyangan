@@ -32,7 +32,6 @@ export default function edit({
 		register,
 		handleSubmit,
 		setValue,
-		watch,
 		trigger,
 		formState: { errors },
 	} = useForm({

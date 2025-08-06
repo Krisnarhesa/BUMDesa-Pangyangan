@@ -100,11 +100,6 @@ export default function index() {
 				enableSorting: false,
 				enableHiding: false,
 			},
-			// {
-			// 	id: '#',
-			// 	header: 'No',
-			// 	cell: ({ row }) => (queryParams.page - 1) * queryParams.limit + row.index + 1,
-			// },
 			{
 				accessorKey: 'nama',
 				header: 'Nama',

@@ -7,9 +7,16 @@ export const AddGalleryItemSchema = yup
 		foto: yup.mixed().when('jenis', {
 			is: 'foto',
 			then: (schema) =>
-				schema.test('required', 'Tidak boleh kosong', (value) => {
-					if (value instanceof FileList) return value.length > 0;
-				}),
+				schema
+					.test('required', 'Tidak boleh kosong', (value) => {
+						if (value instanceof FileList) return value.length > 0;
+					})
+					.test('file size', 'Ukuran file maks 2mb', (value) => {
+						if (value instanceof FileList && value.length > 0) {
+							return value[0].size < 2 * 1024 * 1024;
+						}
+						return true;
+					}),
 			otherwise: (schema) => schema.nullable(),
 		}),
 		link_youtube: yup.string().when('jenis', {
@@ -25,9 +32,17 @@ export const AddNewsSchema = yup
 	.object({
 		judul: yup.string().required('Tidak boleh kosong'),
 		konten: yup.string().required('Tidak boleh kosong'),
-		gambar_cover: yup.mixed().test('required', 'Tidak boleh kosong', (value) => {
-			if (value instanceof FileList) return value.length > 0;
-		}),
+		gambar_cover: yup
+			.mixed()
+			.test('required', 'Tidak boleh kosong', (value) => {
+				if (value instanceof FileList) return value.length > 0;
+			})
+			.test('file size', 'Ukuran file maks 2mb', (value) => {
+				if (value instanceof FileList && value.length > 0) {
+					return value[0].size < 2 * 1024 * 1024;
+				}
+				return true;
+			}),
 		kategori_id: yup.number().positive().required('Tidak boleh kosong'),
 	})
 	.required();
@@ -48,7 +63,26 @@ export const AddUnitUsahaSchema = yup
 			.test('required', 'Tidak boleh kosong', (value) => {
 				if (value instanceof FileList) return value.length > 0;
 			})
-			.required(),
+			.test('file size', 'Ukuran file maks 2mb', (value) => {
+				if (value instanceof FileList && value.length > 0) {
+					return value[0].size < 2 * 1024 * 1024;
+				}
+				return true;
+			}),
+	})
+	.required();
+
+export const UpdateUnitUsahaSchema = yup
+	.object({
+		nama: yup.string().required('Tidak boleh kosong'),
+		deskripsi: yup.string().required('Tidak boleh kosong'),
+		kontak: yup.string().required('Tidak boleh kosong'),
+		foto: yup.mixed().test('file size', 'Ukuran file maks 2mb', (value) => {
+			if (value instanceof FileList && value.length > 0) {
+				return value[0].size < 2 * 1024 * 1024;
+			}
+			return true;
+		}),
 	})
 	.required();
 
@@ -57,9 +91,17 @@ export const AddUnitUsahaProdukSchema = yup
 		nama: yup.string().required('Tidak boleh kosong'),
 		harga: yup.number().positive().required('Tidak boleh kosong'),
 		deskripsi: yup.string().required('Tidak boleh kosong'),
-		gambar: yup.mixed().test('required', 'Tidak boleh kosong', (value) => {
-			if (value instanceof FileList) return value.length > 0;
-		}),
+		gambar: yup
+			.mixed()
+			.test('required', 'Tidak boleh kosong', (value) => {
+				if (value instanceof FileList) return value.length > 0;
+			})
+			.test('file size', 'Ukuran file maks 2mb', (value) => {
+				if (value instanceof FileList && value.length > 0) {
+					return value[0].size < 2 * 1024 * 1024;
+				}
+				return true;
+			}),
 		unit_usaha_id: yup.number().positive().required('Tidak boleh kosong'),
 	})
 	.required();
@@ -72,7 +114,12 @@ export const AddStructureSchema = yup
 			.test('required', 'Tidak boleh kosong', (value) => {
 				if (value instanceof FileList) return value.length > 0;
 			})
-			.required(),
+			.test('file size', 'Ukuran file maks 2mb', (value) => {
+				if (value instanceof FileList && value.length > 0) {
+					return value[0].size < 2 * 1024 * 1024;
+				}
+				return true;
+			}),
 		jabatan_id: yup.number().positive().required('Tidak boleh kosong'),
 	})
 	.required();
@@ -80,15 +127,12 @@ export const AddStructureSchema = yup
 export const UpdateStructureSchema = yup
 	.object({
 		nama: yup.string().required('Tidak boleh kosong'),
-		foto: yup
-			.mixed()
-			.test('file size', 'Ukuran file maks 2mb', (value) => {
-				if (value instanceof FileList && value.length > 0) {
-					return value[0].size < 2 * 1024 * 1024;
-				}
-				return true;
-			})
-			.nullable(),
+		foto: yup.mixed().test('file size', 'Ukuran file maks 2mb', (value) => {
+			if (value instanceof FileList && value.length > 0) {
+				return value[0].size < 2 * 1024 * 1024;
+			}
+			return true;
+		}),
 		jabatan_id: yup.number().positive().required('Tidak boleh kosong'),
 	})
 	.required();

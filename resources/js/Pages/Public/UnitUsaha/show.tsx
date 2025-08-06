@@ -40,7 +40,7 @@ export default function UnitUsahaShowPage({
 		<div className='space-y-8'>
 			<div className='flex flex-col items-center gap-8 md:flex-row md:items-start'>
 				<div className='border-bumdes-dark-blue aspect-square h-full max-h-[20rem] w-full max-w-[20rem] flex-none basis-1/2 overflow-hidden rounded-2xl border-6'>
-					<img src={imgUrl} alt='' className='h-full w-full object-cover' />
+					<img src={`/storage/${imgUrl}`} alt={name} className='h-full w-full object-cover' />
 				</div>
 
 				<div className='space-y-8 text-center md:text-start'>

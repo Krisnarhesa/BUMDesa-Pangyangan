@@ -3,20 +3,20 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
-import { AddUnitUsahaSchema } from '@/lib/yup/schemas';
+import { UpdateUnitUsahaSchema } from '@/lib/yup/schemas';
 import { Button } from '@/components/ui/button';
 import StyledInput from '@/components/input/StyledInput';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { route } from 'ziggy-js';
-import { addUnitUsaha } from '@/lib/data/unit-usaha';
+import { updateUnit } from '@/lib/data/unit-usaha';
 import { Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
 import { useEffect } from 'react';
 
-type Data = yup.InferType<typeof AddUnitUsahaSchema>;
+type Data = yup.InferType<typeof UpdateUnitUsahaSchema>;
 
-export default function create() {
+export default function edit({ id, name, desc, contact }: { id: number; name: string; desc: string; contact: string }) {
 	const { toast } = useToast();
 	const {
 		register,
@@ -24,7 +24,12 @@ export default function create() {
 		formState: { errors },
 		setFocus,
 	} = useForm({
-		resolver: yupResolver(AddUnitUsahaSchema),
+		defaultValues: {
+			nama: name,
+			deskripsi: desc,
+			kontak: contact,
+		},
+		resolver: yupResolver(UpdateUnitUsahaSchema),
 	});
 
 	useEffect(() => {
@@ -32,7 +37,7 @@ export default function create() {
 	}, [setFocus]);
 
 	const mutation = useMutation({
-		mutationFn: (data: Data) => addUnitUsaha(data),
+		mutationFn: (data: Data) => updateUnit(id, data),
 		onSuccess: (data) => {
 			toast({
 				title: 'Success',
@@ -44,7 +49,7 @@ export default function create() {
 		onError: () => {
 			toast({
 				title: 'Error',
-				description: 'Database error: Gagal menambahkan unit usaha',
+				description: 'Database error: Gagal edit unit usaha',
 				duration: 5000,
 				variant: 'destructive',
 			});
@@ -65,7 +70,7 @@ export default function create() {
 								<ChevronLeft />
 							</Link>
 						</Button>
-						<p className='text-lg'>Unit baru</p>
+						<p className='text-lg'>Edit</p>
 					</div>
 				</div>
 			</header>

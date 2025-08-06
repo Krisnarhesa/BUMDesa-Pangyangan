@@ -10,6 +10,7 @@ import { route } from 'ziggy-js';
 import { addAlbum } from '@/lib/data/album';
 import { ChevronLeft } from 'lucide-react';
 import { Link } from '@inertiajs/react';
+import { useEffect } from 'react';
 
 type Data = yup.InferType<typeof AddAlbumSchema>;
 
@@ -19,9 +20,14 @@ export default function create() {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setFocus,
 	} = useForm({
 		resolver: yupResolver(AddAlbumSchema),
 	});
+
+	useEffect(() => {
+		setFocus('nama');
+	}, [setFocus]);
 
 	const mutation = useMutation({
 		mutationFn: (data: Data) => addAlbum(data),
