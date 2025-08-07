@@ -61,6 +61,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
   // Berita
   Route::get('/publikasi/berita', [AdminBeritaController::class, 'index'])->name('berita.index');
   Route::get('/publikasi/berita/create', [AdminBeritaController::class, 'create'])->name('berita.create');
+  Route::get('/publikasi/berita/{id}/edit', [AdminBeritaController::class, 'edit'])->name('berita.edit');
 
   // Unit usaha
   Route::get('/unit-usaha', [AdminUnitUsahaController::class, 'index'])->name('unit.index');

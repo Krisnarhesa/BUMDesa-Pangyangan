@@ -107,5 +107,5 @@ export const splitPathname = (pathname?: string) => {
 	if (!pathname) return '';
 	const paths = pathname.split('/');
 
-	return '/' + (paths.slice(1, 3).join('/') ?? '');
+	return '/' + (paths.slice(1, 4).join('/') ?? '');
 };

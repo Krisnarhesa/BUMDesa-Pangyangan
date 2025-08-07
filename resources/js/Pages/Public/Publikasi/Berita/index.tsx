@@ -5,11 +5,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { route } from 'ziggy-js';
 import * as _ from 'lodash';
 
-const NewsCard = ({ title, desc }: { title: string; desc: string }) => {
+const NewsCard = ({ title, desc, cover }: { title: string; desc: string; cover: string }) => {
 	return (
 		<div className='flex h-24 cursor-pointer flex-row shadow transition-all ease-out hover:scale-105 md:h-auto md:flex-col md:shadow-lg'>
 			<div className='aspect-square h-full flex-none overflow-hidden md:h-40'>
-				<img src='/assets/test.jpg' alt='' className='h-full w-full object-cover object-center' />
+				<img src={`/storage/${cover}`} alt='' className='h-full w-full object-cover object-center' />
 			</div>
 			<div className='p-2 md:p-4'>
 				<h6 className='line-clamp-1 text-lg capitalize md:line-clamp-2 md:text-xl lg:text-2xl'>{title}</h6>
@@ -48,7 +48,7 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 							{berita.map((b, i) => (
 								<SwiperSlide key={i}>
 									<Link href={route('publikasi.berita.show', { id: b.id, slug: _.kebabCase(b.judul) })}>
-										<NewsCard title={b.judul} desc={b.konten} />
+										<NewsCard title={b.judul} desc={b.konten} cover={b.gambar_cover} />
 									</Link>
 								</SwiperSlide>
 							))}
@@ -68,7 +68,7 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 					{/* >>> Mobile >>> */}
 					<div className='space-y-4 md:hidden'>
 						{berita.map((b, i) => (
-							<NewsCard key={i} title={b.judul} desc={b.konten} />
+							<NewsCard key={i} title={b.judul} desc={b.konten} cover={b.gambar_cover} />
 						))}
 					</div>
 					{/* <<< Mobile <<< */}

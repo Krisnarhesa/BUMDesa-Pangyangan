@@ -71,6 +71,20 @@ export const AddNewsSchema = yup
 	})
 	.required();
 
+export const UpdateNewsSchema = yup
+	.object({
+		judul: yup.string().required('Tidak boleh kosong'),
+		konten: yup.string().required('Tidak boleh kosong'),
+		gambar_cover: yup.mixed().test('file size', 'Ukuran file maks 2mb', (value) => {
+			if (value instanceof FileList && value.length > 0) {
+				return value[0].size < 2 * 1024 * 1024;
+			}
+			return true;
+		}),
+		kategori_id: yup.number().positive().required('Tidak boleh kosong'),
+	})
+	.required();
+
 export const AddAlbumSchema = yup
 	.object({
 		nama: yup.string().required('Tidak boleh kosong'),
