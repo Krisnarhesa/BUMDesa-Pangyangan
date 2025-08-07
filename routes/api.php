@@ -16,7 +16,8 @@ use App\Http\Controllers\{
   UserApiController,
   DashboardApiController,
   ProductApiController,
-  JabatanApiController
+  JabatanApiController,
+  CarouselApiController
 };
 
 // Public Routes
@@ -106,4 +107,11 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/sosmed/edit/{id}', [SettingApiController::class, 'update'])->name('api.sosmed.update');
   Route::post('/sosmed/upload', [SettingApiController::class, 'store'])->name('api.sosmed.store');
   Route::delete('/sosmed/delete/{id}', [SettingApiController::class, 'destroy'])->name('api.sosmed.destroy');
+
+  // Carousel
+  Route::get('/carousel', [CarouselApiController::class, 'index'])->name('api.carousel.index');
+  Route::post('/carousel/upload', [CarouselApiController::class, 'store'])->name('api.carousel.store');
+  Route::get('/carousel/{id}', [CarouselApiController::class, 'show'])->name('api.carousel.show');
+  Route::post('/carousel/edit/{id}', [CarouselApiController::class, 'update'])->name('api.carousel.update');
+  Route::delete('/carousel/delete/{id}', [CarouselApiController::class, 'destroy'])->name('api.carousel.destroy');
 });
