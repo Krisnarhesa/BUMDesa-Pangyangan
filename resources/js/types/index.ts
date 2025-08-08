@@ -64,6 +64,9 @@ type Profile = {
 	misi: string;
 	slogan: string;
 	logo: string;
+	telp: string;
+	email: string;
+	alamat: string;
 };
 
 type Carousel = {

@@ -7,6 +7,8 @@ import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
+import { useQuery } from '@tanstack/react-query';
+import { getCarousels } from '@/lib/data/carousels';
 
 const UnitUsahaCard = ({ title, icon }: { title: string; icon?: React.ReactNode }) => {
 	return (
@@ -84,6 +86,12 @@ const usaha = [
 ];
 
 export default function Home() {
+	const { data } = useQuery({
+		queryKey: ['carousels'],
+		queryFn: () => getCarousels(),
+		throwOnError: true,
+	});
+
 	return (
 		<div>
 			{/* >>> Carousel >>> */}
@@ -103,11 +111,11 @@ export default function Home() {
 				}}
 				className='h-[400px] lg:h-[calc(100dvh-200px)]'
 			>
-				{Array.from({ length: 4 }).map((v, i) => (
+				{data?.data.map((v, i) => (
 					<SwiperSlide key={i} className='h-full w-full bg-amber-50'>
 						<img
-							src='/assets/test.jpg'
-							alt='tes 1'
+							src={`/storage/${v.image}`}
+							alt={`Carousel ${i}`}
 							className='mx-auto h-full w-full object-cover object-center lg:h-auto'
 						/>
 					</SwiperSlide>

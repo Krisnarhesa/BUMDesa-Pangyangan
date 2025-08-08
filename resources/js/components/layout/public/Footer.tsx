@@ -1,7 +1,17 @@
 import { Link } from '@inertiajs/react';
 import { Youtube } from 'lucide-react';
 
-export default function Footer({ logoUrl }: { logoUrl: string | undefined }) {
+export default function Footer({
+	logoUrl,
+	address,
+	phone,
+	email,
+}: {
+	logoUrl: string;
+	address: string;
+	phone: string;
+	email: string;
+}) {
 	return (
 		<div className='mx-auto mt-32 space-y-3 px-4'>
 			<div className='justify-betwee flex flex-col gap-4 md:flex-row'>
@@ -16,12 +26,9 @@ export default function Footer({ logoUrl }: { logoUrl: string | undefined }) {
 						<Link href='#'>Publikasi</Link>
 					</div>
 					<div className='w-full text-center md:text-left'>
-						<p className='break-normal'>
-							Jl. Denpasar Gilimanuk, Banjar Swastika, Desa Pangyangan, Kecamatan Pekutatan, Kabupaten Jembrana,
-							Provinsi Bali.
-						</p>
-						<p className='mt-4'>Telp: 087727818845</p>
-						<p>Email: dwibuanaamerta@gmail.com</p>
+						<p className='break-normal'>{address}</p>
+						<p className='mt-4'>Telp: {phone}</p>
+						<p>Email: {email}</p>
 					</div>
 				</div>
 			</div>

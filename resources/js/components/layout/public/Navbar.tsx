@@ -7,7 +7,7 @@ import { ChevronDown } from 'lucide-react';
 import { route } from 'ziggy-js';
 import { Content, HoverLink, Trigger } from '@/components/ui/hover-link';
 
-export default function Navbar({ logoUrl }: { logoUrl: string | undefined }) {
+export default function Navbar({ logoUrl }: { logoUrl: string }) {
 	const urlPath = window.location.pathname;
 
 	return (
