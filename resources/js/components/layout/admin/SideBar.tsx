@@ -1,7 +1,6 @@
 import { Sheet, SheetContent, SheetTrigger } from '../../ui/sheet';
-import { cn, splitPathname } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../../ui/accordion';
-import { useEffect } from 'react';
 import { Link } from '@inertiajs/react';
 import { menus } from './menus';
 import { route } from 'ziggy-js';
@@ -40,13 +39,7 @@ export default function SideBar() {
 										href='/dashboard'
 										aria-label='Brand'
 									>
-										<img
-											src='https://picsum.photos/100'
-											alt='Pertamina Pertagas Niaga logo'
-											width={100}
-											height={100}
-											className='w-32'
-										/>
+										<img src='/assets/logo-bumdes.png' alt='Pertamina Pertagas Niaga logo' className='w-16' />
 									</Link>
 								</div>
 
@@ -59,7 +52,8 @@ export default function SideBar() {
 														<Link
 															className={cn(
 																'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm text-slate-700 hover:bg-gray-100',
-																urlPath === item.href || (urlPath.startsWith(item.href) && item.href !== '/dashboard')
+																urlPath.includes(item.domain) ||
+																	(urlPath.startsWith(item.href) && item.href !== '/dashboard')
 																	? 'bg-gray-100'
 																	: ''
 															)}
@@ -77,7 +71,8 @@ export default function SideBar() {
 															<AccordionTrigger
 																className={cn(
 																	'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm font-normal text-slate-700 hover:bg-gray-100 hover:no-underline',
-																	urlPath === item.href || (urlPath.startsWith(item.href) && item.href !== '/dashboard')
+																	urlPath.includes(item.domain) ||
+																		(urlPath.startsWith(item.href) && item.href !== '/dashboard')
 																		? 'bg-gray-100'
 																		: ''
 																)}
@@ -94,7 +89,7 @@ export default function SideBar() {
 																			<Link
 																				className={cn(
 																					'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm text-slate-700 hover:bg-gray-100',
-																					urlPath.startsWith(e.href) && 'bg-gray-100'
+																					urlPath === '/' + e.href.split('/').slice(3).join('/') && 'bg-gray-100'
 																				)}
 																				href={e.href}
 																			>
@@ -118,7 +113,7 @@ export default function SideBar() {
 
 					<ol className='ml-3 flex min-w-0 items-center whitespace-nowrap' aria-label='Breadcrumb'>
 						<li className='flex items-center text-sm text-gray-800'>
-							Pertamina
+							BUMDes
 							<svg
 								className='mx-3 h-2.5 w-2.5 flex-shrink-0 overflow-visible text-gray-400'
 								width='16'
@@ -136,7 +131,7 @@ export default function SideBar() {
 							</svg>
 						</li>
 						<li className='truncate text-sm font-semibold text-gray-800' aria-current='page'>
-							{menus.find((item) => splitPathname(urlPath) === item.href)?.title}
+							{menus.find((item) => urlPath.includes(item.domain))?.title}
 						</li>
 					</ol>
 				</div>
@@ -167,7 +162,7 @@ export default function SideBar() {
 										<Link
 											className={cn(
 												'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm text-slate-700 hover:bg-gray-100',
-												urlPath === item.href || (urlPath.startsWith(item.href) && item.href !== '/dashboard')
+												urlPath.includes(item.domain) || (urlPath.startsWith(item.href) && item.href !== '/dashboard')
 													? 'bg-gray-100'
 													: ''
 											)}
@@ -185,7 +180,7 @@ export default function SideBar() {
 											<AccordionTrigger
 												className={cn(
 													'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm font-normal text-slate-700 hover:bg-gray-100 hover:no-underline',
-													urlPath === item.href || (urlPath.startsWith(item.href) && item.href !== '/dashboard')
+													urlPath.includes(item.domain) || (urlPath.startsWith(item.href) && item.href !== '/dashboard')
 														? 'bg-gray-100'
 														: ''
 												)}
@@ -202,7 +197,7 @@ export default function SideBar() {
 															<Link
 																className={cn(
 																	'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm text-slate-700 hover:bg-gray-100',
-																	urlPath.startsWith(e.href) && 'bg-gray-100'
+																	urlPath === '/' + e.href.split('/').slice(3).join('/') && 'bg-gray-100'
 																)}
 																href={e.href}
 															>

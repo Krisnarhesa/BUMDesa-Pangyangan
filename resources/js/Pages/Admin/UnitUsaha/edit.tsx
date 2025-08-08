@@ -3,20 +3,20 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
-import { AddUnitUsahaProdukSchema } from '@/lib/yup/schemas';
+import { UpdateUnitUsahaSchema } from '@/lib/yup/schemas';
 import { Button } from '@/components/ui/button';
 import StyledInput from '@/components/input/StyledInput';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { route } from 'ziggy-js';
-import { addUnitUsahaProduk } from '@/lib/data/unit-produk';
-import { ChevronLeft } from 'lucide-react';
+import { updateUnit } from '@/lib/data/unit-usaha';
 import { Link } from '@inertiajs/react';
+import { ChevronLeft } from 'lucide-react';
 import { useEffect } from 'react';
 
-type Data = yup.InferType<typeof AddUnitUsahaProdukSchema>;
+type Data = yup.InferType<typeof UpdateUnitUsahaSchema>;
 
-export default function create({ id }: { id: string }) {
+export default function edit({ id, name, desc, contact }: { id: number; name: string; desc: string; contact: string }) {
 	const { toast } = useToast();
 	const {
 		register,
@@ -25,9 +25,11 @@ export default function create({ id }: { id: string }) {
 		setFocus,
 	} = useForm({
 		defaultValues: {
-			unit_usaha_id: Number(id),
+			nama: name,
+			deskripsi: desc,
+			kontak: contact,
 		},
-		resolver: yupResolver(AddUnitUsahaProdukSchema),
+		resolver: yupResolver(UpdateUnitUsahaSchema),
 	});
 
 	useEffect(() => {
@@ -35,19 +37,19 @@ export default function create({ id }: { id: string }) {
 	}, [setFocus]);
 
 	const mutation = useMutation({
-		mutationFn: (data: Data) => addUnitUsahaProduk(data),
+		mutationFn: (data: Data) => updateUnit(id, data),
 		onSuccess: (data) => {
 			toast({
 				title: 'Success',
 				description: data.message,
 				duration: 5000,
 			});
-			window.location.replace(route('admin.unit.produk.index', { id: id }));
+			window.location.replace(route('admin.unit.index'));
 		},
 		onError: () => {
 			toast({
 				title: 'Error',
-				description: 'Database error: Gagal menambahkan produk',
+				description: 'Database error: Gagal edit unit usaha',
 				duration: 5000,
 				variant: 'destructive',
 			});
@@ -64,11 +66,11 @@ export default function create({ id }: { id: string }) {
 				<div className='flex w-full items-center justify-between px-10'>
 					<div className='flex items-center gap-3'>
 						<Button size={'sm'} variant={'ghost'} asChild>
-							<Link href={route('admin.unit.produk.index', { id: id })}>
+							<Link href={route('admin.unit.index')}>
 								<ChevronLeft />
 							</Link>
 						</Button>
-						<p className='text-lg'>Produk baru</p>
+						<p className='text-lg'>Edit</p>
 					</div>
 				</div>
 			</header>
@@ -83,25 +85,6 @@ export default function create({ id }: { id: string }) {
 						<TextInput label='Nama' idProps={{ ...register('nama') }} idError={errors.nama?.message} en={false} />
 						{/* <<< Nama <<< */}
 
-						{/* >>> Harga >>> */}
-						<TextInput
-							label='Harga'
-							idProps={{
-								...register('harga'),
-								type: 'tel',
-								inputMode: 'numeric',
-								pattern: '[0-9]*',
-								autoComplete: 'off',
-								onInput: (e) => {
-									const target = e.target as HTMLInputElement;
-									target.value = target.value.replace(/[^0-9]/g, '');
-								},
-							}}
-							idError={errors.harga?.message}
-							en={false}
-						/>
-						{/* <<< Harga <<< */}
-
 						{/* >>> Deskripsi >>> */}
 						<TextInput
 							label='Deskripsi'
@@ -112,13 +95,30 @@ export default function create({ id }: { id: string }) {
 						/>
 						{/* <<< Deskripsi <<< */}
 
-						{/* >>> Gambar >>> */}
-						<StyledInput label='Gambar' error={errors.gambar?.message}>
-							<Input type='file' accept='image/png,image/jpeg' {...register('gambar')} className='w-auto' />
-						</StyledInput>
-						{/* <<< Gambar <<< */}
+						{/* >>> Kontak >>> */}
+						<TextInput
+							label='Kontak'
+							idProps={{
+								...register('kontak'),
+								type: 'tel',
+								inputMode: 'numeric',
+								pattern: '[0-9]*',
+								autoComplete: 'off',
+								onInput: (e) => {
+									const target = e.target as HTMLInputElement;
+									target.value = target.value.replace(/[^0-9]/g, '');
+								},
+							}}
+							idError={errors.kontak?.message}
+							en={false}
+						/>
+						{/* <<< Kontak <<< */}
 
-						<input type='hidden' {...register('unit_usaha_id')} />
+						{/* >>> Foto >>> */}
+						<StyledInput label='Foto' error={errors.foto?.message}>
+							<Input type='file' accept='image/png,image/jpeg' {...register('foto')} className='w-auto' />
+						</StyledInput>
+						{/* <<< Foto <<< */}
 
 						<Button className='rounded-md lg:ml-28' type='submit' isLoading={mutation.isPending}>
 							Save

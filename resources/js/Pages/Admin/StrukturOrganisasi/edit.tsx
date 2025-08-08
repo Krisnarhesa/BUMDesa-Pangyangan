@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
-import { AddStructureSchema, UpdateStructureSchema } from '@/lib/yup/schemas';
+import { UpdateStructureSchema } from '@/lib/yup/schemas';
 import { Button } from '@/components/ui/button';
 import StyledInput from '@/components/input/StyledInput';
 import { Input } from '@/components/ui/input';
@@ -12,7 +12,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { route } from 'ziggy-js';
 import { Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
-import { addStructure, updateStructure } from '@/lib/data/struktur';
+import { updateStructure } from '@/lib/data/struktur';
 
 type Data = yup.InferType<typeof UpdateStructureSchema>;
 
@@ -32,7 +32,6 @@ export default function edit({
 		register,
 		handleSubmit,
 		setValue,
-		watch,
 		trigger,
 		formState: { errors },
 	} = useForm({

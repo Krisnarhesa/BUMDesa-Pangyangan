@@ -3,18 +3,18 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
-import { AddAlbumSchema } from '@/lib/yup/schemas';
+import { UpdateAlbumSchema } from '@/lib/yup/schemas';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { route } from 'ziggy-js';
-import { addAlbum } from '@/lib/data/album';
+import { updateAlbum } from '@/lib/data/album';
 import { ChevronLeft } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import { useEffect } from 'react';
 
-type Data = yup.InferType<typeof AddAlbumSchema>;
+type Data = yup.InferType<typeof UpdateAlbumSchema>;
 
-export default function create() {
+export default function edit({ id, name }: { id: number; name: string }) {
 	const { toast } = useToast();
 	const {
 		register,
@@ -22,7 +22,10 @@ export default function create() {
 		formState: { errors },
 		setFocus,
 	} = useForm({
-		resolver: yupResolver(AddAlbumSchema),
+		defaultValues: {
+			nama: name,
+		},
+		resolver: yupResolver(UpdateAlbumSchema),
 	});
 
 	useEffect(() => {
@@ -30,11 +33,11 @@ export default function create() {
 	}, [setFocus]);
 
 	const mutation = useMutation({
-		mutationFn: (data: Data) => addAlbum(data),
+		mutationFn: (data: Data) => updateAlbum(id, data),
 		onSuccess: (data) => {
 			toast({
 				title: 'Success',
-				description: data.message,
+				description: 'Berhasil edit album',
 				duration: 5000,
 			});
 			window.location.replace(route('admin.album.index'));
@@ -42,7 +45,7 @@ export default function create() {
 		onError: () => {
 			toast({
 				title: 'Error',
-				description: 'Database error: Gagal menambahkan album',
+				description: 'Database error: Gagal edit album',
 				duration: 5000,
 				variant: 'destructive',
 			});

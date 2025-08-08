@@ -12,6 +12,7 @@ import { route } from 'ziggy-js';
 import { addUnitUsaha } from '@/lib/data/unit-usaha';
 import { Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
+import { useEffect } from 'react';
 
 type Data = yup.InferType<typeof AddUnitUsahaSchema>;
 
@@ -21,9 +22,14 @@ export default function create() {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setFocus,
 	} = useForm({
 		resolver: yupResolver(AddUnitUsahaSchema),
 	});
+
+	useEffect(() => {
+		setFocus('nama');
+	}, [setFocus]);
 
 	const mutation = useMutation({
 		mutationFn: (data: Data) => addUnitUsaha(data),

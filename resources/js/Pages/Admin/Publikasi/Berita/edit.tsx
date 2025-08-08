@@ -3,20 +3,32 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
-import { AddNewsSchema } from '@/lib/yup/schemas';
+import { UpdateNewsSchema } from '@/lib/yup/schemas';
 import { Button } from '@/components/ui/button';
 import StyledInput from '@/components/input/StyledInput';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { route } from 'ziggy-js';
-import { addNews } from '@/lib/data/news';
+import { updateNews } from '@/lib/data/news';
 import { Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
 
-type Data = yup.InferType<typeof AddNewsSchema>;
+type Data = yup.InferType<typeof UpdateNewsSchema>;
 
-export default function create({ categories }: { categories: NewsCategory[] }) {
+export default function edit({
+	categories,
+	newsId,
+	title,
+	content,
+	categoryId,
+}: {
+	categories: NewsCategory[];
+	newsId: number;
+	title: string;
+	content: string;
+	categoryId: number;
+}) {
 	const { toast } = useToast();
 	const {
 		register,
@@ -26,17 +38,19 @@ export default function create({ categories }: { categories: NewsCategory[] }) {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			kategori_id: categories[0].id,
+			judul: title,
+			konten: content,
+			kategori_id: categoryId,
 		},
-		resolver: yupResolver(AddNewsSchema),
+		resolver: yupResolver(UpdateNewsSchema),
 	});
 
 	const mutation = useMutation({
-		mutationFn: (data: Data) => addNews(data),
+		mutationFn: (data: Data) => updateNews(newsId, data),
 		onSuccess: (data) => {
 			toast({
 				title: 'Success',
-				description: data.message,
+				description: 'Berhasil edit berita',
 				duration: 5000,
 			});
 			window.location.replace(route('admin.berita.index'));
@@ -44,7 +58,7 @@ export default function create({ categories }: { categories: NewsCategory[] }) {
 		onError: () => {
 			toast({
 				title: 'Error',
-				description: 'Database error: Gagal menambahkan berita',
+				description: 'Database error: Gagal edit berita',
 				duration: 5000,
 				variant: 'destructive',
 			});
@@ -65,7 +79,7 @@ export default function create({ categories }: { categories: NewsCategory[] }) {
 								<ChevronLeft />
 							</Link>
 						</Button>
-						<p className='text-lg'>Berita baru</p>
+						<p className='text-lg'>Edit</p>
 					</div>
 				</div>
 			</header>
@@ -99,7 +113,7 @@ export default function create({ categories }: { categories: NewsCategory[] }) {
 						{/* >>> Kategori >>> */}
 						<StyledInput label='Kategori' error={errors.kategori_id?.message}>
 							<Select
-								defaultValue={String(categories[0].id)}
+								defaultValue={String(categoryId)}
 								onValueChange={(v) => {
 									setValue('kategori_id', Number(v));
 									trigger('kategori_id');

@@ -1,4 +1,4 @@
-import { Camera, Grid2X2, Handshake, LayoutDashboard, Users } from 'lucide-react';
+import { Camera, Grid2X2, Handshake, LayoutDashboard, UserPen, Users } from 'lucide-react';
 import { route } from 'ziggy-js';
 
 type LinkItemProps = {
@@ -29,28 +29,35 @@ export const menus: Array<LinkItemProps> = [
 		title: 'Dashboard',
 		icon: <LayoutDashboard size={17} />,
 		type: 'link',
-		domain: 'Admin',
+		domain: 'dashboard',
+	},
+	{
+		href: route('admin.profil.index'),
+		title: 'Profil',
+		icon: <UserPen size={17} />,
+		type: 'link',
+		domain: 'profil',
 	},
 	{
 		href: route('admin.struktur.index'),
 		title: 'Struktur Organisasi',
 		icon: <Users size={17} />,
 		type: 'link',
-		domain: 'Admin',
+		domain: 'struktur-organisasi',
 	},
 	{
 		href: route('admin.unit.index'),
 		title: 'Unit Usaha',
 		icon: <Handshake size={17} />,
 		type: 'link',
-		domain: 'Admin',
+		domain: 'unit-usaha',
 	},
 	{
-		href: '/publikasi',
+		href: '/admin/publikasi',
 		title: 'Publikasi',
 		icon: <Camera size={17} />,
 		type: 'dropdown',
-		domain: 'Admin',
+		domain: 'publikasi',
 		child: [
 			{
 				title: 'Album',

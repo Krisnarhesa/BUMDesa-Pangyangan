@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminBeritaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminGaleriController;
 use App\Http\Controllers\AdminProdukController;
+use App\Http\Controllers\AdminProfilController;
 use App\Http\Controllers\AdminStrukturOrganisasiController;
 use App\Http\Controllers\AdminUnitUsahaController;
 use Illuminate\Support\Facades\Route;
@@ -51,23 +52,32 @@ Route::prefix('admin')->name('admin.')->group(function () {
   // Galeri
   Route::get('/publikasi/galeri', [AdminGaleriController::class, 'index'])->name('galeri.index');
   Route::get('/publikasi/galeri/create', [AdminGaleriController::class, 'create'])->name('galeri.create');
+  Route::get('/publikasi/galeri/{id}/edit', [AdminGaleriController::class, 'edit'])->name('galeri.edit');
 
   // Album
   Route::get('/publikasi/albums', [AdminAlbumController::class, 'index'])->name('album.index');
   Route::get('/publikasi/albums/create', [AdminAlbumController::class, 'create'])->name('album.create');
+  Route::get('/publikasi/albums/{id}/edit', [AdminAlbumController::class, 'edit'])->name('album.edit');
 
   // Berita
   Route::get('/publikasi/berita', [AdminBeritaController::class, 'index'])->name('berita.index');
   Route::get('/publikasi/berita/create', [AdminBeritaController::class, 'create'])->name('berita.create');
+  Route::get('/publikasi/berita/{id}/edit', [AdminBeritaController::class, 'edit'])->name('berita.edit');
 
   // Unit usaha
   Route::get('/unit-usaha', [AdminUnitUsahaController::class, 'index'])->name('unit.index');
   Route::get('/unit-usaha/create', [AdminUnitUsahaController::class, 'create'])->name('unit.create');
+  Route::get('/unit-usaha/{id}/edit', [AdminUnitUsahaController::class, 'edit'])->name('unit.edit');
   Route::get('/unit-usaha/{id}/produk', [AdminProdukController::class, 'index'])->name('unit.produk.index');
   Route::get('/unit-usaha/{id}/produk/create', [AdminProdukController::class, 'create'])->name('unit.produk.create');
+  Route::get('/unit-usaha/{unitId}/produk/{productId}/edit', [AdminProdukController::class, 'edit'])->name('unit.produk.edit');
 
   // Struktur organisasi
   Route::get('/struktur-organisasi', [AdminStrukturOrganisasiController::class, 'index'])->name('struktur.index');
   Route::get('/struktur-organisasi/create', [AdminStrukturOrganisasiController::class, 'create'])->name('struktur.create');
   Route::get('/struktur-organisasi/{id}/edit', [AdminStrukturOrganisasiController::class, 'edit'])->name('struktur.edit');
+
+  // Profil
+  Route::get('/profil', [AdminProfilController::class, 'index'])->name('profil.index');
+  Route::get('/profil/{id}/edit', [AdminProfilController::class, 'edit'])->name('profil.edit');
 });

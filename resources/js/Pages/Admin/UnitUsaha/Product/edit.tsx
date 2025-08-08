@@ -3,20 +3,32 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
-import { AddUnitUsahaProdukSchema } from '@/lib/yup/schemas';
+import { UpdateUnitUsahaProdukSchema } from '@/lib/yup/schemas';
 import { Button } from '@/components/ui/button';
 import StyledInput from '@/components/input/StyledInput';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { route } from 'ziggy-js';
-import { addUnitUsahaProduk } from '@/lib/data/unit-produk';
+import { updateUnitUsahaProduk } from '@/lib/data/unit-produk';
 import { ChevronLeft } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import { useEffect } from 'react';
 
-type Data = yup.InferType<typeof AddUnitUsahaProdukSchema>;
+type Data = yup.InferType<typeof UpdateUnitUsahaProdukSchema>;
 
-export default function create({ id }: { id: string }) {
+export default function edit({
+	name,
+	price,
+	desc,
+	unitId,
+	productId,
+}: {
+	name: string;
+	price: number;
+	desc: string;
+	unitId: number;
+	productId: number;
+}) {
 	const { toast } = useToast();
 	const {
 		register,
@@ -25,9 +37,11 @@ export default function create({ id }: { id: string }) {
 		setFocus,
 	} = useForm({
 		defaultValues: {
-			unit_usaha_id: Number(id),
+			nama: name,
+			harga: price,
+			deskripsi: desc,
 		},
-		resolver: yupResolver(AddUnitUsahaProdukSchema),
+		resolver: yupResolver(UpdateUnitUsahaProdukSchema),
 	});
 
 	useEffect(() => {
@@ -35,14 +49,14 @@ export default function create({ id }: { id: string }) {
 	}, [setFocus]);
 
 	const mutation = useMutation({
-		mutationFn: (data: Data) => addUnitUsahaProduk(data),
-		onSuccess: (data) => {
+		mutationFn: (data: Data) => updateUnitUsahaProduk(productId, data),
+		onSuccess: () => {
 			toast({
 				title: 'Success',
-				description: data.message,
+				description: 'Berhasil edit produk',
 				duration: 5000,
 			});
-			window.location.replace(route('admin.unit.produk.index', { id: id }));
+			window.location.replace(route('admin.unit.produk.index', { id: unitId }));
 		},
 		onError: () => {
 			toast({
@@ -64,11 +78,11 @@ export default function create({ id }: { id: string }) {
 				<div className='flex w-full items-center justify-between px-10'>
 					<div className='flex items-center gap-3'>
 						<Button size={'sm'} variant={'ghost'} asChild>
-							<Link href={route('admin.unit.produk.index', { id: id })}>
+							<Link href={route('admin.unit.produk.index', { id: unitId })}>
 								<ChevronLeft />
 							</Link>
 						</Button>
-						<p className='text-lg'>Produk baru</p>
+						<p className='text-lg'>Edit</p>
 					</div>
 				</div>
 			</header>
@@ -117,8 +131,6 @@ export default function create({ id }: { id: string }) {
 							<Input type='file' accept='image/png,image/jpeg' {...register('gambar')} className='w-auto' />
 						</StyledInput>
 						{/* <<< Gambar <<< */}
-
-						<input type='hidden' {...register('unit_usaha_id')} />
 
 						<Button className='rounded-md lg:ml-28' type='submit' isLoading={mutation.isPending}>
 							Save
