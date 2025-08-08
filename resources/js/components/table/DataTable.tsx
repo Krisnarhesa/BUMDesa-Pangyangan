@@ -34,6 +34,7 @@ interface DataTableProps<TValue> {
 	onPageChange?: (newPage: number) => void;
 	pageRange?: number;
 	onPageLimitChange?: (newPage: number) => void;
+	showPageLimit?: boolean;
 }
 
 export function DataTable<TValue>({
@@ -53,6 +54,7 @@ export function DataTable<TValue>({
 	onPageChange,
 	pageRange,
 	onPageLimitChange,
+	showPageLimit = true,
 }: DataTableProps<TValue>) {
 	return (
 		<div className='w-full overflow-auto'>
@@ -182,24 +184,26 @@ export function DataTable<TValue>({
 			</div>
 
 			<div className='flex flex-wrap items-center justify-end gap-3'>
-				<Select
-					onValueChange={(e) => {
-						table.setPageSize(Number(e));
-						onPageLimitChange && onPageLimitChange(Number(e));
-					}}
-					value={table.getState().pagination.pageSize.toString()}
-				>
-					<SelectTrigger className='w-[7rem]'>
-						<SelectValue placeholder='Theme' />
-					</SelectTrigger>
-					<SelectContent>
-						{[5, 10, 20, 30].map((pageSize) => (
-							<SelectItem key={pageSize} value={pageSize.toString()}>
-								Show {pageSize}
-							</SelectItem>
-						))}
-					</SelectContent>
-				</Select>
+				{showPageLimit && (
+					<Select
+						onValueChange={(e) => {
+							table.setPageSize(Number(e));
+							onPageLimitChange && onPageLimitChange(Number(e));
+						}}
+						value={table.getState().pagination.pageSize.toString()}
+					>
+						<SelectTrigger className='w-[7rem]'>
+							<SelectValue placeholder='Theme' />
+						</SelectTrigger>
+						<SelectContent>
+							{[5, 10, 20, 30].map((pageSize) => (
+								<SelectItem key={pageSize} value={pageSize.toString()}>
+									Show {pageSize}
+								</SelectItem>
+							))}
+						</SelectContent>
+					</Select>
+				)}
 
 				{is_number_pagination ? (
 					<div className='flex justify-end py-4'>

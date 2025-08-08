@@ -15,7 +15,8 @@ return new class extends Migration
       $table->id();
       $table->string('nama_bumdes');
       $table->text('deskripsi');
-      $table->text('visi_misi');
+      $table->text('visi');
+      $table->text('misi');
       $table->string('slogan');
       $table->string('logo')->nullable();
       $table->string('foto_profil')->nullable();

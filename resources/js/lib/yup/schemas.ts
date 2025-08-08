@@ -194,3 +194,25 @@ export const UpdateStructureSchema = yup
 		jabatan_id: yup.number().positive().required('Tidak boleh kosong'),
 	})
 	.required();
+
+export const UpdateProfileSchema = yup
+	.object({
+		nama_bumdes: yup.string().required('Tidak boleh kosong'),
+		deskripsi: yup.string().required('Tidak boleh kosong'),
+		visi: yup.string().required('Tidak boleh kosong'),
+		misi: yup.string().required('Tidak boleh kosong'),
+		slogan: yup.string().required('Tidak boleh kosong'),
+		logo: yup.mixed().test('file size', 'Ukuran file maks 2mb', (value) => {
+			if (value instanceof FileList && value.length > 0) {
+				return value[0].size < 2 * 1024 * 1024;
+			}
+			return true;
+		}),
+		foto_profil: yup.mixed().test('file size', 'Ukuran file maks 2mb', (value) => {
+			if (value instanceof FileList && value.length > 0) {
+				return value[0].size < 2 * 1024 * 1024;
+			}
+			return true;
+		}),
+	})
+	.required();

@@ -55,3 +55,13 @@ type JobTitle = {
 	id: number;
 	nama: string;
 };
+
+type Profile = {
+	id: number;
+	nama_bumdes: string;
+	deskripsi: string;
+	visi: string;
+	misi: string;
+	slogan: string;
+	logo: string;
+};

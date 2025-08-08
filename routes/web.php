@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminBeritaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminGaleriController;
 use App\Http\Controllers\AdminProdukController;
+use App\Http\Controllers\AdminProfilController;
 use App\Http\Controllers\AdminStrukturOrganisasiController;
 use App\Http\Controllers\AdminUnitUsahaController;
 use Illuminate\Support\Facades\Route;
@@ -75,4 +76,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
   Route::get('/struktur-organisasi', [AdminStrukturOrganisasiController::class, 'index'])->name('struktur.index');
   Route::get('/struktur-organisasi/create', [AdminStrukturOrganisasiController::class, 'create'])->name('struktur.create');
   Route::get('/struktur-organisasi/{id}/edit', [AdminStrukturOrganisasiController::class, 'edit'])->name('struktur.edit');
+
+  // Profil
+  Route::get('/profil', [AdminProfilController::class, 'index'])->name('profil.index');
+  Route::get('/profil/{id}/edit', [AdminProfilController::class, 'edit'])->name('profil.edit');
 });
