@@ -7,7 +7,7 @@ import { ChevronDown } from 'lucide-react';
 import { route } from 'ziggy-js';
 import { Content, HoverLink, Trigger } from '@/components/ui/hover-link';
 
-export default function Navbar() {
+export default function Navbar({ logoUrl }: { logoUrl: string | undefined }) {
 	const urlPath = window.location.pathname;
 
 	return (
@@ -15,7 +15,7 @@ export default function Navbar() {
 			{/* >>> Desktop navbar >>> */}
 			<nav className='fixed top-0 right-0 left-0 z-10 hidden flex-row items-center justify-between bg-white px-6 py-3 lg:flex'>
 				<Link href='/'>
-					<img src='/assets/logo-bumdes.png' alt='BUMDes logo' className='h-12 w-12' />
+					<img src={`/storage/${logoUrl}`} alt='BUMDes logo' className='h-12 w-12' />
 				</Link>
 				<ul className='flex items-center justify-center gap-4'>
 					<li>
@@ -66,7 +66,7 @@ export default function Navbar() {
 							<div id='application-sidebar'>
 								<div className='px-6'>
 									<Link href='/' aria-label='Brand'>
-										<img src='/assets/logo-bumdes.png' alt='BUMDes logo' className='mx-auto h-12 w-12' />
+										<img src={`/storage/${logoUrl}`} alt='BUMDes logo' className='mx-auto h-12 w-12' />
 									</Link>
 								</div>
 

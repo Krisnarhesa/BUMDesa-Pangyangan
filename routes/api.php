@@ -25,6 +25,7 @@ Route::get('/', [HomeController::class, 'index'])->name('api.home');
 Route::post('/login', [AuthApiController::class, 'login'])->name('api.login');
 Route::get('/album', [AlbumApiController::class, 'index'])->name('api.album.index');
 Route::get('/unit-usaha', [UnitUsahaApiController::class, 'index'])->name('api.unit.index');
+Route::get('/profil', [ProfilApiController::class, 'index'])->name('api.profil.index');
 
 // Protected Routes - Require Sanctum Auth
 Route::middleware('auth:sanctum')->group(function () {
@@ -33,8 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/dashboard', [DashboardApiController::class, 'index'])->name('api.dashboard');
 
   // Profil
-  Route::get('/profil', [ProfilApiController::class, 'edit'])->name('api.profil.edit');
-  Route::get('/profil', [ProfilApiController::class, 'index'])->name('api.profil.index');
   Route::post('/profil/edit/{id}', [ProfilApiController::class, 'update'])->name('api.profil.update');
   Route::post('/profil/upload', [ProfilApiController::class, 'store'])->name('api.profil.store');
   Route::delete('/profil/delete/{id}', [ProfilApiController::class, 'destroy'])->name('api.profil.destroy');

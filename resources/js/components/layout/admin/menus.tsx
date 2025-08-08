@@ -1,4 +1,4 @@
-import { Camera, Grid2X2, Handshake, LayoutDashboard, UserPen, Users } from 'lucide-react';
+import { Camera, Grid2X2, Handshake, LayoutDashboard, Sliders, UserPen, Users } from 'lucide-react';
 import { route } from 'ziggy-js';
 
 type LinkItemProps = {
@@ -37,6 +37,13 @@ export const menus: Array<LinkItemProps> = [
 		icon: <UserPen size={17} />,
 		type: 'link',
 		domain: 'profil',
+	},
+	{
+		href: route('admin.carousels.index'),
+		title: 'Carousel',
+		icon: <Sliders size={17} />,
+		type: 'link',
+		domain: 'carousels',
 	},
 	{
 		href: route('admin.struktur.index'),

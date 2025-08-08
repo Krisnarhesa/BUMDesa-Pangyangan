@@ -1,12 +1,12 @@
 import { Link } from '@inertiajs/react';
 import { Youtube } from 'lucide-react';
 
-export default function Footer() {
+export default function Footer({ logoUrl }: { logoUrl: string | undefined }) {
 	return (
-		<div className='mx-auto mt-32 px-4 space-y-3'>
-			<div className='flex flex-col justify-betwee gap-4 md:flex-row'>
+		<div className='mx-auto mt-32 space-y-3 px-4'>
+			<div className='justify-betwee flex flex-col gap-4 md:flex-row'>
 				<div className='w-full'>
-					<img src='/assets/logo-bumdes.png' alt='BUMDes logo' className='w-30 md:w-40 aspect-square mx-auto lg:ml-0' />
+					<img src={`/storage/${logoUrl}`} alt='BUMDes logo' className='mx-auto aspect-square w-30 md:w-40 lg:ml-0' />
 				</div>
 				<div className='flex flex-col gap-4 lg:flex-row'>
 					<div className='grid auto-cols-auto text-center md:text-left'>
@@ -28,14 +28,14 @@ export default function Footer() {
 
 			<hr />
 
-			<div className='flex flex-row flex-wrap justify-center items-center gap-x-3 gap-y-1 lg:justify-between'>
+			<div className='flex flex-row flex-wrap items-center justify-center gap-x-3 gap-y-1 lg:justify-between'>
 				<p className='text-center lg:text-start'>©2025 Badan Usaha Milik Desa Dwi Buana Amertha</p>
 				<div className='flex flex-row gap-3'>
 					<Link href='#'>
-						<img src='/assets/instagram.png' alt='instagram' className='w-8 h-8' />
+						<img src='/assets/instagram.png' alt='instagram' className='h-8 w-8' />
 					</Link>
 					<Link href='#'>
-						<img src='/assets/youtube.png' alt='youtube' className='w-8 h-8' />
+						<img src='/assets/youtube.png' alt='youtube' className='h-8 w-8' />
 					</Link>
 				</div>
 			</div>

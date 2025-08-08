@@ -4,23 +4,11 @@ import { getProfile } from '@/lib/data/profil';
 import { Link } from '@inertiajs/react';
 import { useQuery } from '@tanstack/react-query';
 import { ColumnDef, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { Pencil, Plus } from 'lucide-react';
-import { parseAsInteger, useQueryStates } from 'nuqs';
-import { useCallback, useMemo } from 'react';
+import { Pencil } from 'lucide-react';
+import { useMemo } from 'react';
 import { route } from 'ziggy-js';
 
 export default function index() {
-	const [queryParams, setQueryParams] = useQueryStates(
-		{
-			page: parseAsInteger.withDefault(1),
-			limit: parseAsInteger.withDefault(20),
-		},
-		{
-			history: 'push',
-			clearOnDefault: true,
-		}
-	);
-
 	const { data, isLoading } = useQuery({
 		queryKey: ['profile'],
 		queryFn: () => getProfile(),
@@ -90,35 +78,14 @@ export default function index() {
 				enableHiding: false,
 			},
 		],
-		[queryParams.page, queryParams.limit]
+		[]
 	);
 
 	const table = useReactTable({
 		data: data?.data ? [data.data] : [],
 		columns,
 		getCoreRowModel: getCoreRowModel(),
-		state: {
-			pagination: {
-				pageSize: queryParams.limit,
-				pageIndex: queryParams.page - 1,
-			},
-		},
-		manualPagination: true,
 	});
-
-	const nextPage = useCallback(() => {
-		setQueryParams((prevState) => ({
-			...prevState,
-			page: prevState.page + 1,
-		}));
-	}, [data]);
-
-	const prevPage = useCallback(() => {
-		setQueryParams((prevState) => ({
-			...prevState,
-			page: prevState.page - 1,
-		}));
-	}, [data]);
 
 	return (
 		<section className='min-h-screen w-full px-4 sm:px-6 md:px-8 lg:pl-72'>
