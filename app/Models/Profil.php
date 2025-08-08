@@ -16,6 +16,9 @@ class Profil extends Model
         'foto_profil',
         'visi',
         'misi',
+        'telp',
+        'alamat',
+        'email'
     ];
 
 }

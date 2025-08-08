@@ -40,7 +40,10 @@ class ProfilApiController extends Controller
             'misi'          => 'required',
             'slogan'        => 'required|max:255',
             'logo'          => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_profil'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'foto_profil'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'alamat'        => 'nullable|string|max:255',
+            'telp'          => 'nullable|string|max:20',
+            'email'         => 'nullable|email|max:255',
         ]);
 
         try {
@@ -57,6 +60,9 @@ class ProfilApiController extends Controller
             $profil->visi = $request->visi;
             $profil->misi = $request->misi;
             $profil->slogan = $request->slogan;
+            $profil->alamat = $request->alamat;
+            $profil->telp = $request->telp;
+            $profil->email = $request->email;
 
             // Upload logo
             if ($request->hasFile('logo')) {
@@ -95,7 +101,10 @@ class ProfilApiController extends Controller
             'misi'          => 'required',
             'slogan'        => 'required|max:255',
             'logo'          => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto_profil'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'foto_profil'   => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'alamat'        => 'nullable|string|max:255',
+            'telp'          => 'nullable|string|max:20',
+            'email'         => 'nullable|email|max:255'
         ]);
 
         try {
@@ -106,6 +115,9 @@ class ProfilApiController extends Controller
             $profil->visi = $request->visi;
             $profil->misi = $request->misi;
             $profil->slogan = $request->slogan;
+            $profil->alamat = $request->alamat;
+            $profil->telp = $request->telp;
+            $profil->email = $request->email;
 
             // Ganti logo jika diunggah
             if ($request->hasFile('logo')) {

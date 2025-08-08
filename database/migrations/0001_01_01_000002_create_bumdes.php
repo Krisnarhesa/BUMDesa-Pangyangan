@@ -20,6 +20,9 @@ return new class extends Migration
       $table->string('slogan');
       $table->string('logo')->nullable();
       $table->string('foto_profil')->nullable();
+      $table->string('telp')->nullable();
+      $table->string('email')->nullable();
+      $table->text('alamat')->nullable();
       $table->timestamps();
     });
 
