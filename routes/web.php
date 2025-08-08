@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminAlbumController;
 use App\Http\Controllers\AdminBeritaController;
+use App\Http\Controllers\AdminCarouselController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminGaleriController;
 use App\Http\Controllers\AdminProdukController;
@@ -80,4 +81,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
   // Profil
   Route::get('/profil', [AdminProfilController::class, 'index'])->name('profil.index');
   Route::get('/profil/{id}/edit', [AdminProfilController::class, 'edit'])->name('profil.edit');
+
+  // Carousels
+  Route::get('/carousels', [AdminCarouselController::class, 'index'])->name('carousels.index');
+  Route::get('/carousels/create', [AdminCarouselController::class, 'create'])->name('carousels.create');
 });

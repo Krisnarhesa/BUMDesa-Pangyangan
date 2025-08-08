@@ -5,7 +5,7 @@ import { Link } from '@inertiajs/react';
 import { menus } from './menus';
 import { route } from 'ziggy-js';
 
-export default function SideBar() {
+export default function SideBar({ logoUrl }: { logoUrl: string | undefined }) {
 	const urlPath = window.location.pathname;
 
 	return (
@@ -39,7 +39,7 @@ export default function SideBar() {
 										href='/dashboard'
 										aria-label='Brand'
 									>
-										<img src='/assets/logo-bumdes.png' alt='Pertamina Pertagas Niaga logo' className='w-16' />
+										<img src={`/storage/${logoUrl}`} alt='Pertamina Pertagas Niaga logo' className='w-16' />
 									</Link>
 								</div>
 
@@ -149,7 +149,7 @@ export default function SideBar() {
 						href={route('admin.dashboard')}
 						aria-label='Brand'
 					>
-						<img src='/assets/logo-bumdes.png' alt='Pertamina Pertagas Niaga logo' className='w-16 object-contain' />
+						<img src={`/storage/${logoUrl}`} alt='Pertamina Pertagas Niaga logo' className='w-16 object-contain' />
 					</Link>
 				</div>
 

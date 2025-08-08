@@ -20,9 +20,17 @@ createInertiaApp({
 		// Set layout
 		if (name.startsWith('Public/Struktur/')) {
 			page.default.layout = (page: React.ReactNode) => (
-				<PublicLayout>
-					<StrukturOrganisasiLayout>{page}</StrukturOrganisasiLayout>
-				</PublicLayout>
+				<ReactQueryProvider>
+					<PublicLayout>
+						<StrukturOrganisasiLayout>
+							<ErrorBoundary
+								fallback={<div className='px-4 sm:px-6 md:px-8 lg:pl-72'>Terjadi kesalahan. Coba lagi</div>}
+							>
+								{page}
+							</ErrorBoundary>
+						</StrukturOrganisasiLayout>
+					</PublicLayout>
+				</ReactQueryProvider>
 			);
 		} else if (name.startsWith('Public/UnitUsaha/')) {
 			page.default.layout = (page: React.ReactNode) => (
@@ -36,22 +44,43 @@ createInertiaApp({
 			);
 		} else if (name.startsWith('Public/Publikasi/Galeri/')) {
 			page.default.layout = (page: React.ReactNode) => (
-				<PublicLayout>
-					<GaleriLayout>
-						<ErrorBoundary fallback={<div className='px-4 sm:px-6 md:px-8 lg:pl-72'>Terjadi kesalahan. Coba lagi</div>}>
-							{page}
-						</ErrorBoundary>
-					</GaleriLayout>
-				</PublicLayout>
+				<ReactQueryProvider>
+					<PublicLayout>
+						<GaleriLayout>
+							<ErrorBoundary
+								fallback={<div className='px-4 sm:px-6 md:px-8 lg:pl-72'>Terjadi kesalahan. Coba lagi</div>}
+							>
+								{page}
+							</ErrorBoundary>
+						</GaleriLayout>
+					</PublicLayout>
+				</ReactQueryProvider>
 			);
 		} else if (name.startsWith('Public/Publikasi/Berita/')) {
 			page.default.layout = (page: React.ReactNode) => (
-				<PublicLayout>
-					<BeritaLayout>{page}</BeritaLayout>
-				</PublicLayout>
+				<ReactQueryProvider>
+					<PublicLayout>
+						<BeritaLayout>
+							<ErrorBoundary
+								fallback={<div className='px-4 sm:px-6 md:px-8 lg:pl-72'>Terjadi kesalahan. Coba lagi</div>}
+							>
+								{page}
+							</ErrorBoundary>
+						</BeritaLayout>
+					</PublicLayout>
+				</ReactQueryProvider>
 			);
 		} else if (name.startsWith('Public/')) {
-			page.default.layout = (page: React.ReactNode) => <PublicLayout>{page}</PublicLayout>;
+			page.default.layout = (page: React.ReactNode) => (
+				<ReactQueryProvider>
+					<PublicLayout>
+						<ErrorBoundary fallback={<div className='px-4 sm:px-6 md:px-8 lg:pl-72'>Terjadi kesalahan. Coba lagi</div>}>
+							{page}
+						</ErrorBoundary>
+					</PublicLayout>
+					;
+				</ReactQueryProvider>
+			);
 		} else {
 			const patterns = [/^\/admin\/unit-usaha\/\d+\/produk$/, /^\/admin\/unit-usaha\/[a-zA-Z]+$/];
 			const isMatch = patterns.some((reg) => reg.test(window.location.pathname));

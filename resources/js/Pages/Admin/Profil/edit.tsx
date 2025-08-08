@@ -12,8 +12,6 @@ import { route } from 'ziggy-js';
 import { Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
 import { updateProfile } from '@/lib/data/profil';
-import { useState } from 'react';
-import { EditorState } from 'draft-js';
 
 import 'draft-js/dist/Draft.css';
 
@@ -35,7 +33,7 @@ export default function edit({
 	slogan: string;
 }) {
 	const { toast } = useToast();
-	const [visiEditorState, setVisiEditorState] = useState(() => EditorState.createEmpty());
+	// const [visiEditorState, setVisiEditorState] = useState(() => EditorState.createEmpty());
 
 	const {
 		register,

@@ -216,3 +216,30 @@ export const UpdateProfileSchema = yup
 		}),
 	})
 	.required();
+
+export const AddCarouselSchema = yup
+	.object({
+		image: yup
+			.mixed()
+			.test('required', 'Tidak boleh kosong', (value) => {
+				if (value instanceof FileList) return value.length > 0;
+			})
+			.test('file size', 'Ukuran file maks 2mb', (value) => {
+				if (value instanceof FileList && value.length > 0) {
+					return value[0].size < 2 * 1024 * 1024;
+				}
+				return true;
+			}),
+	})
+	.required();
+
+export const UpdateCarouselSchema = yup
+	.object({
+		image: yup.mixed().test('file size', 'Ukuran file maks 2mb', (value) => {
+			if (value instanceof FileList && value.length > 0) {
+				return value[0].size < 2 * 1024 * 1024;
+			}
+			return true;
+		}),
+	})
+	.required();

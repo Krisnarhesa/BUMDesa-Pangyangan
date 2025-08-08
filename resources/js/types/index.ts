@@ -65,3 +65,8 @@ type Profile = {
 	slogan: string;
 	logo: string;
 };
+
+type Carousel = {
+	id: number;
+	image: string;
+};
