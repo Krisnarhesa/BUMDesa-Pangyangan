@@ -65,7 +65,7 @@ export default function StrukturOrganisasiLayout({ children }: { children: React
 					</div>
 					{/* <<< Direksi menu <<< */}
 
-					<div>{children}</div>
+					<div className='w-full'>{children}</div>
 				</div>
 			</div>
 		</div>

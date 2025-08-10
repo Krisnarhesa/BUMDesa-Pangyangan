@@ -25,7 +25,7 @@ type Link = {
 
 export const menus: Array<LinkItemProps> = [
 	{
-		href: '/struktur-organisasi/bagan',
+		href: route('struktur.show', { jabatan: 'bagan' }),
 		title: 'Struktur Organisasi',
 		icon: <LayoutDashboard size={17} />,
 		type: 'link',

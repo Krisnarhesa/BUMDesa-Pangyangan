@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import * as React from 'react';
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
-	const { data, isPending } = useQuery({
+	const { data, isPending, isError, error } = useQuery({
 		queryKey: ['profile'],
 		queryFn: () => getProfile(),
 	});
@@ -14,8 +14,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
 		return <div>Loading...</div>;
 	}
 
-	if (!data) {
-		return <div>Terjadi kesalahan</div>;
+	if (isError) {
+		return <div>Terjadi kesalahan: {error.message}</div>;
 	}
 
 	return (

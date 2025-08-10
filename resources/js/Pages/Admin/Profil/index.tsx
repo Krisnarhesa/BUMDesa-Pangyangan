@@ -22,20 +22,16 @@ export default function index() {
 				header: 'Nama',
 			},
 			{
-				accessorKey: 'deskripsi',
-				header: 'Deskripsi',
+				accessorKey: 'telp',
+				header: 'Telp',
 			},
 			{
-				accessorKey: 'visi',
-				header: 'Visi',
+				accessorKey: 'email',
+				header: 'Email',
 			},
 			{
-				accessorKey: 'misi',
-				header: 'Misi',
-			},
-			{
-				accessorKey: 'slogan',
-				header: 'Slogan',
+				accessorKey: 'alamat',
+				header: 'Alamat',
 			},
 			{
 				accessorKey: 'logo',

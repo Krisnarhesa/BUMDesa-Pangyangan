@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 import { Youtube } from 'lucide-react';
+import { route } from 'ziggy-js';
 
 export default function Footer({
 	logoUrl,
@@ -19,11 +20,12 @@ export default function Footer({
 					<img src={`/storage/${logoUrl}`} alt='BUMDes logo' className='mx-auto aspect-square w-30 md:w-40 lg:ml-0' />
 				</div>
 				<div className='flex flex-col gap-4 lg:flex-row'>
-					<div className='grid auto-cols-auto text-center md:text-left'>
+					<div className='grid auto-cols-auto gap-2 text-center md:text-left'>
 						<Link href='/'>Profil</Link>
-						<Link href='#'>Struktur Organisasi</Link>
-						<Link href='#'>Program</Link>
-						<Link href='#'>Publikasi</Link>
+						<Link href={route('struktur.show', { jabatan: 'bagan' })}>Struktur Organisasi</Link>
+						<Link href={route('unit_usaha.index')}>Unit Usaha</Link>
+						<Link href={route('publikasi.galeri.index')}>Galeri</Link>
+						<Link href={route('publikasi.berita.index')}>Berita</Link>
 					</div>
 					<div className='w-full text-center md:text-left'>
 						<p className='break-normal'>{address}</p>

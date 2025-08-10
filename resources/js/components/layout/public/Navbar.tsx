@@ -19,7 +19,7 @@ export default function Navbar({ logoUrl }: { logoUrl: string }) {
 				</Link>
 				<ul className='flex items-center justify-center gap-4'>
 					<li>
-						<Link href={route('struktur.bagan')}>Struktur Organisasi</Link>
+						<Link href={route('struktur.show', { jabatan: 'bagan' })}>Struktur Organisasi</Link>
 					</li>
 					<li>
 						<Link href={route('unit_usaha.index')}>Unit Usaha</Link>
@@ -32,7 +32,7 @@ export default function Navbar({ logoUrl }: { logoUrl: string }) {
 							<Content sideOffset={32}>
 								<div className='grid grid-cols-2 gap-4'>
 									<Link href={route('publikasi.galeri.index')}>Galeri</Link>
-									<Link href='/publikasi/berita'>Berita</Link>
+									<Link href={route('publikasi.berita.index')}>Berita</Link>
 								</div>
 							</Content>
 						</HoverLink>

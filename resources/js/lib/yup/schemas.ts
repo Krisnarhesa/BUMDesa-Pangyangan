@@ -202,6 +202,9 @@ export const UpdateProfileSchema = yup
 		visi: yup.string().required('Tidak boleh kosong'),
 		misi: yup.string().required('Tidak boleh kosong'),
 		slogan: yup.string().required('Tidak boleh kosong'),
+		telp: yup.string().required('Tidak boleh kosong'),
+		email: yup.string().required('Tidak boleh kosong'),
+		alamat: yup.string().required('Tidak boleh kosong'),
 		logo: yup.mixed().test('file size', 'Ukuran file maks 2mb', (value) => {
 			if (value instanceof FileList && value.length > 0) {
 				return value[0].size < 2 * 1024 * 1024;

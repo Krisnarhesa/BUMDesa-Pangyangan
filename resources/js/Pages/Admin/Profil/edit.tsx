@@ -24,6 +24,9 @@ export default function edit({
 	visi,
 	misi,
 	slogan,
+	telp,
+	email,
+	alamat,
 }: {
 	id: number;
 	nama_bumdes: string;
@@ -31,6 +34,9 @@ export default function edit({
 	visi: string;
 	misi: string;
 	slogan: string;
+	telp: string;
+	email: string;
+	alamat: string;
 }) {
 	const { toast } = useToast();
 	// const [visiEditorState, setVisiEditorState] = useState(() => EditorState.createEmpty());
@@ -46,6 +52,9 @@ export default function edit({
 			visi,
 			misi,
 			slogan,
+			telp,
+			email,
+			alamat,
 		},
 		resolver: yupResolver(UpdateProfileSchema),
 	});
@@ -130,6 +139,18 @@ export default function edit({
 						{/* >>> Slogan >>> */}
 						<TextInput label='Slogan' idProps={{ ...register('slogan') }} idError={errors.slogan?.message} en={false} />
 						{/* <<< Slogan <<< */}
+
+						{/* >>> Telp >>> */}
+						<TextInput label='Telp' idProps={{ ...register('telp') }} idError={errors.telp?.message} en={false} />
+						{/* <<< Telp <<< */}
+
+						{/* >>> Email >>> */}
+						<TextInput label='Email' idProps={{ ...register('email') }} idError={errors.email?.message} en={false} />
+						{/* <<< Email <<< */}
+
+						{/* >>> Alamat >>> */}
+						<TextInput label='Alamat' idProps={{ ...register('alamat') }} idError={errors.alamat?.message} en={false} />
+						{/* <<< Alamat <<< */}
 
 						<Button className='rounded-md lg:ml-28' type='submit' isLoading={mutation.isPending}>
 							Save

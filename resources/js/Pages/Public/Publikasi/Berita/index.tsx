@@ -1,18 +1,22 @@
 import { Link } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Navigation } from 'swiper/modules';
+import { Grid, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { route } from 'ziggy-js';
 import * as _ from 'lodash';
 
+import 'swiper/css';
+import 'swiper/css/grid';
+import 'swiper/css/navigation';
+
 const NewsCard = ({ title, desc, cover }: { title: string; desc: string; cover: string }) => {
 	return (
-		<div className='flex h-24 cursor-pointer flex-row shadow transition-all ease-out hover:scale-105 md:h-auto md:flex-col md:shadow-lg'>
+		<div className='flex cursor-pointer flex-row shadow transition-all ease-out hover:scale-105 md:h-[20rem] md:flex-col md:shadow-lg'>
 			<div className='aspect-square h-full flex-none overflow-hidden md:h-40'>
 				<img src={`/storage/${cover}`} alt='' className='h-full w-full object-cover object-center' />
 			</div>
 			<div className='p-2 md:p-4'>
-				<h6 className='line-clamp-1 text-lg capitalize md:line-clamp-2 md:text-xl lg:text-2xl'>{title}</h6>
+				<h6 className='line-clamp-1 font-semibold capitalize md:line-clamp-2 md:text-lg lg:text-xl'>{title}</h6>
 				<div>
 					<p className='line-clamp-2 md:line-clamp-3'>{desc}</p>
 				</div>
@@ -29,21 +33,25 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 					{/* >>> Desktop slider >>>  */}
 					<div className='hidden md:block'>
 						<Swiper
-							modules={[Navigation]}
+							modules={[Navigation, Grid]}
+							grid={{
+								rows: 2,
+								fill: 'row',
+							}}
 							navigation={{
 								prevEl: '.prevButton',
 								nextEl: '.nextButton',
 							}}
 							slidesPerView={3}
-							spaceBetween={50}
+							spaceBetween={32}
 							breakpoints={{
 								'1024': {
-									slidesPerView: 4,
+									slidesPerView: 3,
 								},
 							}}
 							onSlideChange={(swiper) => console.log('slide change')}
 							onSwiper={(swiper) => console.log(swiper)}
-							className='w-full'
+							className='w-full py-8'
 						>
 							{berita.map((b, i) => (
 								<SwiperSlide key={i}>
@@ -55,10 +63,10 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 						</Swiper>
 
 						<div className='mt-4 flex h-16 items-center justify-end gap-2'>
-							<button className='prevButton bg-bumdes-primary flex h-16 w-16 cursor-pointer items-center justify-center rounded-full'>
+							<button className='prevButton bg-bumdes-primary/50 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full'>
 								<ChevronLeft className='h-10 w-10' />
 							</button>
-							<button className='nextButton bg-bumdes-primary flex h-16 w-16 cursor-pointer items-center justify-center rounded-full'>
+							<button className='nextButton bg-bumdes-primary/50 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full'>
 								<ChevronRight className='h-10 w-10' />
 							</button>
 						</div>

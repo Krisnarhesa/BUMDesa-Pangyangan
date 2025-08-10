@@ -79,7 +79,7 @@ export default function GaleriLayout({ children }: { children: React.ReactNode }
 				<div className='mt-16 flex flex-col gap-16 md:flex-row'>
 					{/* >>> Album menu >>> */}
 					<div className='h-min w-full flex-none rounded-xl bg-white p-2 drop-shadow-lg md:w-[200px]'>
-						<ul className='flex w-full flex-row gap-1 space-y-1 overflow-x-auto md:block'>
+						<ul className='flex max-h-[20rem] w-full flex-row gap-1 space-y-1 overflow-x-auto overflow-y-auto md:block'>
 							{albums.length > 0
 								? albums.map((a, i) => (
 										<li key={i}>
