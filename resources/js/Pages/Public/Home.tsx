@@ -1,14 +1,17 @@
-import { Autoplay, Navigation, Scrollbar } from 'swiper/modules';
+import { Autoplay, Grid, Navigation, Scrollbar } from 'swiper/modules';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, SquareArrowRight } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { getCarousels } from '@/lib/data/carousels';
+import { Link } from '@inertiajs/react';
+import { route } from 'ziggy-js';
 
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { getCarousels } from '@/lib/data/carousels';
+import 'swiper/css/grid';
 
 const UnitUsahaCard = ({ title, icon }: { title: string; icon?: React.ReactNode }) => {
 	return (
@@ -85,7 +88,7 @@ const usaha = [
 	},
 ];
 
-export default function Home() {
+export default function Home({ berita, galeri }: { berita: News[]; galeri: AlbumItem[] }) {
 	const { data } = useQuery({
 		queryKey: ['carousels'],
 		queryFn: () => getCarousels(),
@@ -97,7 +100,6 @@ export default function Home() {
 			{/* >>> Carousel >>> */}
 			<Swiper
 				modules={[Autoplay, Scrollbar]}
-				spaceBetween={50}
 				slidesPerView={1}
 				autoplay={{
 					pauseOnMouseEnter: true,
@@ -109,7 +111,7 @@ export default function Home() {
 				onSwiper={(swiper) => {
 					console.log(swiper);
 				}}
-				className='h-[400px] lg:h-[calc(100dvh-200px)]'
+				className='h-[400px] w-full lg:h-[calc(100dvh-200px)]'
 			>
 				{data?.data.map((v, i) => (
 					<SwiperSlide key={i} className='h-full w-full bg-amber-50'>
@@ -186,6 +188,88 @@ export default function Home() {
 				</div>
 			</div>
 			{/* <<< Unit usaha <<< */}
+
+			{/* >>> Galeri dan Berita >>> */}
+			<div className='from-bg-[#1A94A9] relative flex h-full items-center justify-center bg-gradient-to-b from-[#1A94A9] from-50% to-white to-50% lg:py-16'>
+				<div className='flex h-full w-full max-w-5xl flex-col items-stretch gap-3 rounded-lg bg-white px-4 py-16 md:flex-row lg:p-6'>
+					{/* >>> Berita >>> */}
+					<div className='basis-1/2 space-y-4'>
+						<h5 className='text-lg leading-normal font-bold md:text-xl lg:text-3xl'>Berita</h5>
+						<div className='space-y-3'>
+							{berita.map((b, i) => (
+								<div className='flex flex-row gap-3 overflow-hidden rounded-lg'>
+									<img src={`/storage/${b.gambar_cover}`} alt={b.judul} className='aspect-square w-24 rounded-lg' />
+									<div>
+										<h6 className='line-clamp-1 text-lg font-bold'>{b.judul}</h6>
+										<p className='line-clamp-2'>{b.konten}</p>
+									</div>
+								</div>
+							))}
+							<div className='text-right'>
+								<Link href={route('publikasi.berita.index')} className='inline-flex items-center gap-1 text-sm'>
+									Lihat selengkapnya <SquareArrowRight className='h-4 w-4' />
+								</Link>
+							</div>
+						</div>
+					</div>
+					{/* <<< Berita <<< */}
+					<div className='bg-primary-black w-[1px] rounded-full' />
+					{/* >>> Galeri >>> */}
+					<div className='min-w-0 basis-1/2 space-y-4'>
+						<h5 className='text-lg leading-normal font-bold md:text-xl lg:text-3xl'>Galeri</h5>
+						<div className='space-y-3'>
+							<Swiper
+								modules={[Navigation, Grid]}
+								navigation={{
+									prevEl: '.galeriPrevButton',
+									nextEl: '.galeriNextButton',
+								}}
+								slidesPerView={2}
+								spaceBetween={16}
+								onSlideChange={(swiper) => {}}
+								onSwiper={(swiper) => {}}
+								className='w-full'
+							>
+								{galeri.map((g, i) => (
+									<SwiperSlide key={i}>
+										<div className='h-min w-full overflow-hidden rounded-lg'>
+											{g.jenis === 'foto' ? (
+												<img src={`/storage/${g.foto}`} alt={g.judul} className='h-full w-full object-cover' />
+											) : (
+												<iframe
+													src={g.link_youtube}
+													className='aspect-video'
+													title={g.judul}
+													frameBorder='0'
+													allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+													referrerPolicy='strict-origin-when-cross-origin'
+													allowFullScreen
+												></iframe>
+											)}
+										</div>
+									</SwiperSlide>
+								))}
+							</Swiper>
+
+							<div className='flex items-center justify-between'>
+								<div className='flex items-center justify-end gap-2'>
+									<button className='galeriPrevButton bg-bumdes-primary/50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full p-2'>
+										<ChevronLeft className='h-full w-full' />
+									</button>
+									<button className='galeriNextButton bg-bumdes-primary/50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full p-2'>
+										<ChevronRight className='h-full w-full' />
+									</button>
+								</div>
+								<Link href={route('publikasi.galeri.index')} className='inline-flex items-center gap-1 text-sm'>
+									Lihat selengkapnya <SquareArrowRight className='h-4 w-4' />
+								</Link>
+							</div>
+						</div>
+					</div>
+					{/* <<< Galeri <<< */}
+				</div>
+			</div>
+			{/* <<< Galeri dan Berita <<< */}
 		</div>
 	);
 }
