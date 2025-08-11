@@ -33,12 +33,13 @@ class UnitUsahaApiController extends Controller
         try {
             $request->validate([
                 'nama' => 'required|max:255',
+                'icon' => 'nullable',
                 'deskripsi' => 'required',
                 'kontak' => 'required|max:255',
                 'foto' => 'image|mimes:jpeg,png,jpg|max:2048'
             ]);
 
-            $data = $request->only(['nama', 'deskripsi', 'kontak']);
+            $data = $request->only(['nama', 'icon', 'deskripsi', 'kontak']);
 
             if ($request->hasFile('foto')) {
                 $path = $request->file('foto')->store("unit-usaha/{$request->input('nama')}", 'public');
@@ -68,11 +69,12 @@ class UnitUsahaApiController extends Controller
             $request->validate([
                 'nama' => 'required|max:255',
                 'deskripsi' => 'required',
+                'icon' => 'nullable',
                 'kontak' => 'required|max:255',
                 'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
             ]);
 
-            $data = $request->only(['nama', 'deskripsi', 'kontak']);
+            $data = $request->only(['nama', 'icon', 'deskripsi', 'kontak']);
 
             if ($request->hasFile('foto')) {
                 $path = $request->file('foto')->store("unit-usaha/{$request->input('nama')}", 'public');

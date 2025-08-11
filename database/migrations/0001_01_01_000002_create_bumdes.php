@@ -39,6 +39,7 @@ return new class extends Migration
     Schema::create('unit_usaha', function (Blueprint $table) {
       $table->id();
       $table->string('nama');
+      $table->text('icon')->nullable();
       $table->text('deskripsi');
       $table->string('kontak');
       $table->string('foto')->nullable();
