@@ -1,4 +1,4 @@
-import { Autoplay, Grid, Navigation, Scrollbar } from 'swiper/modules';
+import { Autoplay, Navigation, Scrollbar } from 'swiper/modules';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { ChevronLeft, ChevronRight, SquareArrowRight } from 'lucide-react';
@@ -6,6 +6,9 @@ import { useQuery } from '@tanstack/react-query';
 import { getCarousels } from '@/lib/data/carousels';
 import { Link } from '@inertiajs/react';
 import { route } from 'ziggy-js';
+import { convertFromRaw } from 'draft-js';
+import { stateToHTML } from 'draft-js-export-html';
+import * as _ from 'lodash';
 
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -107,10 +110,6 @@ export default function Home({ berita, galeri }: { berita: News[]; galeri: Album
 				scrollbar={{
 					draggable: true,
 				}}
-				onSlideChange={() => console.log('slide change')}
-				onSwiper={(swiper) => {
-					console.log(swiper);
-				}}
 				className='h-[400px] w-full lg:h-[calc(100dvh-200px)]'
 			>
 				{data?.data.map((v, i) => (
@@ -156,11 +155,13 @@ export default function Home({ berita, galeri }: { berita: News[]; galeri: Album
 					</h5>
 
 					<Swiper
-						modules={[Navigation]}
+						modules={[Navigation, Autoplay]}
 						navigation={{
 							prevEl: '.prevButton',
 							nextEl: '.nextButton',
 						}}
+						autoplay
+						loop={true}
 						spaceBetween={50}
 						slidesPerView={1}
 						breakpoints={{
@@ -196,15 +197,24 @@ export default function Home({ berita, galeri }: { berita: News[]; galeri: Album
 					<div className='basis-1/2 space-y-4'>
 						<h5 className='text-lg leading-normal font-bold md:text-xl lg:text-3xl'>Berita</h5>
 						<div className='space-y-3'>
-							{berita.map((b, i) => (
-								<div className='flex flex-row gap-3 overflow-hidden rounded-lg'>
-									<img src={`/storage/${b.gambar_cover}`} alt={b.judul} className='aspect-square w-24 rounded-lg' />
-									<div>
-										<h6 className='line-clamp-1 text-lg font-bold'>{b.judul}</h6>
-										<p className='line-clamp-2'>{b.konten}</p>
-									</div>
-								</div>
-							))}
+							{berita.map((b, i) => {
+								const contentState = convertFromRaw(JSON.parse(b.konten));
+
+								return (
+									<Link key={i} href={route('publikasi.berita.show', { id: b.id, slug: _.kebabCase(b.judul) })}>
+										<div className='mt-3 flex cursor-pointer flex-row gap-3 overflow-hidden rounded-lg'>
+											<img src={`/storage/${b.gambar_cover}`} alt={b.judul} className='aspect-square w-24 rounded-lg' />
+											<div>
+												<h6 className='line-clamp-1 text-lg font-bold'>{b.judul}</h6>
+												<div
+													className='line-clamp-2'
+													dangerouslySetInnerHTML={{ __html: stateToHTML(contentState) }}
+												></div>
+											</div>
+										</div>
+									</Link>
+								);
+							})}
 							<div className='text-right'>
 								<Link href={route('publikasi.berita.index')} className='inline-flex items-center gap-1 text-sm'>
 									Lihat selengkapnya <SquareArrowRight className='h-4 w-4' />
@@ -213,17 +223,20 @@ export default function Home({ berita, galeri }: { berita: News[]; galeri: Album
 						</div>
 					</div>
 					{/* <<< Berita <<< */}
+
 					<div className='bg-primary-black w-[1px] rounded-full' />
 					{/* >>> Galeri >>> */}
 					<div className='min-w-0 basis-1/2 space-y-4'>
 						<h5 className='text-lg leading-normal font-bold md:text-xl lg:text-3xl'>Galeri</h5>
 						<div className='space-y-3'>
 							<Swiper
-								modules={[Navigation, Grid]}
+								modules={[Navigation, Autoplay]}
 								navigation={{
 									prevEl: '.galeriPrevButton',
 									nextEl: '.galeriNextButton',
 								}}
+								loop={true}
+								autoplay
 								slidesPerView={2}
 								spaceBetween={16}
 								onSlideChange={(swiper) => {}}

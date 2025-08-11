@@ -13,6 +13,9 @@ import { route } from 'ziggy-js';
 import { addNews } from '@/lib/data/news';
 import { Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
+import MyEditor from '@/components/editor/Editor';
+import { useEffect, useState } from 'react';
+import { convertToRaw, EditorState } from 'draft-js';
 
 type Data = yup.InferType<typeof AddNewsSchema>;
 
@@ -52,8 +55,18 @@ export default function create({ categories }: { categories: NewsCategory[] }) {
 	});
 
 	const onSubmit: SubmitHandler<Data> = (data) => {
+		console.log(data);
 		mutation.mutate(data);
 	};
+
+	const [editorState, setEditorState] = useState(EditorState.createEmpty());
+	const onChange = (state: EditorState) => setEditorState(state);
+
+	useEffect(() => {
+		const rawContentState = convertToRaw(editorState.getCurrentContent());
+		setValue('konten', JSON.stringify(rawContentState));
+		trigger('konten');
+	}, [editorState]);
 
 	return (
 		<>
@@ -80,15 +93,11 @@ export default function create({ categories }: { categories: NewsCategory[] }) {
 						<TextInput label='Judul' idProps={{ ...register('judul') }} idError={errors.judul?.message} en={false} />
 						{/* <<< Judul <<< */}
 
-						{/* >>> Konten >>> */}
-						<TextInput
-							label='Konten'
-							type='textarea'
-							idProps={{ ...register('konten') }}
-							idError={errors.konten?.message}
-							en={false}
-						/>
-						{/* <<< Konten <<< */}
+						{/* >>> Editor >>> */}
+						<StyledInput label='Konten' error={errors.konten?.message}>
+							<MyEditor editorState={editorState} onChange={onChange} />
+						</StyledInput>
+						{/* <<< Editor <<< */}
 
 						{/* >>> Gambar cover >>> */}
 						<StyledInput label='Cover' error={errors.gambar_cover?.message}>

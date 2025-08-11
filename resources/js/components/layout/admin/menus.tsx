@@ -71,7 +71,7 @@ export const menus: Array<LinkItemProps> = [
 				href: route('admin.album.index'),
 			},
 			{
-				title: 'Galeri',
+				title: 'Foto & Video',
 				href: route('admin.galeri.index'),
 			},
 			{

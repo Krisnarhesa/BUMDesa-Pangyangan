@@ -4,12 +4,16 @@ import { Grid, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { route } from 'ziggy-js';
 import * as _ from 'lodash';
+import { stateToHTML } from 'draft-js-export-html';
+import { convertFromRaw } from 'draft-js';
 
 import 'swiper/css';
 import 'swiper/css/grid';
 import 'swiper/css/navigation';
 
 const NewsCard = ({ title, desc, cover }: { title: string; desc: string; cover: string }) => {
+	const contentState = convertFromRaw(JSON.parse(desc));
+
 	return (
 		<div className='flex cursor-pointer flex-row shadow transition-all ease-out hover:scale-105 md:h-[20rem] md:flex-col'>
 			<div className='aspect-square h-full flex-none overflow-hidden md:h-[12rem]'>
@@ -17,9 +21,7 @@ const NewsCard = ({ title, desc, cover }: { title: string; desc: string; cover: 
 			</div>
 			<div className='space-y-2 p-2 md:p-4'>
 				<h6 className='line-clamp-1 font-semibold capitalize md:text-lg lg:text-xl'>{title}</h6>
-				<div>
-					<p className='line-clamp-2'>{desc}</p>
-				</div>
+				<div className='line-clamp-2' dangerouslySetInnerHTML={{ __html: stateToHTML(contentState) }}></div>
 			</div>
 		</div>
 	);
@@ -49,8 +51,6 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 									slidesPerView: 3,
 								},
 							}}
-							onSlideChange={(swiper) => console.log('slide change')}
-							onSwiper={(swiper) => console.log(swiper)}
 							className='w-full'
 						>
 							{berita.map((b, i) => (

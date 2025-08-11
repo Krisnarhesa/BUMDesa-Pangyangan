@@ -1,8 +1,13 @@
+import MyEditor from '@/components/editor/Editor';
 import { Link } from '@inertiajs/react';
+import { convertFromRaw, EditorState } from 'draft-js';
 import { ArrowLeft } from 'lucide-react';
 import { route } from 'ziggy-js';
 
 export default function BeritaDetailPage({ berita }: { berita: News }) {
+	const contentState = convertFromRaw(JSON.parse(berita.konten));
+	const editorState = EditorState.createWithContent(contentState);
+
 	return (
 		<div className='space-y-8 text-center md:text-start'>
 			<Link href={route('publikasi.berita.index')} className='inline-flex gap-1'>
@@ -17,7 +22,7 @@ export default function BeritaDetailPage({ berita }: { berita: News }) {
 					className='h-full w-full object-cover object-center'
 				/>
 			</div>
-			<p>{berita.konten}</p>
+			<MyEditor editorState={editorState} onChange={() => {}} readOnly />
 		</div>
 	);
 }

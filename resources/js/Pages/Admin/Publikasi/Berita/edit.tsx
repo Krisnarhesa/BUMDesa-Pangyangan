@@ -13,6 +13,9 @@ import { route } from 'ziggy-js';
 import { updateNews } from '@/lib/data/news';
 import { Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
+import MyEditor from '@/components/editor/Editor';
+import { useEffect, useState } from 'react';
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 
 type Data = yup.InferType<typeof UpdateNewsSchema>;
 
@@ -69,6 +72,16 @@ export default function edit({
 		mutation.mutate(data);
 	};
 
+	const contentState = convertFromRaw(JSON.parse(content));
+	const [editorState, setEditorState] = useState(EditorState.createWithContent(contentState));
+	const onChange = (state: EditorState) => setEditorState(state);
+
+	useEffect(() => {
+		const rawContentState = convertToRaw(editorState.getCurrentContent());
+		setValue('konten', JSON.stringify(rawContentState));
+		trigger('konten');
+	}, [editorState]);
+
 	return (
 		<>
 			<header className='sticky inset-x-0 top-0 z-[48] flex w-full flex-wrap border-b bg-white py-2.5 text-sm sm:flex-nowrap sm:justify-start sm:py-4 lg:pl-64'>
@@ -94,15 +107,11 @@ export default function edit({
 						<TextInput label='Judul' idProps={{ ...register('judul') }} idError={errors.judul?.message} en={false} />
 						{/* <<< Judul <<< */}
 
-						{/* >>> Konten >>> */}
-						<TextInput
-							label='Konten'
-							type='textarea'
-							idProps={{ ...register('konten') }}
-							idError={errors.konten?.message}
-							en={false}
-						/>
-						{/* <<< Konten <<< */}
+						{/* >>> Editor >>> */}
+						<StyledInput label='Konten' error={errors.konten?.message}>
+							<MyEditor editorState={editorState} onChange={onChange} />
+						</StyledInput>
+						{/* <<< Editor <<< */}
 
 						{/* >>> Gambar cover >>> */}
 						<StyledInput label='Cover' error={errors.gambar_cover?.message}>
