@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminStrukturOrganisasiController;
 use App\Http\Controllers\AdminUnitUsahaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\StrukturController;
 use App\Http\Controllers\UnitUsahaController;
@@ -33,6 +34,9 @@ Route::get('/struktur-organisasi/{jabatan}', [StrukturController::class, 'show']
 // Unit usaha
 Route::get('/unit-usaha', [UnitUsahaController::class, 'index'])->name('unit_usaha.index');
 Route::get('/unit-usaha/{id}/{slug}', [UnitUsahaController::class, 'show'])->name('unit_usaha.show');
+
+// Profil
+Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
 
 // Login admin
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
