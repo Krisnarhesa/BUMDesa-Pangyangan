@@ -78,7 +78,6 @@ createInertiaApp({
 							{page}
 						</ErrorBoundary>
 					</PublicLayout>
-					;
 				</ReactQueryProvider>
 			);
 		} else {

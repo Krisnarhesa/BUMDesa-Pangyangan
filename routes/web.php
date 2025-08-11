@@ -29,12 +29,7 @@ Route::get('/publikasi/berita/{id}/{slug}', [PublikasiController::class, 'berita
 
 // Struktur organisasi
 Route::get('/struktur-organisasi/{jabatan}', [StrukturController::class, 'show'])->name('struktur.show');
-Route::get('/struktur-organisasi/bagan', [HomeController::class, 'strukturOrganisasi'])->name('struktur.bagan');
-Route::get('/struktur-organisasi/bendahara', [HomeController::class, 'bendahara'])->name('struktur.bendahara');
-Route::get('/struktur-organisasi/sekretaris', [HomeController::class, 'sekretaris'])->name('struktur.sekretaris');
-Route::get('/struktur-organisasi/badan-pengawas', [HomeController::class, 'pengawas'])->name('struktur.pengawas');
-Route::get('/struktur-organisasi/penasihat', [HomeController::class, 'penasihat'])->name('struktur.penasihat');
-Route::get('/struktur-organisasi/direktur', [HomeController::class, 'direktur'])->name('struktur.direktur');
+// Route::get('/struktur-organisasi/bagan', [HomeController::class, 'strukturOrganisasi'])->name('struktur.bagan');
 
 // Unit usaha
 Route::get('/unit-usaha', [UnitUsahaController::class, 'index'])->name('unit_usaha.index');

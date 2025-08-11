@@ -12,13 +12,13 @@ export default function GaleriAlbumPage({ albumItems }: { albumItems: AlbumItem[
 								<div className='h-min w-full overflow-hidden rounded-lg'>
 									{item.jenis === 'foto' ? (
 										<DialogTrigger asChild className='cursor-pointer'>
-											<img src={`/storage/${item.foto}`} alt={item.nama} className='h-full w-full object-cover' />
+											<img src={`/storage/${item.foto}`} alt={item.judul} className='h-full w-full object-cover' />
 										</DialogTrigger>
 									) : (
 										<iframe
 											src={item.link_youtube}
 											className='aspect-video'
-											title={item.nama}
+											title={item.judul}
 											frameBorder='0'
 											allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
 											referrerPolicy='strict-origin-when-cross-origin'
@@ -28,7 +28,7 @@ export default function GaleriAlbumPage({ albumItems }: { albumItems: AlbumItem[
 								</div>
 
 								<DialogContent className='w-full max-w-4xl pt-12'>
-									<img src={item.foto} alt={item.nama} />
+									<img src={item.foto} alt={item.judul} />
 								</DialogContent>
 							</Dialog>
 						))

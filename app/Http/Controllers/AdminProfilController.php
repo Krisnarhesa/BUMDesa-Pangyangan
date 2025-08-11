@@ -24,6 +24,9 @@ class AdminProfilController extends Controller
       'visi' => $profile->visi,
       'misi' => $profile->misi,
       'slogan' => $profile->slogan,
+      'telp' => $profile->telp,
+      'email' => $profile->email,
+      'alamat' => $profile->alamat,
     ]);
   }
 }

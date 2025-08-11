@@ -1,20 +1,24 @@
 import { Link } from '@inertiajs/react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Navigation } from 'swiper/modules';
+import { Grid, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { route } from 'ziggy-js';
 import * as _ from 'lodash';
 
+import 'swiper/css';
+import 'swiper/css/grid';
+import 'swiper/css/navigation';
+
 const NewsCard = ({ title, desc, cover }: { title: string; desc: string; cover: string }) => {
 	return (
-		<div className='flex h-24 cursor-pointer flex-row shadow transition-all ease-out hover:scale-105 md:h-auto md:flex-col md:shadow-lg'>
-			<div className='aspect-square h-full flex-none overflow-hidden md:h-40'>
+		<div className='flex cursor-pointer flex-row shadow transition-all ease-out hover:scale-105 md:h-[20rem] md:flex-col'>
+			<div className='aspect-square h-full flex-none overflow-hidden md:h-[12rem]'>
 				<img src={`/storage/${cover}`} alt='' className='h-full w-full object-cover object-center' />
 			</div>
-			<div className='p-2 md:p-4'>
-				<h6 className='line-clamp-1 text-lg capitalize md:line-clamp-2 md:text-xl lg:text-2xl'>{title}</h6>
+			<div className='space-y-2 p-2 md:p-4'>
+				<h6 className='line-clamp-1 font-semibold capitalize md:text-lg lg:text-xl'>{title}</h6>
 				<div>
-					<p className='line-clamp-2 md:line-clamp-3'>{desc}</p>
+					<p className='line-clamp-2'>{desc}</p>
 				</div>
 			</div>
 		</div>
@@ -29,16 +33,20 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 					{/* >>> Desktop slider >>>  */}
 					<div className='hidden md:block'>
 						<Swiper
-							modules={[Navigation]}
+							modules={[Navigation, Grid]}
+							grid={{
+								rows: 2,
+								fill: 'row',
+							}}
 							navigation={{
 								prevEl: '.prevButton',
 								nextEl: '.nextButton',
 							}}
 							slidesPerView={3}
-							spaceBetween={50}
+							spaceBetween={16}
 							breakpoints={{
 								'1024': {
-									slidesPerView: 4,
+									slidesPerView: 3,
 								},
 							}}
 							onSlideChange={(swiper) => console.log('slide change')}
@@ -46,7 +54,7 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 							className='w-full'
 						>
 							{berita.map((b, i) => (
-								<SwiperSlide key={i}>
+								<SwiperSlide key={i} className='p-[0.5rem]'>
 									<Link href={route('publikasi.berita.show', { id: b.id, slug: _.kebabCase(b.judul) })}>
 										<NewsCard title={b.judul} desc={b.konten} cover={b.gambar_cover} />
 									</Link>
@@ -55,10 +63,10 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 						</Swiper>
 
 						<div className='mt-4 flex h-16 items-center justify-end gap-2'>
-							<button className='prevButton bg-bumdes-primary flex h-16 w-16 cursor-pointer items-center justify-center rounded-full'>
+							<button className='prevButton bg-bumdes-primary/50 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full'>
 								<ChevronLeft className='h-10 w-10' />
 							</button>
-							<button className='nextButton bg-bumdes-primary flex h-16 w-16 cursor-pointer items-center justify-center rounded-full'>
+							<button className='nextButton bg-bumdes-primary/50 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full'>
 								<ChevronRight className='h-10 w-10' />
 							</button>
 						</div>

@@ -5,16 +5,24 @@ import { useQuery } from '@tanstack/react-query';
 import * as React from 'react';
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
-	const { data } = useQuery({
+	const { data, isPending, isError, error } = useQuery({
 		queryKey: ['profile'],
 		queryFn: () => getProfile(),
 	});
 
+	if (isPending) {
+		return <div>Loading...</div>;
+	}
+
+	if (isError) {
+		return <div>Terjadi kesalahan: {error.message}</div>;
+	}
+
 	return (
 		<main className='min-h-dvh'>
-			<Navbar logoUrl={data?.data.logo} />
+			<Navbar logoUrl={data.data.logo} />
 			<article className='min-h-dvh lg:mt-18'>{children}</article>
-			<Footer logoUrl={data?.data.logo} />
+			<Footer logoUrl={data.data.logo} address={data.data.alamat} email={data.data.email} phone={data.data.telp} />
 		</main>
 	);
 }

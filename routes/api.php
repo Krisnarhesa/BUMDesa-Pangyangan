@@ -26,6 +26,7 @@ Route::post('/login', [AuthApiController::class, 'login'])->name('api.login');
 Route::get('/album', [AlbumApiController::class, 'index'])->name('api.album.index');
 Route::get('/unit-usaha', [UnitUsahaApiController::class, 'index'])->name('api.unit.index');
 Route::get('/profil', [ProfilApiController::class, 'index'])->name('api.profil.index');
+Route::get('/carousel', [CarouselApiController::class, 'index'])->name('api.carousel.index');
 
 // Protected Routes - Require Sanctum Auth
 Route::middleware('auth:sanctum')->group(function () {
@@ -108,7 +109,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::delete('/sosmed/delete/{id}', [SettingApiController::class, 'destroy'])->name('api.sosmed.destroy');
 
   // Carousel
-  Route::get('/carousel', [CarouselApiController::class, 'index'])->name('api.carousel.index');
   Route::post('/carousel/upload', [CarouselApiController::class, 'store'])->name('api.carousel.store');
   Route::get('/carousel/{id}', [CarouselApiController::class, 'show'])->name('api.carousel.show');
   Route::post('/carousel/edit/{id}', [CarouselApiController::class, 'update'])->name('api.carousel.update');

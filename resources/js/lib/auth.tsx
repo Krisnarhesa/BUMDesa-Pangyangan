@@ -21,7 +21,7 @@ export function useAuth() {
 	return { login, logout, isLoggedIn };
 }
 
-export const withAuth = (Component: React.FC) => {
+export const withAuth = (Component: React.FC<any>) => {
 	const AuthenticatedComponent = ({ ...props }) => {
 		const { isLoggedIn } = useAuth();
 
