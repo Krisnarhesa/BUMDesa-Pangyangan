@@ -6,9 +6,11 @@ import { useQuery } from '@tanstack/react-query';
 import { getCarousels } from '@/lib/data/carousels';
 import { Link } from '@inertiajs/react';
 import { route } from 'ziggy-js';
-import { convertFromRaw } from 'draft-js';
+import { convertFromRaw, EditorState } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import * as _ from 'lodash';
+import { emptyContent } from '@/lib/draft-js/styles';
+import MyEditor from '@/components/editor/Editor';
 
 import 'swiper/css';
 import 'swiper/css/autoplay';
@@ -91,12 +93,28 @@ const usaha = [
 	},
 ];
 
-export default function Home({ berita, galeri }: { berita: News[]; galeri: AlbumItem[] }) {
+export default function Home({
+	berita,
+	galeri,
+	misi,
+	visi,
+}: {
+	berita: News[];
+	galeri: AlbumItem[];
+	misi: string;
+	visi: string;
+}) {
 	const { data } = useQuery({
 		queryKey: ['carousels'],
 		queryFn: () => getCarousels(),
 		throwOnError: true,
 	});
+
+	const misiContentState = misi ? convertFromRaw(JSON.parse(misi)) : convertFromRaw(emptyContent);
+	const misiEditorState = EditorState.createWithContent(misiContentState);
+
+	const visiContentState = visi ? convertFromRaw(JSON.parse(visi)) : convertFromRaw(emptyContent);
+	const visiEditorState = EditorState.createWithContent(visiContentState);
 
 	return (
 		<div>
@@ -132,15 +150,11 @@ export default function Home({ berita, galeri }: { berita: News[]; galeri: Album
 					<div className='space-y-4 text-center md:text-start'>
 						<div>
 							<h6 className='font-semibold'>Visi</h6>
-							<p>Menggali potensi Desa Pangyangan untuk mensejahterakan masyarakat Desa.</p>
+							<MyEditor editorState={visiEditorState} onChange={() => {}} readOnly />
 						</div>
 						<div>
 							<h6 className='font-semibold'>Misi</h6>
-							<ul>
-								<li className='list-disc'>
-									Menjadikan BUMDesa Dwi Buana Amertha Desa Pangyangan sebagai Barometer perkembangan BUMDesa lainnya.
-								</li>
-							</ul>
+							<MyEditor editorState={misiEditorState} onChange={() => {}} readOnly />
 						</div>
 					</div>
 				</div>
@@ -169,8 +183,6 @@ export default function Home({ berita, galeri }: { berita: News[]; galeri: Album
 								slidesPerView: 3,
 							},
 						}}
-						onSlideChange={() => console.log('slide change')}
-						onSwiper={(swiper) => console.log(swiper)}
 						className='relative w-full'
 					>
 						{usaha.map((u, i) => (

@@ -19,6 +19,9 @@ export default function Navbar({ logoUrl }: { logoUrl: string }) {
 				</Link>
 				<ul className='flex items-center justify-center gap-4'>
 					<li>
+						<Link href={route('profil.index')}>Profil</Link>
+					</li>
+					<li>
 						<Link href={route('struktur.show', { jabatan: 'bagan' })}>Struktur Organisasi</Link>
 					</li>
 					<li>

@@ -28,7 +28,7 @@ export default function GaleriAlbumPage({ albumItems }: { albumItems: AlbumItem[
 								</div>
 
 								<DialogContent className='w-full max-w-4xl pt-12'>
-									<img src={item.foto} alt={item.judul} />
+									<img src={`/storage/${item.foto}`} alt={item.judul} className='mx-auto' />
 								</DialogContent>
 							</Dialog>
 						))
