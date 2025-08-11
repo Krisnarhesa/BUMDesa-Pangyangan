@@ -1,15 +1,15 @@
 {
-    "compilerOptions": {
-        "target": "ESNext",
-        "module": "ESNext",
-        "moduleResolution": "Node",
-        "jsx": "react-jsx",
-        "strict": true,
-        "baseUrl": "./",
-        "paths": {
-            "@/*": ["resources/js/*"]
-        },
-        "types": ["vite/client"]
-    },
-    "include": ["resources/js"]
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"jsx": "react-jsx",
+		"strict": true,
+		"baseUrl": "./",
+		"paths": {
+			"@/*": ["resources/js/*"]
+		},
+		"types": ["vite/client"]
+	},
+	"include": ["resources/js"]
 }
