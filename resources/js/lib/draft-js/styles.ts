@@ -17,3 +17,18 @@ export const BLOCK_TYPES = [
 	{ label: 'OL', style: 'ordered-list-item' },
 	{ label: 'Code Block', style: 'code-block' },
 ];
+
+export const emptyContent = {
+	blocks: [
+		{
+			key: 'initial',
+			text: '',
+			type: 'unstyled',
+			depth: 0,
+			inlineStyleRanges: [],
+			entityRanges: [],
+			data: {},
+		},
+	],
+	entityMap: {},
+};

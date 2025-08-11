@@ -16,6 +16,7 @@ import { ChevronLeft } from 'lucide-react';
 import MyEditor from '@/components/editor/Editor';
 import { useEffect, useState } from 'react';
 import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import { emptyContent } from '@/lib/draft-js/styles';
 
 type Data = yup.InferType<typeof UpdateNewsSchema>;
 
@@ -72,7 +73,7 @@ export default function edit({
 		mutation.mutate(data);
 	};
 
-	const contentState = convertFromRaw(JSON.parse(content));
+	const contentState = content ? convertFromRaw(JSON.parse(content)) : convertFromRaw(emptyContent);
 	const [editorState, setEditorState] = useState(EditorState.createWithContent(contentState));
 	const onChange = (state: EditorState) => setEditorState(state);
 
@@ -107,11 +108,11 @@ export default function edit({
 						<TextInput label='Judul' idProps={{ ...register('judul') }} idError={errors.judul?.message} en={false} />
 						{/* <<< Judul <<< */}
 
-						{/* >>> Editor >>> */}
+						{/* >>> Editor konten >>> */}
 						<StyledInput label='Konten' error={errors.konten?.message}>
 							<MyEditor editorState={editorState} onChange={onChange} />
 						</StyledInput>
-						{/* <<< Editor <<< */}
+						{/* <<< Editor konten <<< */}
 
 						{/* >>> Gambar cover >>> */}
 						<StyledInput label='Cover' error={errors.gambar_cover?.message}>

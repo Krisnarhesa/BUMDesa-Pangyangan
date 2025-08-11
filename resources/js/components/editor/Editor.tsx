@@ -12,6 +12,8 @@ import {
 import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { BlockStyleControls, InlineStyleControls } from './StyleControls';
 
+import 'draft-js/dist/Draft.css';
+
 export default function MyEditor({
 	editorState,
 	onChange,

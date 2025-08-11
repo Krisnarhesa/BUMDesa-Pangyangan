@@ -15,9 +15,9 @@ use App\Http\Controllers\PublikasiController;
 use App\Http\Controllers\StrukturController;
 use App\Http\Controllers\UnitUsahaController;
 
-Route::get('/', [HomeController::class, 'index']);
-
 // Public pages
+// Home
+Route::get('/', [HomeController::class, 'index']);
 
 // Galeri
 Route::get('/publikasi/galeri', [PublikasiController::class, 'galeriIndex'])->name('publikasi.galeri.index');
@@ -29,18 +29,15 @@ Route::get('/publikasi/berita/{id}/{slug}', [PublikasiController::class, 'berita
 
 // Struktur organisasi
 Route::get('/struktur-organisasi/{jabatan}', [StrukturController::class, 'show'])->name('struktur.show');
-// Route::get('/struktur-organisasi/bagan', [HomeController::class, 'strukturOrganisasi'])->name('struktur.bagan');
 
 // Unit usaha
 Route::get('/unit-usaha', [UnitUsahaController::class, 'index'])->name('unit_usaha.index');
 Route::get('/unit-usaha/{id}/{slug}', [UnitUsahaController::class, 'show'])->name('unit_usaha.show');
 
-// Program kerja
-Route::get('/program-kerja', [HomeController::class, 'programKerja']);
-
-
 // Login admin
 Route::get('/admin/login', [AdminController::class, 'login'])->name('admin.login');
+
+
 
 // Protected admin pages
 Route::prefix('admin')->name('admin.')->group(function () {

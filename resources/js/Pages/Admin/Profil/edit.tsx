@@ -12,8 +12,10 @@ import { route } from 'ziggy-js';
 import { Link } from '@inertiajs/react';
 import { ChevronLeft } from 'lucide-react';
 import { updateProfile } from '@/lib/data/profil';
-
-import 'draft-js/dist/Draft.css';
+import { convertFromRaw, convertToRaw, EditorState } from 'draft-js';
+import { useEffect, useState } from 'react';
+import MyEditor from '@/components/editor/Editor';
+import { emptyContent } from '@/lib/draft-js/styles';
 
 type Data = yup.InferType<typeof UpdateProfileSchema>;
 
@@ -39,12 +41,13 @@ export default function edit({
 	alamat: string;
 }) {
 	const { toast } = useToast();
-	// const [visiEditorState, setVisiEditorState] = useState(() => EditorState.createEmpty());
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setValue,
+		trigger,
 	} = useForm({
 		defaultValues: {
 			nama_bumdes,
@@ -83,6 +86,39 @@ export default function edit({
 		mutation.mutate(data);
 	};
 
+	// Deskripsi editor
+	const contentState = deskripsi ? convertFromRaw(JSON.parse(deskripsi)) : convertFromRaw(emptyContent);
+	const [editorState, setEditorState] = useState(EditorState.createWithContent(contentState));
+	const onChange = (state: EditorState) => setEditorState(state);
+
+	useEffect(() => {
+		const rawContentState = convertToRaw(editorState.getCurrentContent());
+		setValue('deskripsi', JSON.stringify(rawContentState));
+		trigger('deskripsi');
+	}, [editorState]);
+
+	// Visi editor
+	const visiContentState = visi ? convertFromRaw(JSON.parse(visi)) : convertFromRaw(emptyContent);
+	const [visiEditorState, setVisiEditorState] = useState(EditorState.createWithContent(visiContentState));
+	const onVisiChange = (state: EditorState) => setVisiEditorState(state);
+
+	useEffect(() => {
+		const rawContentState = convertToRaw(visiEditorState.getCurrentContent());
+		setValue('visi', JSON.stringify(rawContentState));
+		trigger('visi');
+	}, [visiEditorState]);
+
+	// Misi editor
+	const misiContentState = misi ? convertFromRaw(JSON.parse(misi)) : convertFromRaw(emptyContent);
+	const [misiEditorState, setMisiEditorState] = useState(EditorState.createWithContent(misiContentState));
+	const onMisiChange = (state: EditorState) => setMisiEditorState(state);
+
+	useEffect(() => {
+		const rawContentState = convertToRaw(misiEditorState.getCurrentContent());
+		setValue('misi', JSON.stringify(rawContentState));
+		trigger('misi');
+	}, [misiEditorState]);
+
 	return (
 		<>
 			<header className='sticky inset-x-0 top-0 z-[48] flex w-full flex-wrap border-b bg-white py-2.5 text-sm sm:flex-nowrap sm:justify-start sm:py-4 lg:pl-64'>
@@ -119,22 +155,23 @@ export default function edit({
 						</StyledInput>
 						{/* <<< Logo <<< */}
 
-						{/* >>> Deskripsi >>> */}
-						<TextInput
-							label='Deskripsi'
-							idProps={{ ...register('deskripsi') }}
-							idError={errors.deskripsi?.message}
-							en={false}
-						/>
-						{/* <<< Deskripsi <<< */}
+						{/* >>> Editor deskripsi >>> */}
+						<StyledInput label='Konten' error={errors.deskripsi?.message}>
+							<MyEditor editorState={editorState} onChange={onChange} />
+						</StyledInput>
+						{/* <<< Editor deskripsi <<< */}
 
-						{/* >>> Visi >>> */}
-						<TextInput label='Visi' idProps={{ ...register('visi') }} idError={errors.visi?.message} en={false} />
-						{/* <<< Visi <<< */}
+						{/* >>> Editor visi >>> */}
+						<StyledInput label='Visi' error={errors.visi?.message}>
+							<MyEditor editorState={visiEditorState} onChange={onVisiChange} />
+						</StyledInput>
+						{/* <<< Editor visi <<< */}
 
-						{/* >>> Misi >>> */}
-						<TextInput label='Misi' idProps={{ ...register('misi') }} idError={errors.misi?.message} en={false} />
-						{/* <<< Misi <<< */}
+						{/* >>> Editor misi >>> */}
+						<StyledInput label='Misi' error={errors.misi?.message}>
+							<MyEditor editorState={misiEditorState} onChange={onMisiChange} />
+						</StyledInput>
+						{/* <<< Editor misi <<< */}
 
 						{/* >>> Slogan >>> */}
 						<TextInput label='Slogan' idProps={{ ...register('slogan') }} idError={errors.slogan?.message} en={false} />
