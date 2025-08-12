@@ -1,5 +1,4 @@
 import { Link } from '@inertiajs/react';
-import { Youtube } from 'lucide-react';
 import { route } from 'ziggy-js';
 
 export default function Footer({
@@ -21,7 +20,7 @@ export default function Footer({
 				</div>
 				<div className='flex flex-col gap-4 lg:flex-row'>
 					<div className='grid auto-cols-auto gap-2 text-center md:text-left'>
-						<Link href='/'>Profil</Link>
+						<Link href={route('profil.index')}>Profil</Link>
 						<Link href={route('struktur.show', { jabatan: 'bagan' })}>Struktur Organisasi</Link>
 						<Link href={route('unit_usaha.index')}>Unit Usaha</Link>
 						<Link href={route('publikasi.galeri.index')}>Galeri</Link>

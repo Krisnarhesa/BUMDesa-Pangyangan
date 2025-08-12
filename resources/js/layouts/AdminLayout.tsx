@@ -21,8 +21,8 @@ const AdminLayout: FC<MainLayoutProps> = ({ children, showHeader = true }) => {
 
 	return (
 		<main className='min-h-dvh bg-gray-50'>
-			{showHeader && <Header />}
-			<SideBar logoUrl={data?.data.logo} />
+			{showHeader && <Header logoUrl={data?.data.logo ?? ''} />}
+			<SideBar logoUrl={data?.data.logo ?? ''} />
 			<div className='min-h-[calc(100dvh-71px-84px)]'>{children}</div>
 			<Footer />
 			<Toaster />

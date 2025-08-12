@@ -5,7 +5,7 @@ import { Link } from '@inertiajs/react';
 import { menus } from './menus';
 import { route } from 'ziggy-js';
 
-export default function SideBar({ logoUrl }: { logoUrl: string | undefined }) {
+export default function SideBar({ logoUrl }: { logoUrl: string }) {
 	const urlPath = window.location.pathname;
 
 	return (
