@@ -109,6 +109,10 @@ export default function create() {
 						/>
 						{/* <<< Kontak <<< */}
 
+						{/* >>> Icon >>> */}
+						<TextInput label='Icon(SVG)' idProps={{ ...register('icon') }} idError={errors.icon?.message} en={false} />
+						{/* <<< Icon <<< */}
+
 						{/* >>> Foto >>> */}
 						<StyledInput label='Foto' error={errors.foto?.message}>
 							<Input type='file' accept='image/png,image/jpeg' {...register('foto')} className='w-auto' />

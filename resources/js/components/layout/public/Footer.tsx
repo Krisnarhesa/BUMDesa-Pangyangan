@@ -38,14 +38,14 @@ export default function Footer({
 
 			<div className='flex flex-row flex-wrap items-center justify-center gap-x-3 gap-y-1 lg:justify-between'>
 				<p className='text-center lg:text-start'>©2025 Badan Usaha Milik Desa Dwi Buana Amertha</p>
-				<div className='flex flex-row gap-3'>
+				{/* <div className='flex flex-row gap-3'>
 					<Link href='#'>
 						<img src='/assets/instagram.png' alt='instagram' className='h-8 w-8' />
 					</Link>
 					<Link href='#'>
 						<img src='/assets/youtube.png' alt='youtube' className='h-8 w-8' />
 					</Link>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

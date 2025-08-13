@@ -13,6 +13,7 @@ type Dropdown = {
 		title: string;
 		icon?: React.ReactNode;
 		href: string;
+		domain: string;
 	}[];
 	href: string;
 };
@@ -29,29 +30,31 @@ export const menus: Array<LinkItemProps> = [
 		title: 'Struktur Organisasi',
 		icon: <LayoutDashboard size={17} />,
 		type: 'link',
-		domain: 'Public',
+		domain: 'struktur-organisasi',
 	},
 	{
 		href: '/unit-usaha',
 		title: 'Unit Usaha',
 		icon: <Grid2X2 size={17} />,
 		type: 'link',
-		domain: 'Public',
+		domain: 'unit-usaha',
 	},
 	{
 		href: '/publikasi',
 		title: 'Publikasi',
 		icon: <Grid2X2 size={17} />,
 		type: 'dropdown',
-		domain: 'Public',
+		domain: 'publikasi',
 		child: [
 			{
 				title: 'Galeri',
 				href: route('publikasi.galeri.index'),
+				domain: 'galeri',
 			},
 			{
 				title: 'Berita',
 				href: route('publikasi.berita.index'),
+				domain: 'berita',
 			},
 		],
 	},

@@ -9,20 +9,22 @@ export default function BeritaDetailPage({ berita }: { berita: News }) {
 	const editorState = EditorState.createWithContent(contentState);
 
 	return (
-		<div className='space-y-8 text-center md:text-start'>
+		<div className='space-y-8'>
 			<Link href={route('publikasi.berita.index')} className='inline-flex gap-1'>
 				<ArrowLeft />
 				Kembali
 			</Link>
-			<h6 className='text-center text-2xl leading-normal capitalize md:text-4xl lg:text-5xl'>{berita.judul}</h6>
-			<div className='mx-auto aspect-video h-[300px]'>
-				<img
-					src={`/storage/${berita.gambar_cover}`}
-					alt={berita.judul}
-					className='h-full w-full object-cover object-center'
-				/>
+			<div className='space-y-4 text-center md:text-start'>
+				<h6 className='text-center text-2xl leading-normal capitalize md:text-4xl lg:text-5xl'>{berita.judul}</h6>
+				<div className='mx-auto aspect-video w-full md:h-[300px] md:w-auto'>
+					<img
+						src={`/storage/${berita.gambar_cover}`}
+						alt={berita.judul}
+						className='h-full w-full object-cover object-center'
+					/>
+				</div>
+				<MyEditor editorState={editorState} onChange={() => {}} readOnly />
 			</div>
-			<MyEditor editorState={editorState} onChange={() => {}} readOnly />
 		</div>
 	);
 }

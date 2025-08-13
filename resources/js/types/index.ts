@@ -33,6 +33,7 @@ type UnitUsaha = {
 	deskripsi: string;
 	kontak: string;
 	foto: string;
+	icon: string;
 };
 
 type UnitUsahaProduk = {

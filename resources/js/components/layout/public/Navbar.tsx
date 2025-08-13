@@ -82,7 +82,8 @@ export default function Navbar({ logoUrl }: { logoUrl: string }) {
 														<Link
 															className={cn(
 																'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm text-slate-700 hover:bg-gray-100',
-																urlPath === item.href || (urlPath.startsWith(item.href) && item.href !== '/dashboard')
+																urlPath.includes(item.domain) ||
+																	(urlPath.startsWith(item.href) && item.href !== '/dashboard')
 																	? 'bg-gray-100'
 																	: ''
 															)}
@@ -100,7 +101,8 @@ export default function Navbar({ logoUrl }: { logoUrl: string }) {
 															<AccordionTrigger
 																className={cn(
 																	'flex w-full items-center justify-between gap-x-3.5 rounded-md px-2.5 py-2 text-sm font-normal text-slate-700 hover:bg-gray-100 hover:no-underline',
-																	urlPath === item.href || (urlPath.startsWith(item.href) && item.href !== '/dashboard')
+																	urlPath.includes(item.domain) ||
+																		(urlPath.startsWith(item.href) && item.href !== '/dashboard')
 																		? 'bg-gray-100'
 																		: ''
 																)}
@@ -118,7 +120,7 @@ export default function Navbar({ logoUrl }: { logoUrl: string }) {
 																			<Link
 																				className={cn(
 																					'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm text-slate-700 hover:bg-gray-100',
-																					urlPath.startsWith(e.href) && 'bg-gray-100'
+																					{ 'bg-gray-100': urlPath.includes(e.domain) }
 																				)}
 																				href={e.href}
 																			>

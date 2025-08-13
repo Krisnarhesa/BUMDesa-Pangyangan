@@ -44,7 +44,7 @@ export default function Profil({ deskripsi }: { deskripsi: string }) {
 				<div className='mt-16 flex w-full flex-col gap-8 md:flex-row'>
 					<div className='basis-2/5'>
 						<iframe
-							src={'https://www.youtube.com/embed/3KR8_igDs1Y'}
+							src='https://www.youtube.com/embed/OLuAkdYlmqg?si=0ZsFEGXnF8VLlvf2'
 							className='aspect-video w-full'
 							title={'video profil BUMDes'}
 							frameBorder='0'

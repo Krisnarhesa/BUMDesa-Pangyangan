@@ -16,7 +16,19 @@ import { useEffect } from 'react';
 
 type Data = yup.InferType<typeof UpdateUnitUsahaSchema>;
 
-export default function edit({ id, name, desc, contact }: { id: number; name: string; desc: string; contact: string }) {
+export default function edit({
+	id,
+	name,
+	desc,
+	contact,
+	icon,
+}: {
+	id: number;
+	name: string;
+	desc: string;
+	contact: string;
+	icon: string;
+}) {
 	const { toast } = useToast();
 	const {
 		register,
@@ -28,6 +40,7 @@ export default function edit({ id, name, desc, contact }: { id: number; name: st
 			nama: name,
 			deskripsi: desc,
 			kontak: contact,
+			icon,
 		},
 		resolver: yupResolver(UpdateUnitUsahaSchema),
 	});
@@ -113,6 +126,10 @@ export default function edit({ id, name, desc, contact }: { id: number; name: st
 							en={false}
 						/>
 						{/* <<< Kontak <<< */}
+
+						{/* >>> Icon >>> */}
+						<TextInput label='Icon(SVG)' idProps={{ ...register('icon') }} idError={errors.icon?.message} en={false} />
+						{/* <<< Icon <<< */}
 
 						{/* >>> Foto >>> */}
 						<StyledInput label='Foto' error={errors.foto?.message}>

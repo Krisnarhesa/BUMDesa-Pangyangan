@@ -8,7 +8,7 @@ import 'swiper/css/navigation';
 
 const ProductCard = ({ name, price, imgUrl }: { name: string; price: number; imgUrl: string }) => {
 	return (
-		<div className='relative w-full overflow-hidden rounded-xl shadow-lg'>
+		<div className='relative m-1 w-full overflow-hidden rounded-xl shadow'>
 			<div className='flex h-24 flex-row'>
 				<div className='aspect-square h-full overflow-hidden'>
 					<img src={`/storage/${imgUrl}`} alt={name} className='h-full w-full object-cover' />
@@ -38,14 +38,14 @@ export default function UnitUsahaShowPage({
 }) {
 	return (
 		<div className='space-y-8'>
-			<div className='flex flex-col items-center gap-8 md:flex-row md:items-start'>
+			<div className='flex flex-col items-center gap-8 md:items-start lg:flex-row'>
 				<div className='border-bumdes-dark-blue aspect-square h-full max-h-[20rem] w-full max-w-[20rem] flex-none basis-1/2 overflow-hidden rounded-2xl border-6'>
 					<img src={`/storage/${imgUrl}`} alt={name} className='h-full w-full object-cover' />
 				</div>
 
 				<div className='space-y-8 text-center md:text-start'>
 					<h6 className='text-2xl leading-normal capitalize md:text-4xl lg:text-5xl'>{name}</h6>
-					<p>{desc}</p>
+					<p className='text-justify'>{desc}</p>
 					<div className='inline-flex items-center justify-center gap-2'>
 						<Phone className='text-bumdes-dark-blue h-5 w-5' />
 						<p>{contact}</p>
@@ -62,10 +62,13 @@ export default function UnitUsahaShowPage({
 							prevEl: '.prevButton',
 							nextEl: '.nextButton',
 						}}
-						spaceBetween={50}
-						slidesPerView={3}
-						onSlideChange={(swiper) => console.log('slide change')}
-						onSwiper={(swiper) => console.log(swiper)}
+						spaceBetween={12}
+						slidesPerView={1.5}
+						breakpoints={{
+							'1024': {
+								slidesPerView: 3,
+							},
+						}}
 						className='w-full'
 					>
 						{products.map((p, i) => (

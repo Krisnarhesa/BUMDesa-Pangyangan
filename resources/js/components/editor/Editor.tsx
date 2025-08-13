@@ -18,10 +18,12 @@ export default function MyEditor({
 	editorState,
 	onChange,
 	readOnly = false,
+	textAlignment = 'left',
 }: {
 	editorState: EditorState;
 	onChange: (state: EditorState) => void;
 	readOnly?: boolean;
+	textAlignment?: 'left' | 'right' | 'center';
 }) {
 	const [hidePlaceholder, setHidePlaceholder] = useState(false);
 	const editorRef = useRef<Editor | null>(null);
@@ -122,6 +124,7 @@ export default function MyEditor({
 					ref={editorRef}
 					spellCheck={true}
 					readOnly={readOnly}
+					textAlignment={textAlignment}
 				/>
 			</div>
 

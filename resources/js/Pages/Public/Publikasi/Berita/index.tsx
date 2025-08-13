@@ -15,7 +15,7 @@ const NewsCard = ({ title, desc, cover }: { title: string; desc: string; cover: 
 	const contentState = convertFromRaw(JSON.parse(desc));
 
 	return (
-		<div className='flex cursor-pointer flex-row shadow transition-all ease-out hover:scale-105 md:h-[20rem] md:flex-col'>
+		<div className='mt-4 flex h-24 cursor-pointer flex-row shadow transition-all ease-out hover:scale-105 md:m-1 md:h-[20rem] md:flex-col'>
 			<div className='aspect-square h-full flex-none overflow-hidden md:h-[12rem]'>
 				<img src={`/storage/${cover}`} alt='' className='h-full w-full object-cover object-center' />
 			</div>
@@ -45,7 +45,7 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 								nextEl: '.nextButton',
 							}}
 							slidesPerView={3}
-							spaceBetween={16}
+							spaceBetween={12}
 							breakpoints={{
 								'1024': {
 									slidesPerView: 3,
@@ -54,7 +54,7 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 							className='w-full'
 						>
 							{berita.map((b, i) => (
-								<SwiperSlide key={i} className='p-[0.5rem]'>
+								<SwiperSlide key={i}>
 									<Link href={route('publikasi.berita.show', { id: b.id, slug: _.kebabCase(b.judul) })}>
 										<NewsCard title={b.judul} desc={b.konten} cover={b.gambar_cover} />
 									</Link>
@@ -74,9 +74,11 @@ export default function BeritaPage({ berita }: { berita: News[] }) {
 					{/* <<< Desktop slider <<<  */}
 
 					{/* >>> Mobile >>> */}
-					<div className='space-y-4 md:hidden'>
+					<div className='md:hidden'>
 						{berita.map((b, i) => (
-							<NewsCard key={i} title={b.judul} desc={b.konten} cover={b.gambar_cover} />
+							<Link href={route('publikasi.berita.show', { id: b.id, slug: _.kebabCase(b.judul) })}>
+								<NewsCard key={i} title={b.judul} desc={b.konten} cover={b.gambar_cover} />
+							</Link>
 						))}
 					</div>
 					{/* <<< Mobile <<< */}

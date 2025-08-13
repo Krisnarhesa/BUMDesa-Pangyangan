@@ -89,7 +89,7 @@ export default function SideBar({ logoUrl }: { logoUrl: string }) {
 																			<Link
 																				className={cn(
 																					'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm text-slate-700 hover:bg-gray-100',
-																					urlPath === '/' + e.href.split('/').slice(3).join('/') && 'bg-gray-100'
+																					{ 'bg-gray-100': urlPath.includes(e.domain) }
 																				)}
 																				href={e.href}
 																			>
@@ -197,7 +197,7 @@ export default function SideBar({ logoUrl }: { logoUrl: string }) {
 															<Link
 																className={cn(
 																	'flex items-center gap-x-3.5 rounded-md px-2.5 py-2 text-sm text-slate-700 hover:bg-gray-100',
-																	urlPath === '/' + e.href.split('/').slice(3).join('/') && 'bg-gray-100'
+																	{ 'bg-gray-100': urlPath.includes(e.domain) }
 																)}
 																href={e.href}
 															>

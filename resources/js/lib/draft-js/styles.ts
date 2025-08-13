@@ -18,6 +18,12 @@ export const BLOCK_TYPES = [
 	{ label: 'Code Block', style: 'code-block' },
 ];
 
+export const ALIGNMENT_STYLES = [
+	{ label: 'Left', style: 'left' },
+	{ label: 'Center', style: 'center' },
+	{ label: 'Right', style: 'right' },
+];
+
 export const emptyContent = {
 	blocks: [
 		{

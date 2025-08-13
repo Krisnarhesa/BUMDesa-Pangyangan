@@ -27,6 +27,7 @@ class AdminUnitUsahaController extends Controller
       'name' => $unit->nama,
       'desc' => $unit->deskripsi,
       'contact' => $unit->kontak,
+      'icon' => $unit->icon
     ]);
   }
 }

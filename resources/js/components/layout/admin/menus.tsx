@@ -13,6 +13,7 @@ type Dropdown = {
 		title: string;
 		icon?: React.ReactNode;
 		href: string;
+		domain: string;
 	}[];
 	href: string;
 };
@@ -69,14 +70,17 @@ export const menus: Array<LinkItemProps> = [
 			{
 				title: 'Album',
 				href: route('admin.album.index'),
+				domain: 'albums',
 			},
 			{
 				title: 'Foto & Video',
 				href: route('admin.galeri.index'),
+				domain: 'galeri',
 			},
 			{
 				title: 'Berita',
 				href: route('admin.berita.index'),
+				domain: 'berita',
 			},
 		],
 	},

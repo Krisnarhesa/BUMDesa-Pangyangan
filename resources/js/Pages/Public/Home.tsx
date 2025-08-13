@@ -17,13 +17,15 @@ import 'swiper/css/autoplay';
 import 'swiper/css/scrollbar';
 import 'swiper/css/navigation';
 import 'swiper/css/grid';
+import { useWindowSize } from 'react-use';
 
 const UnitUsahaCard = ({ title, icon }: { title: string; icon?: React.ReactNode }) => {
 	return (
 		<div className='relative'>
-			<div className='absolute top-0 left-1/2 z-20 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white'>
-				{icon}
-			</div>
+			<div
+				className='absolute top-0 left-1/2 z-20 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white'
+				dangerouslySetInnerHTML={{ __html: String(icon) }}
+			></div>
 			<Card className='relative z-10 w-full rounded-2xl border-none bg-[#0D0D81] pt-20 pb-4'>
 				<CardContent className='text-primary-white'>
 					<CardTitle className='text-center leading-10'>
@@ -98,17 +100,21 @@ export default function Home({
 	galeri,
 	misi,
 	visi,
+	unit,
 }: {
 	berita: News[];
 	galeri: AlbumItem[];
 	misi: string;
 	visi: string;
+	unit: UnitUsaha[];
 }) {
 	const { data } = useQuery({
 		queryKey: ['carousels'],
 		queryFn: () => getCarousels(),
 		throwOnError: true,
 	});
+
+	const { width } = useWindowSize();
 
 	const misiContentState = misi ? convertFromRaw(JSON.parse(misi)) : convertFromRaw(emptyContent);
 	const misiEditorState = EditorState.createWithContent(misiContentState);
@@ -128,7 +134,7 @@ export default function Home({
 				scrollbar={{
 					draggable: true,
 				}}
-				className='h-[400px] w-full lg:h-[calc(100dvh-200px)]'
+				className='h-[550px] w-full lg:h-[calc(100dvh-200px)]'
 			>
 				{data?.data.map((v, i) => (
 					<SwiperSlide key={i} className='h-full w-full bg-amber-50'>
@@ -150,11 +156,21 @@ export default function Home({
 					<div className='space-y-4 text-center md:text-start'>
 						<div>
 							<h6 className='font-semibold'>Visi</h6>
-							<MyEditor editorState={visiEditorState} onChange={() => {}} readOnly />
+							<MyEditor
+								editorState={visiEditorState}
+								onChange={() => {}}
+								readOnly
+								textAlignment={width >= 1024 ? 'left' : 'center'}
+							/>
 						</div>
 						<div>
 							<h6 className='font-semibold'>Misi</h6>
-							<MyEditor editorState={misiEditorState} onChange={() => {}} readOnly />
+							<MyEditor
+								editorState={misiEditorState}
+								onChange={() => {}}
+								readOnly
+								textAlignment={width >= 1024 ? 'left' : 'center'}
+							/>
 						</div>
 					</div>
 				</div>
@@ -185,9 +201,9 @@ export default function Home({
 						}}
 						className='relative w-full'
 					>
-						{usaha.map((u, i) => (
+						{unit.map((u, i) => (
 							<SwiperSlide key={i} className='pt-16'>
-								<UnitUsahaCard title={u.name} icon={u.icon} />
+								<UnitUsahaCard title={u.nama} icon={u.icon} />
 							</SwiperSlide>
 						))}
 

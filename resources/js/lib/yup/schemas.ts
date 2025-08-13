@@ -113,6 +113,7 @@ export const AddUnitUsahaSchema = yup
 				}
 				return true;
 			}),
+		icon: yup.string().required('Tidak boleh kosong'),
 	})
 	.required();
 
@@ -127,6 +128,7 @@ export const UpdateUnitUsahaSchema = yup
 			}
 			return true;
 		}),
+		icon: yup.string().required('Tidak boleh kosong'),
 	})
 	.required();
 

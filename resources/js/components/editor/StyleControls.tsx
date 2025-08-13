@@ -50,3 +50,25 @@ export const BlockStyleControls = ({
 		</div>
 	);
 };
+
+export const textAlignmentStyleControls = ({
+	textAlignment,
+	onToggle,
+}: {
+	textAlignment: 'left' | 'right' | 'center';
+	onToggle: (inlineStyle: DraftInlineStyleType | DraftBlockType) => void;
+}) => {
+	return (
+		<div className='RichEditor-controls'>
+			{INLINE_STYLES.map((type) => (
+				<StyleButton
+					key={type.label}
+					active={textAlignment === type.style}
+					label={type.label}
+					onToggle={onToggle}
+					style={type.style as DraftInlineStyleType}
+				/>
+			))}
+		</div>
+	);
+};
