@@ -15,6 +15,10 @@ export default function index() {
 		throwOnError: true,
 	});
 
+	const tableData = useMemo(() => {
+		return data?.data ? [data.data] : [];
+	}, [data]);
+
 	const columns = useMemo<ColumnDef<Profile>[]>(
 		() => [
 			{
@@ -78,7 +82,7 @@ export default function index() {
 	);
 
 	const table = useReactTable({
-		data: data?.data ? [data.data] : [],
+		data: tableData,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 	});

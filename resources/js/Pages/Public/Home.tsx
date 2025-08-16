@@ -134,15 +134,17 @@ export default function Home({
 				scrollbar={{
 					draggable: true,
 				}}
-				className='h-[550px] w-full lg:h-[calc(100dvh-200px)]'
+				className='h-[550px] w-full lg:h-[calc(100dvh-150px)]'
 			>
 				{data?.data.map((v, i) => (
-					<SwiperSlide key={i} className='h-full w-full bg-amber-50'>
-						<img
-							src={`/storage/${v.image}`}
-							alt={`Carousel ${i}`}
-							className='mx-auto h-full w-full object-cover object-center lg:h-auto'
-						/>
+					<SwiperSlide key={i}>
+						<div className='flex h-full items-center justify-center'>
+							<img
+								src={`/storage/${v.image}`}
+								alt={`Carousel ${i}`}
+								className='h-full w-full object-cover object-center'
+							/>
+						</div>
 					</SwiperSlide>
 				))}
 			</Swiper>
