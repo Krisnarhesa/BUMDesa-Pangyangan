@@ -32,3 +32,10 @@ Tampilan bersih, ramah pengguna, dan mendukung perangkat mobile.
 - **Database**: MySQL
 - **Dependency Management**: Composer & NPM/Yarn
 
+---
+
+## 📘 **Guidebook BUMDesa Pangyangan**
+Untuk mempermudah penggunaan dan pengelolaan sistem ini, kami menyediakan **Guidebook Lengkap**:  
+
+📥 **Unduh Guidebook di sini:**  
+[📄 Download Guidebook](https://drive.google.com/file/d/14PZ2Dow2eJoVAQSlkm-qV409kktfrrrf/view?usp=sharing)  
